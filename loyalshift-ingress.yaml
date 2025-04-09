@@ -1,0 +1,47 @@
+# loyalshift-ingress.yaml (Updated for HTTPS via cert-manager)
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: loyalshift-ingress
+  namespace: default # Namespace where your service lives
+  annotations:
+    # Tell cert-manager to use the ClusterIssuer you created
+    cert-manager.io/cluster-issuer: letsencrypt-prod 
+    # Optional, but Recommended: Automatically redirect HTTP traffic to HTTPS
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true" 
+spec:
+  ingressClassName: nginx 
+  # == TLS Configuration Section ==
+  # This section tells cert-manager which domains to secure and where to store the cert
+  tls: 
+  - hosts:
+    # List all domains you want the certificate to cover
+    - loyalshift.com       
+    - www.loyalshift.com   
+    # cert-manager will automatically create/update this secret with the TLS cert
+    secretName: loyalshift-tls 
+  # == Rules Section ==
+  # You need rules for all hosts listed in the TLS section
+  rules:
+  # Rule for the root domain (loyalshift.com)
+  - host: loyalshift.com 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: loyalshift-platform-service # Your backend service
+            port:
+              number: 80 # Your service port
+  # Rule for the www subdomain (www.loyalshift.com)
+  - host: www.loyalshift.com 
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: loyalshift-platform-service # Your backend service
+            port:
+              number: 80 # Your service port

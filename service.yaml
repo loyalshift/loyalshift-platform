@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: loyalshift-platform-service # Name of the service
+spec:
+  selector:
+    app: loyalshift-platform # Selects pods with this label (those from the deployment)
+  ports:
+    - protocol: TCP
+      port: 80       # Port the service will be available on WITHIN the cluster
+      targetPort: 80 # Port the service will forward traffic to (your pod's containerPort)
+  type: ClusterIP # Common options: ClusterIP, NodePort, LoadBalancer

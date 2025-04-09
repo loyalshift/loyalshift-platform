@@ -1,0 +1,53 @@
+{
+  "short_name": "LoyalShift",
+  "name": "LoyalShift AI Modernization Platform",
+  "description": "Modernize legacy systems safely and efficiently with LoyalShift's AI-powered platform.",
+  "icons": [
+    {
+      "src": "/icons/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+
+    {
+      "src": "/icons/web-app-manifest-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/web-app-manifest-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any"
+    },
+
+    {
+      "src": "/icons/maskable_icon_x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "maskable"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#4682B4",
+  "background_color": "#F8F9FA",
+
+  "screenshots": [
+    {
+      "src": "/images/screenshots/screenshot1_mobile.jpg",
+      "type": "image/jpeg",
+      "sizes": "540x720",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "/images/screenshots/screenshot1_desktop.jpg",
+      "type": "image/jpeg",
+      "sizes": "1280x800",
+      "form_factor": "wide"
+    }
+  ]
+}
