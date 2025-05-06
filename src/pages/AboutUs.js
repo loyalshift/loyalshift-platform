@@ -18,6 +18,7 @@ import {
   FiStar, // Team Expertise
   FiAward, // Social Proof (Awards/Logos)
   FiMessageSquare, // Social Proof (Testimonial)
+  FiChevronDown,
 } from "react-icons/fi";
 import { AnimatePresence } from "framer-motion";
 
@@ -451,7 +452,7 @@ export default function AboutUs() {
                   {/* Using textPrimary for light theme */}
                   <LoyalShiftLogo
                     className={`w-16 h-16 ${colors.textPrimary}`}
-                  />{" "}
+                  />
                   {/* Adjust size/color */}
                 </motion.div>
               </motion.div>
@@ -483,6 +484,27 @@ export default function AboutUs() {
                 {/* No button needed here based on original About Us hero */}
               </motion.div>
             )}
+          </AnimatePresence>
+          {/* Scroll Down Indicator - Hidden on Mobile */}
+          <AnimatePresence>
+            <motion.div
+              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 sm:block" // Hidden below sm breakpoint
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+            >
+              <motion.div
+                animate={{ y: [0, 8, 0], opacity: [0.8, 1, 0.8] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 1.8,
+                  ease: "easeInOut",
+                }}
+              >
+                <FiChevronDown className="text-black/70 text-3xl" />
+              </motion.div>
+            </motion.div>
           </AnimatePresence>
         </div>
       </Section>

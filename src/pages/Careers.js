@@ -327,8 +327,8 @@ export default function Careers() {
               <ValuePropCard key={index} {...value} />
             ))}
           </div>
+          <div id="open-positions" />
         </motion.section>
-
         {/* --- Open Positions --- */}
         <motion.section
           aria-labelledby="open-positions-title"
@@ -419,7 +419,7 @@ export default function Careers() {
             make a real difference.
           </p>
           {/* Placeholder for images/videos */}
-          <div
+          {/* <div
             className={`grid grid-cols-2 md:grid-cols-4 gap-4 h-40 ${colors.textBody} opacity-50`}
           >
             <div
@@ -442,7 +442,7 @@ export default function Careers() {
             >
               <FiImage className="w-8 h-8" />
             </div>
-          </div>
+          </div> */}
         </motion.section>
 
         {/* --- Application Process --- */}

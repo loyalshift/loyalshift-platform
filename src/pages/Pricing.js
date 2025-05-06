@@ -12,6 +12,7 @@ import {
   FiDollarSign,
   FiArrowRight,
   FiLoader,
+  FiChevronDown,
 } from "react-icons/fi"; // Added FiLoader
 
 import Button from "../components/Button";
@@ -383,6 +384,27 @@ export default function Pricing() {
             )}
           </AnimatePresence>
         </div>
+        {/* Scroll Down Indicator - Hidden on Mobile */}
+        <AnimatePresence>
+          <motion.div
+            className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 sm:block" // Hidden below sm breakpoint
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            <motion.div
+              animate={{ y: [0, 8, 0], opacity: [0.8, 1, 0.8] }}
+              transition={{
+                repeat: Infinity,
+                duration: 1.8,
+                ease: "easeInOut",
+              }}
+            >
+              <FiChevronDown className="text-white/70 text-3xl" />
+            </motion.div>
+          </motion.div>
+        </AnimatePresence>
       </motion.section>
 
       {/* --- Pricing Tiers Section --- */}

@@ -7,7 +7,7 @@ import PropTypes from "prop-types"; // Import PropTypes if using them
 
 // --- Reusable Components (Ensure paths are correct) ---
 import Button from "../../../components/Button"; // Adjusted path
-
+import StyledOutlineButton from "../../../components/StyledOutlineButton";
 // --- Lazy load heavy components ---
 // Ensure these components are exported as default from their respective files
 const HeroAnimation = lazy(() => import("../../../components/HeroAnimation")); // Adjusted path
@@ -91,12 +91,12 @@ const HeroAnimationPlaceholder = () => (
 
 // Data for the cycling list
 const heroListItems = [
-    "Guaranteed ROI",
-    "65-85% Efficiency Gains",
-    "Enterprise Security",
-    "Zero Downtime Migration",
-    "Real-time Data Sync",
-    "200+ Connectors",
+  "Guaranteed ROI",
+  "65-85% Efficiency Gains",
+  "Enterprise Security",
+  "Zero Downtime Migration",
+  "Real-time Data Sync",
+  "200+ Connectors",
 ];
 
 // =====================================================
@@ -151,6 +151,8 @@ export default function Hero() {
       .
     </>
   );
+
+  const sizeLgClasses = "px-7 py-3.5 text-base";
 
   // Define your desired mobile-specific text here
   const mobileSubheadline =
@@ -272,29 +274,26 @@ export default function Hero() {
                   </AnimatePresence>
                 </div>
 
-                {/* CTA Buttons - Stacked on mobile, row on sm+ */}
                 <motion.div
                   className="flex flex-col sm:flex-row justify-center gap-4"
-                  variants={fadeInUp} // Simpler animation for buttons
+                  variants={fadeInUp} // Keep entrance animation
                 >
+                  {/* --- Bright Primary Button --- */}
                   <Button
                     to="/request-demo"
-                    variant="primary"
+                    // variant="primary" // Remove default variant
                     icon={<FiArrowRight />}
-                    size="lg"
-                    className="w-full sm:w-auto" // Full width below sm, auto above
+                    size="lg" // Keep size large
+                    className={`w-full sm:w-auto ${sizeLgClasses} bg-cyan-500 hover:bg-cyan-400 text-white font-semibold rounded-lg transition-all duration-300 ease-out flex items-center justify-center gap-2 shadow-lg hover:shadow-xl hover:shadow-cyan-500/40 transform hover:-translate-y-0.5`}
+                    // Inherit whileHover/whileTap from Button component or define here if needed
                   >
                     Request Personalized Demo
                   </Button>
-                  <Button
-                    to="/demo"
-                    variant="outline"
-                    icon={<FiPlay />}
-                    size="lg"
-                    className="w-full sm:w-auto" // Full width below sm, auto above
-                  >
+
+                  {/* --- Bright Outline Button --- */}
+                  <StyledOutlineButton to="/demo">
                     Watch Demo
-                  </Button>
+                  </StyledOutlineButton>
                 </motion.div>
               </motion.div>
             </div>

@@ -118,6 +118,8 @@ export const pricingTiers = [
       "Advanced Security Architecture (SSO, Custom RBAC, etc.)", // Enterprise Needs
       "Regulatory Compliance Support (e.g., GDPR, SOC2 assistance)",
       "White-Glove Onboarding & Data Migration Assistance", // Premium Service
+
+      
     ],
     ctaText: "Contact Sales",
     ctaLink: "/contact-sales", // Adjust link

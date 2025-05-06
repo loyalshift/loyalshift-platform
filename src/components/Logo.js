@@ -1,50 +1,91 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+// src/components/LoyalShiftSvgLogo.js
+// REFINED: Wrapped SVG in a React Router Link to make it clickable.
+// Renders the LoyalShift logo as an SVG using <text> elements.
+
+import React from "react";
+import { Link } from "react-router-dom"; // Import Link
+import PropTypes from "prop-types";
+
+// Default colors (adjust if needed)
+const defaultColors = {
+  loyal: "#60a5fa", // Approx text-blue-400
+  shift: "#93c5fd", // Approx text-blue-300
+};
 
 /**
- * Renders the LoyalShift text logo using a specific 'font-logo' font family
- * (expected to be defined in tailwind.config.js).
- * Features distinct colors for "LOYAL" and "SHIFT" parts, adjustable
- * via the `lightMode` prop (requires color definitions like 'text-primary-main',
- * 'text-primary-light', etc., in Tailwind config).
- * Allows customizable text size and additional wrapper styling.
+ * Renders the LoyalShift logo as a clickable SVG component linking to the homepage.
+ * Uses <text> and <tspan> elements for text rendering.
+ * Relies on font availability. Uses a fixed viewBox and scales content.
+ *
+ * @param {object} props - Component props.
+ * @param {string} [props.className] - Optional CSS classes for the wrapping Link element.
+ * @param {string|number} [props.width=120] - Default width of the SVG.
+ * @param {string|number} [props.height=30] - Default height of the SVG.
+ * @param {string} [props.loyalColor=defaultColors.loyal] - Color for the "Loyal" part.
+ * @param {string} [props.shiftColor=defaultColors.shift] - Color for the "Shift" part.
+ * @param {string} [props.fontFamily='Montserrat, sans-serif'] - Font family to attempt using.
+ * @param {number} [props.fontSize=24] - Font size within the SVG viewbox units.
+ * @param {string} [props.fontWeight='bold'] - Font weight.
+ * @param {string} [props.letterSpacing='-0.5'] - Letter spacing.
  */
-export default function Logo({ lightMode = false, size = 'text-2xl', className = '' }) {
-  // 1. Define Semantic Color Class Names
-  // These class names depend on corresponding definitions in your tailwind.config.js
-  // Example: 'text-primary-main' might map to your primary brand color for dark text.
-  // Example: 'text-primary-light' might map to a lighter variant for use on dark backgrounds.
-  const loyalColor = lightMode ? "text-primary-light" : "text-primary-main";
-  const shiftColor = lightMode ? "text-secondary-light" : "text-secondary-main";
-
-  // 2. Base Styling for the Logo Wrapper (Link)
-  // Applies the custom logo font, default weight, tracking, and display.
-  // Ensure 'font-logo' is defined in your tailwind.config.js theme.fontFamily.
-  const baseClasses = "font-logo font-bold tracking-tight inline-block"; // Added inline-block for predictable layout
-  const combinedClasses = `${baseClasses} ${size} ${className}`.trim();
+const Logo = ({
+  className = "", // Classes applied to the Link wrapper
+  width = "120",
+  height = "30",
+  loyalColor = defaultColors.loyal,
+  shiftColor = defaultColors.shift,
+  fontFamily = "Montserrat, sans-serif",
+  fontSize = 28,
+  fontWeight = "bold",
+  letterSpacing = "-0.5",
+}) => {
+  // Fixed viewBox (same as before)
+  const viewBoxWidth = 150;
+  const viewBoxHeight = 30;
 
   return (
     <Link
       to="/"
-      className={combinedClasses}
-      aria-label="LoyalShift Home" // 3. Added Accessibility Label
+      className={`inline-block ${className}`}
+      aria-label="LoyalShift Home"
     >
-      {/* Spans inherit font-family, weight, tracking from parent Link */}
-      {/* Apply specific colors and optional transitions */}
-      <span className="text-blue-400 transition-colors duration-300 ease-in-out">Loyal</span>
-      <span className="text-blue-300 transition-colors duration-300 ease-in-out">Shift</span>
-      {/* 5. Optional: Add more elements like a small icon/symbol if needed */}
-      {/* Example: <span className="ml-1 text-accent-color">®</span> */}
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={width}
+        height={height}
+        viewBox={`0 0 ${viewBoxWidth} ${viewBoxHeight}`}
+        aria-labelledby="loyalshift-logo-title"
+        role="img"
+      >
+        <title id="loyalshift-logo-title">LoyalShift Logo</title>
+        <text
+          x={viewBoxWidth / 2}
+          y={viewBoxHeight / 2}
+          fontFamily={fontFamily}
+          fontSize={fontSize}
+          fontWeight={fontWeight}
+          letterSpacing={letterSpacing}
+          textAnchor="middle"
+          dominantBaseline="central"
+        >
+          <tspan fill={loyalColor}>Loyal</tspan>
+          <tspan fill={shiftColor}>Shift</tspan>
+        </text>
+      </svg>
     </Link>
   );
-}
+};
 
 Logo.propTypes = {
-  /** If true, uses lighter color variants suitable for dark backgrounds */
-  lightMode: PropTypes.bool,
-  /** Tailwind CSS text size class (e.g., 'text-xl', 'text-3xl') */
-  size: PropTypes.string,
-  /** Additional Tailwind classes to apply to the Link wrapper */
   className: PropTypes.string,
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  loyalColor: PropTypes.string,
+  shiftColor: PropTypes.string,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.number,
+  fontWeight: PropTypes.string,
+  letterSpacing: PropTypes.string,
 };
+
+export default Logo;

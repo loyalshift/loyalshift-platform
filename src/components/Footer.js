@@ -9,6 +9,7 @@ import {
   FiGithub,
   FiArrowUpRight,
 } from "react-icons/fi";
+import Logo from "./Logo";
 
 const Footer = () => {
   const footerLinks = [
@@ -51,40 +52,7 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo and Description */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, margin: "-50px" }}
-          >
-            <div className="flex items-center mb-6">
-              <span className="text-2xl font-bold">
-                <span className="text-blue-400">Loyal</span>
-                <span className="text-blue-300">Shift</span>
-              </span>
-            </div>
-            <p className="text-gray-400 mb-6">
-              Modernizing legacy systems with AI-powered solutions that deliver
-              measurable ROI.
-            </p>
-
-            {/* Social Links */}
-            <div className="flex space-x-4">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-full hover:bg-gray-800"
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
+          <Logo/>
 
           {/* Footer Links */}
           {footerLinks.map((column, index) => (

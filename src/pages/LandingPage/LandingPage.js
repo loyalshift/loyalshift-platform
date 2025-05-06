@@ -9,16 +9,18 @@ import {
   FiClock,
   FiShield,
   FiStar,
+  FiPlay,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
 // --- Reusable Components (Ensure paths are correct) ---
-import Button from "../components/Button";
-import Hero from "./LandingPage/sections/Hero"; // Your Hero component (with mobile adjustments)
-import FeatureCard from "../components/FeatureCard";
-import StatCard from "../components/StatCard";
-import { qcellsData } from "../data/clients";
+import Button from "../../components/Button";
+import Hero from "./sections/Hero"; // Your Hero component (with mobile adjustments)
+import FeatureCard from "../../components/FeatureCard";
+import StatCard from "../../components/StatCard";
+import { qcellsData } from "../../data/clients";
+import StyledOutlineButton from "../../components/StyledOutlineButton";
 
 // --- Consistent Dark Theme Color Palette ---
 // Defined here for completeness, ideally integrate into tailwind.config.js
@@ -281,7 +283,6 @@ export function LandingPage() {
               >
                 {qcellsData.challenge}
               </p>
-
               <h3
                 className={`text-2xl font-semibold ${colors.textPrimary} mb-3`}
               >
@@ -292,7 +293,6 @@ export function LandingPage() {
               >
                 {qcellsData.solution}
               </p>
-
               {/* Key Result Highlight */}
               <div
                 className={`p-6 rounded-lg ${colors.surface} border ${colors.borderAccent} mb-8 shadow-lg`}
@@ -306,7 +306,6 @@ export function LandingPage() {
                   {qcellsData.result}
                 </p>
               </div>
-
               {/* Optional Quote */}
               {qcellsData.quote && (
                 <blockquote
@@ -315,17 +314,9 @@ export function LandingPage() {
                   "{qcellsData.quote}"
                 </blockquote>
               )}
-
-              {/* CTA Button */}
-              <Button
-                to={qcellsData.link}
-                variant="primary"
-                size="lg"
-                icon={<FiArrowRight />}
-                className="group" // Add group for potential icon animation on hover
-              >
+              <StyledOutlineButton to="/case-studies/qcells" icon={<FiPlay />}>
                 Read Full QCells Case Study
-              </Button>
+              </StyledOutlineButton>
             </motion.div>
           </div>
         </div>
@@ -463,34 +454,12 @@ export function LandingPage() {
                 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Button
+                <StyledOutlineButton
                   to="/contact"
-                  variant="primary"
                   icon={<FiPhone className="group-hover:animate-pulse" />}
-                  size="lg"
-                  className="group relative overflow-hidden"
                 >
-                  <motion.span
-                    className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-cyan-400/10"
-                    initial={{ x: "-100%" }}
-                    whileHover={{ x: "100%" }}
-                    transition={{ duration: 0.6, ease: "easeInOut" }}
-                  />
-                  <span className="relative z-10 flex items-center gap-2">
-                    Request Custom ROI Analysis
-                    <motion.span
-                      initial={{ x: 0 }}
-                      animate={{ x: [0, 4, 0] }}
-                      transition={{
-                        repeat: Infinity,
-                        duration: 2,
-                        repeatDelay: 3,
-                      }}
-                    >
-                      <FiArrowRight className="w-4 h-4" />
-                    </motion.span>
-                  </span>
-                </Button>
+                  Request Custom ROI Analysis
+                </StyledOutlineButton>
               </motion.div>
               {/* Trust indicator */}
               <motion.div

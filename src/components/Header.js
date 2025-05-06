@@ -122,7 +122,7 @@ export default function Header({ forceDark = false }) {
               scale: useDarkAppearance ? 1 : 1.1, // Smaller scale when dark
               transition: { type: "spring", duration: 0.4, delay: 0.1 },
             }}
-            className="origin-left flex-shrink-0"
+            className="origin-left flex-shrink-0 flex"
           >
             {/* UPDATED: Pass lightMode based on the dark appearance state */}
             <Logo lightMode={!useDarkAppearance} size="text-2xl" />

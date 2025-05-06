@@ -1,0 +1,27 @@
+# GPTree Local Config
+version: 2
+
+# Whether to use .gitignore
+useGitIgnore: true
+# File types to include (e.g., .py,.js)
+includeFileTypes: *
+# File types to exclude when includeFileTypes is '*'
+excludeFileTypes: 
+# Output file name
+outputFile: gptree_output.txt
+# Whether to output the file locally or relative to the project directory
+outputFileLocally: true
+# Whether to copy the output to the clipboard
+copyToClipboard: false
+# Whether to use safe mode (prevent overly large files from being combined)
+safeMode: true
+# Whether to store the files chosen in the config file (--save, -s)
+storeFilesChosen: true
+# Whether to include line numbers in the output (--line-numbers, -n)
+lineNumbers: false
+# Whether to show ignored files in the directory tree
+showIgnoredInTree: false
+# Whether to show only default ignored files in the directory tree while still respecting gitignore
+showDefaultIgnoredInTree: false
+# Previously selected files (when using the -s or --save flag previously)
+previousFiles: package-lock.json,src/pages/RequestDemo.js,README.md,src/components/Logo.js,src/components/ScrollToTop.js,src/pages/Anaco/Register.js,Dockerfile,src/components/HeroAnimation.js,public/icons/favicon.svg,src/components/Footer.js,public/index.html,public/icons/web-app-manifest-512x512.png,src/components/Header.js,src/components/Anaco/AnacoFooter.js,src/logo.svg,public/manifest.json,src/App.js,src/pages/Anaco/NotFound.js,src/pages/Anaco/RequestPreApproval.js,src/components/HeroConsentGate.js,src/hooks/use-media-query.js,src/components/FeatureCard.js,public/images/server-room.jpg,src/pages/Pricing.js,src/pages/AboutUs.js,src/components/Anaco/AnacoLayout.js,src/App.test.js,src/index.css,src/components/PersonalizedDemoIntroAnimation.js,src/components/ChatAssistantEnterprise.js,public/icons/web-app-manifest-192x192.png,src/components/SalesInquiryForm.js,src/images/anaco.bmp,public/icons/favicon.ico,public/images/legacy-systems-hero.jpg,src/pages/Contact.js,src/pages/Anaco/Login.js,src/pages/Careers.js,letsencrypt-issuer.yaml,deployment.yaml,src/pages/Anaco/AnacoCtaPage.js,src/pages/ContactSales.js,src/components/Layout.js,src/setupTests.js,src/pages/Anaco/AnacoPrivacy.js,public/icons/favicon-96x96.png,src/pages/Anaco/AnacoLandingPage.js,src/pages/JobDetail.js,src/index.js,src/pages/PersonalizedDemo.js,src/components/InputField.js,src/components/StatCard.js,src/config/theme.js,src/components/MeshGradientBackground.js,src/context/ThemeContext.js,tailwind.config.js,src/components/ClientHeroAnimation.js,src/pages/CaseStudies/QCells.js,public/images/qcells-panels.jpg,src/components/Button.js,src/pages/Anaco/CaseStudies/Anaco.js,src/pages/LandingPage/sections/Hero.js,.gptree_config,public/robots.txt,src/pages/Security.js,src/pages/MarketingEffort.js,src/reportWebVitals.js,src/data/marketing-efforts.js,src/data/jobs.js,src/components/SchedulingEmbed.js,public/icons/apple-touch-icon.png,public/icons/site.webmanifest,src/components/MarketingEfforts/index.js,src/images/anaco.png,src/components/MarketingEfforts/XaiTrustAnimation.js,src/components/ContactInfoItem.js,src/pages/Anaco/Calculator.js,src/components/Anaco/AnacoHeader.js,nginx.conf,src/pages/Anaco/ProposalAnacoDetailsPage.js,package.json,loyalshift-ingress.yaml,service.yaml,src/pages/Anaco/AboutUs.js,src/pages/Solutions.js,src/pages/Anaco/AnacoDemoPage.js,src/images/anaco.svg,src/pages/LandingPage/LandingPage.js,src/data/clients.js,src/pages/Anaco/Contact.js,public/images/financial-texture.png,src/pages/Demo.js,LICENSE,public/logo.svg,src/pages/NotFound.js,src/pages/CaseStudies.js
