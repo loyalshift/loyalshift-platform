@@ -36,7 +36,7 @@ export const jobOpenings = [
       "Remote work flexibility.",
       "Opportunity to work on cutting-edge AI technology with significant impact.",
     ],
-    applyLink: "/careers", // Example link to a contact form or external ATS
+    applyLink: "/jobs/pm-ai-platforms/application", // Example link to a contact form or external ATS
   },
   {
     id: "jr-ai-prompt-engineer", // Unique ID

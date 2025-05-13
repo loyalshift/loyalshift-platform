@@ -170,7 +170,7 @@ const JobListingCard = ({ job }) => (
     </p>
     <div className="mt-auto">
       <Button
-        to={`/apply/${job.id}`}
+        to={`/jobs/${job.id}`}
         variant="secondary"
         size="base"
         className={`w-full sm:w-auto group-hover:!bg-primary-main group-hover:!text-white group-hover:!border-primary-main transition-colors duration-300`}

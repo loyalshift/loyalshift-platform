@@ -24,6 +24,7 @@ import { AnimatePresence } from "framer-motion";
 
 // Assuming Button component exists and is imported correctly
 import Button from "../components/Button";
+import SectionTitle from "../components/SectionTitle";
 import { ReactComponent as LoyalShiftLogo } from "../logo.svg";
 
 // --- Theme Colors (Light Theme) ---
@@ -106,43 +107,6 @@ Section.propTypes = {
   className: PropTypes.string,
   bg: PropTypes.string,
   widePadding: PropTypes.bool,
-};
-
-// --- Reusable Section Title ---
-// Simplified title component
-const SectionTitle = ({
-  title,
-  children,
-  align = "center",
-  className = "",
-}) => (
-  <motion.div
-    className={`mb-10 md:mb-12 ${
-      align === "center" ? "text-center" : "text-left"
-    } ${className}`}
-    variants={fadeInUp}
-  >
-    <h2
-      className={`text-3xl md:text-4xl font-bold ${colors.textHeading} leading-tight mb-4`}
-    >
-      {title}
-    </h2>
-    {children && (
-      <p
-        className={`text-lg ${colors.textBody} ${
-          align === "center" ? "max-w-3xl mx-auto" : "max-w-none"
-        }`}
-      >
-        {children}
-      </p>
-    )}
-  </motion.div>
-);
-SectionTitle.propTypes = {
-  title: PropTypes.node.isRequired,
-  children: PropTypes.node,
-  align: PropTypes.oneOf(["left", "center"]),
-  className: PropTypes.string,
 };
 
 // --- Reusable Pillar Card ---
@@ -476,6 +440,7 @@ export default function AboutUs() {
                     </>
                   }
                   align="center"
+                  colors={colors}
                 >
                   LoyalShift bridges the gap between decades of established
                   operations and the potential of future-proof AI, enabling
@@ -518,6 +483,7 @@ export default function AboutUs() {
             align="left"
             subtitle="Why We Exist"
             className="mt-60"
+            colors={colors}
           >
             We believe technology should empower, not hinder. Our purpose is to
             unlock the vast potential trapped within legacy systems, enabling
@@ -573,6 +539,7 @@ export default function AboutUs() {
               title="Our Approach"
               subtitle="Intelligent Modernization"
               align="left"
+              colors={colors}
             />
             <p className={`text-lg ${colors.textBody} mb-6 leading-relaxed`}>
               We don't believe in rip-and-replace. Our unique framework combines
@@ -619,7 +586,11 @@ export default function AboutUs() {
 
       {/* --- Pillar 3: Our People & Culture --- */}
       <Section aria-labelledby="people-title">
-        <SectionTitle title="Our People" subtitle="Expertise & Collaboration" />
+        <SectionTitle
+          title="Our People"
+          subtitle="Expertise & Collaboration"
+          colors={colors}
+        />
         <motion.p
           variants={fadeInUp}
           className={`text-lg ${colors.textBody} text-center max-w-3xl mx-auto mb-12 md:mb-16`}
@@ -653,7 +624,11 @@ export default function AboutUs() {
 
       {/* --- Social Proof Section (Placeholder) --- */}
       <Section aria-labelledby="social-proof-title" bg={colors.bgWhite}>
-        <SectionTitle title="Proven Results" subtitle="Client Success" />
+        <SectionTitle
+          title="Proven Results"
+          subtitle="Client Success"
+          colors={colors}
+        />
         <motion.p
           variants={fadeInUp}
           className={`text-lg ${colors.textBody} text-center max-w-3xl mx-auto mb-12`}

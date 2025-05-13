@@ -1,12 +1,12 @@
 // src/pages/ProposalConsentGate.js
-// SPANISH-ONLY version. Displays consent confirmation for ANACO proposal.
+// SPANISH-ONLY version. Displays consent confirmation for FINANCIAL proposal.
 // Route: '/proposal/anaco/consent'
 // Current time: Thursday, May 1, 2025 at 1:08:38 PM CST (San José, Costa Rica)
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { FiInfo, FiCheckSquare, FiAward } from "react-icons/fi";
+import { FiInfo, FiCheckSquare } from "react-icons/fi";
 import Button from "../components/Button"; // Adjust path if needed
 
 // --- Premium Financial Color Theme ---
@@ -141,7 +141,7 @@ export default function ProposalConsentGate() {
                   </span>
                 </motion.div>
 
-                {/* ANACO Brand Mark */}
+                {/* FINANCIAL Brand Mark */}
                 <motion.div variants={logoAnimation} className="mb-6">
                   <div
                     className={`inline-flex items-center justify-center ${colors.surface} backdrop-blur-sm p-4 rounded-xl border ${colors.borderAccent} shadow-xl`}

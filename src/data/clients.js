@@ -1,14 +1,12 @@
-export const qcellsData = {
-  id: "qcells",
-  title: "QCells VPP Platform Launch",
-  result: "Operational VPP in 6 Months",
-  img: "/images/qcells-panels.jpg", // Ensure this path is correct
-  industry: "Energy",
+export const solarData = {
+  title: "Empowering VPP Enterprises with Strategic AI Modernization", // More generic title
+  img: "/images/solar-panels.jpg", // Keep relevant image, or use a more generic energy/grid image
+  industry: "Energy & Utilities",
   challenge:
-    "Needed to rapidly deploy a scalable Virtual Power Plant (VPP) platform to manage distributed energy resources (DERs) and participate in grid services.",
+    "Virtual Power Plant operators face increasing complexity in managing distributed energy resources (DERs), optimizing grid services, and ensuring rapid market entry while maintaining scalability and reliability.",
   solution:
-    "Leveraged LoyalShift's configurable VPP & DERMS Orchestration Platform, utilizing Universal Adapter™ for DER integration and AI-powered forecasting.",
-  link: "/case-studies/qcells",
-  quote:
-    "LoyalShift's platform provided the core functionality we needed... [allowing us] to go from concept to operation in just six months.", // Example short quote
+    "LoyalShift provides a comprehensive AI-powered platform enabling VPP enterprises to seamlessly integrate diverse DERs, optimize dispatch through intelligent forecasting, and participate effectively in energy markets with a scalable, secure, and rapidly deployable solution.",
+  result: "Accelerated Market Entry & Enhanced Grid Participation", // More generic key result
+  // quote: "LoyalShift's platform was pivotal in launching our VPP operations ahead of schedule, providing the scalability we needed.", // Optional generic quote
+  link: "/case-studies/vpp-strategy", // New link for the strategy page
 };

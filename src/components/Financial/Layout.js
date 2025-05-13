@@ -2,29 +2,15 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import Footer from "./Footer";
+import useMediaQuery from "../../hooks/use-media-query";
+import DesktopViewMessage from "./DesktopViewMessage";
+import BackToLoyalShiftToast from "../BackToLoyalShiftToast";
 
 export default function Layout() {
   const location = useLocation(); // Get location object
-  const exactPaths = [
-    "/about",
-    "/solutions",
-    "/security",
-    "/contact",
-    "/contact-sales",
-    "/demo",
-    "/demo/girya",
-    "/demo/girya/consent",
-    "/case-studies",
-    "/request-demo",
-    "/pricing",
-    "/careers",
-  ];
+  const exactPaths = ["/anaco/advanced-tools-integration", "/anaco/dashboard"];
 
-  const dynamicPaths = [
-    "/jobs/:id",
-    "/personalized-demo/:id",
-    "/marketing-effort/:id",
-  ];
+  const dynamicPaths = [];
 
   /**
    * Checks if a given pathname matches a specified pattern containing dynamic parameters (e.g., /path/:id).
@@ -52,16 +38,16 @@ export default function Layout() {
       })
       .join("\\/"); // Join segments back with escaped slashes
 
-    // Create the final regex: must match the start (^) and end ($), allowing an optional trailing slash
-    // Example pattern '/jobs/:jobId' becomes regex string '^\\/jobs\\/([^/]+)\\/?$'
-    const regex = new RegExp(`^${regexString}\\/?$`); // Added \\/? to allow optional trailing slash
+    const regex = new RegExp(`^${regexString}\\/?$`);
 
     // Test the pathname against the created regex
     return regex.test(pathname);
   }
 
+  const isMobile = useMediaQuery("(max-width: 767px)");
+
   // Check if the current path is one of the exact paths OR matches the dynamic pattern
-  const forceHeaderDark =
+  const forceDarkTheme =
     exactPaths.includes(location.pathname) ||
     dynamicPaths.reduce(
       (previousValue, currentValue) =>
@@ -71,13 +57,15 @@ export default function Layout() {
 
   return (
     <div className="min-h-screen flex flex-col bg-neutral-light">
-      <Header forceDark={forceHeaderDark} />
-      <main className="flex-1">
-        <Outlet />
+      <Header forceDark={forceDarkTheme} />
+      <main className="flex-grow">
+        {isMobile ? <DesktopViewMessage /> : <Outlet />}
       </main>
-      {/* <TrustBadges /> */}
       <Footer />
-      {/* <ChatAssistantEnterprise /> */}
+      <BackToLoyalShiftToast
+        targetUrl="/demo/anaco/cta"
+        theme={forceDarkTheme ? "light" : "dark"}
+      />
     </div>
   );
 }

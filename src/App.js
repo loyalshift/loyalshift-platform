@@ -7,7 +7,7 @@ import Security from "./pages/Security";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import AboutUs from "./pages/AboutUs";
 import Solutions from "./pages/Solutions";
-import QCellsUseCase from "./pages/CaseStudies/QCells";
+import EnergyVppCaseStudy from "./pages/CaseStudies/EnergyVppCaseStudy";
 import DemoAppPage from "./pages/Demo";
 import CaseStudiesPage from "./pages/CaseStudies";
 import NotFound from "./pages/NotFound";
@@ -22,30 +22,40 @@ import MarketingEffortPage from "./pages/MarketingEffort";
 
 // Wrap your app with ThemeProvider
 
-// ANACO
-import LayoutAnaco from "./components/Anaco/AnacoLayout";
-import AnacoDemoPage from "./pages/Anaco/AnacoDemoPage";
-import RequestPreApprovalPage from "./pages/Anaco/RequestPreApproval";
+// FINANCIAL
+import LayoutFinancial from "./components/Financial/Layout";
+import DemoPage from "./pages/Financial/DemoPage";
+import RequestPreApprovalPage from "./pages/Financial/RequestPreApproval";
 import ProposalConsentGate from "./components/HeroConsentGate";
-import ProposalAnacoDetailsPage from "./pages/Anaco/ProposalAnacoDetailsPage";
-import AnacoCaseStudy from "./pages/Anaco/CaseStudies/Anaco";
-import AnacoLandingPage from "./pages/Anaco/AnacoLandingPage";
-import AnacoCtaPage from "./pages/Anaco/AnacoCtaPage";
-import PrivacyPolicyPage from "./pages/Anaco/AnacoPrivacy";
-import AboutUsPage from "./pages/Anaco/AboutUs";
-import AnacoContactPage from "./pages/Anaco/Contact";
-import AnacoCalculatorPage from "./pages/Anaco/Calculator";
-import AnacoNotFound from "./pages/Anaco/NotFound";
-import RegisterPage from "./pages/Anaco/Register";
-import LoginPage from "./pages/Anaco/Login";
-import AgentDashboard from "./pages/Anaco/AgentDashboard";
-import Marketplace from "./pages/Anaco/Marketplace";
-import PreApprovalProcessPage from "./pages/Anaco/PreApprovalProcess";
-import TerraPlanPage from "./pages/Anaco/TerraPlan";
-import PropertyDetailPage from "./pages/Anaco/PropertyDetailPage";
-import AdvancedToolsIntegration from "./pages/Anaco/AdvancedToolsIntegrations";
-import MortgageServicesPage from "./pages/Anaco/Services/MortgageServices";
+import ProposalFinancialDetailsPage from "./pages/Financial/ProposalFinancialDetailsPage";
+import FinancialLandingPage from "./pages/Financial/LandingPage";
+import FinancialCtaPage from "./pages/Financial/CtaPage";
+import PrivacyPolicyPage from "./pages/Financial/Privacy";
+import AboutUsPage from "./pages/Financial/AboutUs";
+import FinancialContactPage from "./pages/Financial/Contact";
+import FinancialCalculatorPage from "./pages/Financial/Calculator";
+import FinancialNotFound from "./pages/Financial/NotFound";
+import RegisterPage from "./pages/Financial/Register";
+import LoginPage from "./pages/Financial/Login";
+import AgentDashboard from "./pages/Financial/AgentDashboard";
+import Marketplace from "./pages/Financial/Marketplace";
+import PreApprovalProcessPage from "./pages/Financial/PreApprovalProcess";
+import TerraPlanPage from "./pages/Financial/TerraPlan";
+import PropertyDetailPage from "./pages/Financial/PropertyDetailPage";
+import AdvancedToolsIntegration from "./pages/Financial/AdvancedToolsIntegrations";
+import MortgageServicesPage from "./pages/Financial/Services/MortgageServices";
 import OverseasPartnersPage from "./pages/OverseasPartners";
+import JobApplicationPage from "./pages/JobApplication";
+import JobApplicationStatusPage from "./pages/JobApplicationStatus";
+import BrandAssetsPage from "./pages/BrandAssetsPage";
+import DashBoardLayout from "./components/Financial/Dashboard/DashboardLayout";
+
+// Girya
+import GiryaLandingPage from "./pages/Girya/LandingPage";
+import GiryaLayout from "./components/Girya/Layout";
+import GiryaDemoIntroPage from "./pages/Girya/DemoIntroPage";
+import GiryaConsentPage from "./pages/Girya/ConsentPage";
+import ProposalGiryaDetailsPage from "./pages/Girya/DetailsPage";
 
 function App() {
   return (
@@ -61,20 +71,40 @@ function App() {
           <Route path="contact" element={<Contact />} />
           <Route path="solutions" element={<Solutions />} />
           <Route path="demo" element={<DemoAppPage />} />
+          <Route path="brand" element={<BrandAssetsPage />} />
           <Route path="overseas-partner" element={<OverseasPartnersPage />} />
           <Route path="contact-sales" element={<ContactSales />} />
           <Route path="request-demo" element={<RequestDemoPage />} />
           <Route path="case-studies" element={<CaseStudiesPage />} />
-          <Route path="case-studies/qcells" element={<QCellsUseCase />} />
-          <Route path="case-studies/anaco" element={<AnacoCaseStudy />} />
-          <Route path="demo/anaco" element={<AnacoDemoPage />} />
-          <Route path="demo/anaco/cta" element={<AnacoCtaPage />} />
-          <Route path="demo/anaco/consent" element={<ProposalConsentGate />} />
+          <Route
+            path="case-studies/vpp-strategy"
+            element={<EnergyVppCaseStudy />}
+          />
+          <Route path="demo/girya" element={<GiryaDemoIntroPage />} />
+          <Route path="demo/girya/consent" element={<GiryaConsentPage />} />
+          <Route
+            path="demo/girya/details"
+            element={<ProposalGiryaDetailsPage />}
+          />
+          <Route path="demo/anaco" element={<DemoPage />} />
+          <Route path="demo/anaco/cta" element={<FinancialCtaPage />} />
+          <Route
+            path="demo/anaco/consent"
+            element={<ProposalConsentGate />}
+          />
           <Route
             path="demo/anaco/details"
-            element={<ProposalAnacoDetailsPage />}
+            element={<ProposalFinancialDetailsPage />}
           />
-          <Route path="/apply/:jobId" element={<JobDetailPage />} />
+          <Route path="/jobs/:jobId" element={<JobDetailPage />} />
+          <Route
+            path="jobs/:jobId/applications"
+            element={<JobApplicationPage />}
+          />
+          <Route
+            path="job-application/:jobApplicationId/status"
+            element={<JobApplicationStatusPage />}
+          />
           <Route path="about" element={<AboutUs />} />
           <Route path="careers" element={<Careers />} />
           <Route path="security" element={<Security />} />
@@ -93,22 +123,22 @@ function App() {
           element={<MarketingEffortPage />}
         />
 
-        <Route path="anaco" element={<LayoutAnaco />}>
-          <Route index element={<AnacoLandingPage />} />
+        <Route path="anaco" element={<LayoutFinancial />}>
+          <Route index element={<FinancialLandingPage />} />
           <Route path="privacy" element={<PrivacyPolicyPage />} />
           <Route
             path="request-pre-approval"
             element={<RequestPreApprovalPage />}
           />
           <Route path="about-us" element={<AboutUsPage />} />
-          <Route path="contact" element={<AnacoContactPage />} />
+          <Route path="contact" element={<FinancialContactPage />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="calculator" element={<AnacoCalculatorPage />} />
+          <Route path="calculator" element={<FinancialCalculatorPage />} />
           <Route path="terraplan" element={<TerraPlanPage />} />
           <Route path="marketplace" element={<Marketplace />} />
           <Route path="property/:propertyId" element={<PropertyDetailPage />} />
-          <Route path="service/mortgage" element={<MortgageServicesPage />} />
+          <Route path="services/mortgage" element={<MortgageServicesPage />} />
           <Route
             path="pre-approval-process"
             element={<PreApprovalProcessPage />}
@@ -117,8 +147,18 @@ function App() {
             path="advanced-tools-integration"
             element={<AdvancedToolsIntegration />}
           />
-          <Route path="dashboard" element={<AgentDashboard />} />
-          <Route path="*" element={<AnacoNotFound />} />
+          <Route path="*" element={<FinancialNotFound />} />
+        </Route>
+
+        <Route path="anaco/dashboard" element={<DashBoardLayout />}>
+          <Route index element={<AgentDashboard />} />
+          <Route path="*" element={<FinancialNotFound />} />
+        </Route>
+
+        <Route path="girya" element={<GiryaLayout />}>
+          <Route index element={<GiryaLandingPage />} />
+
+          <Route path="*" element={<FinancialNotFound />} />
         </Route>
       </Routes>
     </Router>

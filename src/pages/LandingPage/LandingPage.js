@@ -14,12 +14,12 @@ import {
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
 
+import { solarData } from "../../data/clients";
+
 // --- Reusable Components (Ensure paths are correct) ---
-import Button from "../../components/Button";
 import Hero from "./sections/Hero"; // Your Hero component (with mobile adjustments)
 import FeatureCard from "../../components/FeatureCard";
 import StatCard from "../../components/StatCard";
-import { qcellsData } from "../../data/clients";
 import StyledOutlineButton from "../../components/StyledOutlineButton";
 
 // --- Consistent Dark Theme Color Palette ---
@@ -138,10 +138,10 @@ export function LandingPage() {
       excerpt: "Real-time inventory sync between systems...",
     }, // Update img path
     {
-      title: "QCells VPP Platform Launch",
+      title: "Solar VPP Platform Launch",
       result: "Operational VPP in 6 Months",
-      id: "qcells",
-      img: "/images/qcells-panels.jpg",
+      id: "solar",
+      img: "/images/solar-panels.jpg",
       industry: "Energy",
       excerpt: "Rapidly deployed a scalable VPP platform...",
     }, // Update img path
@@ -222,32 +222,37 @@ export function LandingPage() {
       </section>
 
       <motion.section
-        aria-labelledby="client-spotlight-title"
-        className="py-10" // Consistent padding
+        aria-labelledby="vpp-strategy-spotlight-title"
+        className="py-16 md:py-20 bg-slate-900" // Consistent padding, dark background
         initial="hidden"
         whileInView="visible"
-        viewport={viewportOnce}
-        variants={sectionStagger}
+        viewport={viewportOnce} // Make sure viewportOnce is defined
+        variants={sectionStagger} // Make sure sectionStagger is defined
       >
         <div className="container mx-auto px-4 sm:px-6">
-          {/* Section Title */}
-          <motion.div className="text-center mb-16" variants={fadeInUp}>
+          {/* Section Header */}
+          <motion.div
+            className="text-center mb-12 md:mb-16"
+            variants={fadeInUp}
+          >
+            {" "}
+            {/* Ensure fadeInUp is defined */}
             <h2
-              id="client-spotlight-title"
+              id="vpp-strategy-spotlight-title"
               className={`text-base font-semibold ${colors.textHighlight} uppercase tracking-wider mb-3`}
             >
-              Client Spotlight
+              VPP Enterprise Strategy
             </h2>
             <p
               className={`text-3xl md:text-4xl font-bold tracking-tight ${colors.textPrimary} sm:text-4xl mb-4`}
             >
-              {qcellsData.title}
+              {solarData.title}
             </p>
             <p
               className={`text-lg md:text-xl ${colors.textSecondary} max-w-3xl mx-auto`}
             >
-              See how LoyalShift enabled rapid market entry and scalable energy
-              management for a global leader.
+              Discover how LoyalShift empowers Virtual Power Plant operators to
+              navigate market complexities and scale efficiently.
             </p>
           </motion.div>
 
@@ -255,67 +260,91 @@ export function LandingPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
             {/* Left Column: Image */}
             <motion.div
-              variants={slideInLeft}
+              variants={slideInLeft} // Ensure slideInLeft is defined
               className="relative aspect-video lg:aspect-[4/3] rounded-xl overflow-hidden shadow-2xl shadow-black/30 border-2 border-slate-700 group"
             >
               <img
-                src={qcellsData.img}
-                alt="QCells Solar Panels and Energy Storage"
+                src={solarData.img}
+                alt="Virtual Power Plant and Distributed Energy Resources" // More generic alt text
                 className="w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10 opacity-80 group-hover:opacity-60 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 opacity-80 group-hover:opacity-50 transition-opacity duration-300"></div>
               <span
-                className={`absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${colors.tagBackground} ${colors.tagText} shadow-sm`}
+                className={`absolute top-4 right-4 text-xs font-semibold px-3 py-1 rounded-full ${
+                  colors.tagBackground || "bg-blue-500/10"
+                } ${colors.tagText || "text-blue-300"} shadow-sm`}
               >
-                {qcellsData.industry}
+                {solarData.industry}
               </span>
             </motion.div>
 
             {/* Right Column: Text Details */}
             <motion.div variants={slideInRight}>
+              {" "}
+              {/* Ensure slideInRight is defined */}
               <h3
                 className={`text-2xl font-semibold ${colors.textPrimary} mb-3`}
               >
-                The Challenge
+                The Core Challenge for VPPs
               </h3>
               <p
                 className={`${colors.textSecondary} mb-6 text-lg leading-relaxed`}
               >
-                {qcellsData.challenge}
+                {solarData.challenge}
               </p>
               <h3
                 className={`text-2xl font-semibold ${colors.textPrimary} mb-3`}
               >
-                Our Solution
+                LoyalShift's Strategic Solution
               </h3>
               <p
                 className={`${colors.textSecondary} mb-6 text-lg leading-relaxed`}
               >
-                {qcellsData.solution}
+                {solarData.solution}
               </p>
               {/* Key Result Highlight */}
               <div
-                className={`p-6 rounded-lg ${colors.surface} border ${colors.borderAccent} mb-8 shadow-lg`}
+                className={`p-6 rounded-lg ${
+                  colors.surface || "bg-slate-800/70"
+                } border ${
+                  colors.borderAccent
+                } mb-8 shadow-lg backdrop-blur-sm`}
               >
                 <p
                   className={`text-sm font-medium ${colors.accentGreen} uppercase tracking-wider mb-1`}
                 >
-                  Key Result
+                  Key Strategic Outcome
                 </p>
                 <p className={`text-3xl font-bold ${colors.textWhite}`}>
-                  {qcellsData.result}
+                  {solarData.result}
                 </p>
               </div>
-              {/* Optional Quote */}
-              {qcellsData.quote && (
+              {/* Optional Generic Quote */}
+              {solarData.quote && (
                 <blockquote
                   className={`relative text-lg italic ${colors.textSecondary} border-l-4 ${colors.borderAccent} pl-4 mb-8`}
                 >
-                  "{qcellsData.quote}"
+                  "{solarData.quote}"
+                  <footer
+                    className={`text-sm not-italic ${colors.textSecondary} mt-2`}
+                  >
+                    - Industry Leader
+                  </footer>
                 </blockquote>
               )}
-              <StyledOutlineButton to="/case-studies/qcells" icon={<FiPlay />}>
-                Read Full QCells Case Study
+              {/* Updated CTA Button */}
+              <StyledOutlineButton
+                to={solarData.link} // Link to the VPP strategy page
+                icon={<FiArrowRight />} // Changed icon to FiArrowRight for "Learn More"
+                // Using default cyan outline colors from StyledOutlineButton, or customize as needed:
+                // textColorClass="text-cyan-400"
+                // borderColorClass="border-cyan-400"
+                // hoverBgClass="hover:bg-cyan-400/10"
+                // hoverTextColorClass="hover:text-cyan-300"
+                // hoverBorderColorClass="hover:border-cyan-300"
+                size="lg" // Keep size large
+              >
+                Learn About Our VPP Strategy
               </StyledOutlineButton>
             </motion.div>
           </div>

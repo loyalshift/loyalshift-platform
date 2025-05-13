@@ -1,3 +1,6 @@
+// src/components/Footer.js
+// UPDATED: Added Instagram, X (Twitter), and HuggingFace social links.
+
 import React from "react";
 import { motion } from "framer-motion";
 import {
@@ -5,11 +8,15 @@ import {
   FiPhone,
   FiMail,
   FiLinkedin,
-  FiTwitter,
+  FiTwitter, // Will be used for X
   FiGithub,
   FiArrowUpRight,
+  FiInstagram, // Added for Instagram
+  FiCpu, // Placeholder for HuggingFace (AI related)
+  // FiLink,    // Alternative placeholder for HuggingFace
 } from "react-icons/fi";
-import Logo from "./Logo";
+import { Link } from "react-router-dom";
+import Logo from "./Logo"; // Assuming Logo component is in the same directory
 
 const Footer = () => {
   const footerLinks = [
@@ -17,7 +24,6 @@ const Footer = () => {
       title: "Solutions",
       links: [
         { name: "Integration", url: "/solutions" },
-
         { name: "Security & Compliance", url: "/security" },
       ],
     },
@@ -40,10 +46,33 @@ const Footer = () => {
     },
   ];
 
+  // Updated socialLinks array
   const socialLinks = [
-    { icon: <FiLinkedin />, url: "https://www.linkedin.com/in/loyalshift/" },
-    { icon: <FiTwitter />, url: "https://twitter.com/loyalshift" },
-    { icon: <FiGithub />, url: "https://github.com/loyalshift" },
+    {
+      icon: <FiLinkedin />,
+      url: "https://linkedin.com/in/loyalshift",
+      title: "LinkedIn",
+    },
+    {
+      icon: <FiGithub />,
+      url: "https://github.com/loyalshift",
+      title: "GitHub",
+    },
+    {
+      icon: <FiInstagram />,
+      url: "https://instagram.com/loyalshift",
+      title: "Instagram",
+    },
+    {
+      icon: <FiTwitter />,
+      url: "https://x.com/loyalshift",
+      title: "X (Twitter)",
+    },
+    {
+      icon: <FiCpu />,
+      url: "https://huggingface.co/loyalshift",
+      title: "HuggingFace",
+    }, // Using FiCpu as placeholder
   ];
 
   return (
@@ -52,7 +81,38 @@ const Footer = () => {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Logo and Description */}
-          <Logo/>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-50px" }}
+          >
+            {/* Assuming Logo component is styled for dark background */}
+            <Logo lightMode={true} size="text-2xl" className="mb-6" />
+            <p className="text-gray-400 mb-6 text-sm leading-relaxed">
+              Modernizing legacy systems with AI-powered solutions that deliver
+              measurable ROI.
+            </p>
+
+            {/* Social Links */}
+            <div className="flex space-x-4">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.title}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title={social.title} // Added title attribute for tooltips
+                  className="text-gray-400 hover:text-white transition-colors p-2 rounded-full hover:bg-gray-700/50" // Slightly adjusted hover bg
+                  whileHover={{ y: -2, scale: 1.1 }} // Enhanced hover animation
+                  whileTap={{ scale: 0.95 }}
+                >
+                  {/* Ensure icon has appropriate size if not handled by Fi itself */}
+                  {React.cloneElement(social.icon, { className: "w-5 h-5" })}
+                </motion.a>
+              ))}
+            </div>
+          </motion.div>
 
           {/* Footer Links */}
           {footerLinks.map((column, index) => (
@@ -73,13 +133,14 @@ const Footer = () => {
                     whileHover={{ x: 5 }}
                     transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <a
-                      href={`${link.url}`}
-                      className="text-gray-400 hover:text-white transition-colors flex items-center"
+                    {/* Use Link component for internal navigation */}
+                    <Link
+                      to={link.url}
+                      className="text-gray-400 hover:text-white transition-colors flex items-center group" // Added group for icon hover
                     >
                       {link.name}
-                      <FiArrowUpRight className="ml-1 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
+                      <FiArrowUpRight className="ml-1 w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                    </Link>
                   </motion.li>
                 ))}
               </ul>
@@ -98,63 +159,61 @@ const Footer = () => {
             </h3>
             <ul className="space-y-4">
               <li className="flex items-start">
-                <FiMapPin className="text-blue-400 mt-1 mr-3 flex-shrink-0" />
-                <span className="text-gray-400">Boston, MA</span>
+                <FiMapPin className="text-blue-400 mt-1 mr-3 flex-shrink-0 w-4 h-4" />
+                <span className="text-gray-400 text-sm">Boston, MA</span>
               </li>
-              {/* <li className="flex items-center">
-                <FiPhone className="text-blue-400 mr-3 flex-shrink-0" />
-                <a
-                  href="tel:+18005551234"
-                  className="text-gray-400 hover:text-white transition-colors"
-                >
-                  +506 6356-2425
-                </a>
-              </li> */}
               <li className="flex items-center">
-                <FiMail className="text-blue-400 mr-3 flex-shrink-0" />
+                <FiMail className="text-blue-400 mr-3 flex-shrink-0 w-4 h-4" />
                 <a
                   href="mailto:info@loyalshift.com"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
                   info@loyalshift.com
                 </a>
               </li>
+              {/* Example Phone (Uncomment and update if needed) */}
+              {/*
+              <li className="flex items-center">
+                <FiPhone className="text-blue-400 mr-3 flex-shrink-0 w-4 h-4" />
+                <a
+                  href="tel:+15551234567"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
+                >
+                  +1 555-123-4567
+                </a>
+              </li>
+              */}
             </ul>
           </motion.div>
         </div>
 
-        {/* Divider */}
+        {/* Divider & Copyright */}
         <motion.div
           className="border-t border-gray-800 mt-16 pt-8"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.5, delay: 0.2 }} // Added delay
           viewport={{ once: true, margin: "-50px" }}
         >
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm mb-4 md:mb-0">
+            <p className="text-gray-500 text-xs md:text-sm mb-4 md:mb-0">
               © {new Date().getFullYear()} LoyalShift Technologies. All rights
               reserved.
             </p>
-            <div className="flex space-x-6">
-              <a
-                href="#"
-                className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
+            <div className="flex space-x-4 md:space-x-6">
+              <Link
+                to="/privacy-policy" // Example internal link
+                className="text-gray-500 hover:text-gray-300 text-xs transition-colors"
               >
                 Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
+              </Link>
+              <Link
+                to="/terms-of-service" // Example internal link
+                className="text-gray-500 hover:text-gray-300 text-xs transition-colors"
               >
                 Terms of Service
-              </a>
-              <a
-                href="#"
-                className="text-gray-500 hover:text-gray-300 text-sm transition-colors"
-              >
-                Cookies
-              </a>
+              </Link>
+              {/* <a href="#" className="text-gray-500 hover:text-gray-300 text-xs transition-colors">Cookies</a> */}
             </div>
           </div>
         </motion.div>

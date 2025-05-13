@@ -6,17 +6,14 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import {
   FiGlobe,
-  FiZap,
   FiTrendingUp,
   FiUsers,
   FiDollarSign,
   FiCheckCircle,
   FiMessageSquare,
-  FiInfo,
   FiArrowRight,
   FiBriefcase,
   FiThumbsUp,
@@ -25,7 +22,7 @@ import {
 // Reusable Components
 import Button from "../components/Button";
 import Section from "../components/Section"; // Assuming Section uses its own motion/variants
-import FloatingBlobsBackground from "../components/Anaco/FloatingItemsBackground";
+import FloatingBlobsBackground from "../components/Financial/FloatingItemsBackground";
 
 // --- Dark Theme Color Palette (UPDATED surface) ---
 const colors = {
@@ -46,7 +43,6 @@ const colors = {
 };
 
 // --- Animation Variants ---
-const viewportOnce = { once: true, amount: 0.1 };
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
@@ -75,12 +71,6 @@ BenefitItem.propTypes = {
 
 // --- Main Component ---
 export default function OverseasPartnersPage() {
-  const currentTime = new Date().toLocaleString("en-US", {
-    timeZone: "America/Costa_Rica",
-    dateStyle: "long",
-    timeStyle: "short",
-  });
-
   return (
     <div className={`${colors.background} ${colors.textPrimary}`}>
       <main>

@@ -77,11 +77,11 @@ const translations = {
     demoCardTitle: "See LoyalShift in Action",
     demoCardDesc:
       "Get a personalized demo tailored to your specific legacy systems and business goals.",
-    demoCardButton: "Schedule a Demo",
+    demoCardButton: "Contact Sales",
     salesCardTitle: "Talk to Our Sales Team",
     salesCardDesc:
       "Discuss your project requirements, pricing, or get answers to specific sales questions.",
-    salesCardButton: "Contact Sales",
+    salesCardButton: "Schedule a Demo",
     // Quick Message Trigger
     quickMessageTriggerTitle: "Have a Different Question?",
     quickMessageTriggerSubtitle: "Click here to send us a quick message.",
@@ -334,7 +334,7 @@ export default function Contact() {
             <div
               className={`${colors.bgWhite} p-8 rounded-lg shadow-lg border ${colors.borderLight} text-center h-full flex flex-col justify-between hover:border-primary-main transition-colors duration-300`}
             >
-              <FiCalendar
+              <FiMessageSquare
                 className={`w-12 h-12 ${colors.textPrimary} mx-auto mb-4`}
               />
               <h2 className={`text-2xl font-bold ${colors.textHeading} mb-3`}>
@@ -359,9 +359,10 @@ export default function Contact() {
             <div
               className={`${colors.bgWhite} p-8 rounded-lg shadow-lg border ${colors.borderLight} text-center h-full flex flex-col justify-between hover:border-primary-main transition-colors duration-300`}
             >
-              <FiMessageSquare
+              <FiCalendar
                 className={`w-12 h-12 ${colors.textPrimary} mx-auto mb-4`}
               />
+
               <h2 className={`text-2xl font-bold ${colors.textHeading} mb-3`}>
                 {t.salesCardTitle}
               </h2>
