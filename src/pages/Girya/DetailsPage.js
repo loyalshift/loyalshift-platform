@@ -14,11 +14,12 @@ import {
   FiHeart, // Workouts, Progress
   FiMessageSquare, // Communication, Coaching
   FiCalendar, // Scheduling, Events
-  FiBookOpen, // Methodology, Library
   FiTrendingUp, // Growth, Benefits
   FiCheckCircle, // Benefits, Features
   FiArrowRight, // CTA
   FiTool, // Coach Tools
+  FiDollarSign,
+  FiCpu,
 } from "react-icons/fi";
 
 // Reusable Components (Ensure paths are correct relative to this file)
@@ -26,6 +27,37 @@ import Button from "../../components/Button";
 import Section from "../../components/Section"; // Assuming Section is styled for dark theme or adaptable
 import LoyalShiftSvgLogo from "../../components/Logo"; // Main LoyalShift Logo
 import GiryaLogo from "../../images/girya-logo.svg"; // Import Girya logo URL
+import { createStaggerContainer } from "../../utils/animationVariants";
+
+// --- Mock Data (Pricing Tier - ideally from src/data/marketing-efforts.js) ---
+const loyalShiftStarterPlan = {
+  name: "Starter Partner™",
+  price: "$599",
+  frequency: "/mes",
+  description:
+    "Ideal para implementar y validar flujos de trabajo clave para GiryaFlow Digital, perfecto para su piloto inicial.",
+  features: [
+    "Conexión hasta 2 Sistemas Centrales de Girya",
+    "Incluye 5 Asientos de Usuario (Equipo Girya Piloto)",
+    "Hasta 50 Ejecuciones de Workflow Automatizado / Mes",
+    "Acceso a Dashboard de IA Explicable (XAI) Estándar",
+    "Soporte Comunitario y Base de Conocimiento LoyalShift",
+  ],
+  ctaText: "Iniciar Piloto con Plan Starter",
+  ctaLink: "/contact-sales?client=girya&plan=starter&topic=giryaflow-pilot",
+  isLoyalShiftPlan: true, // Flag to style differently
+};
+
+const loyalShiftColors = {
+  // For the pricing card's CTA button
+  buttonBg: "bg-gradient-to-r from-blue-600 to-cyan-500",
+  buttonHoverBg: "hover:from-blue-500 hover:to-cyan-400",
+  buttonText: "text-white",
+  accentText: "text-blue-400", // For icon in pricing card
+  cardSurface: "bg-slate-800", // A slightly different dark for LS card
+  cardBorder: "border-slate-700",
+  cardBorderAccent: "border-blue-500/50",
+};
 
 // --- Earthy Fitness / Mindful Strength Color Palette ---
 const colors = {
@@ -51,9 +83,7 @@ const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: "easeOut" } },
 };
-const staggerContainer = {
-  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } },
-};
+const staggerContainer = createStaggerContainer();
 const scaleUp = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: {
@@ -61,6 +91,81 @@ const scaleUp = {
     scale: 1,
     transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
   },
+};
+
+// --- LoyalShift Pricing Card Component (Styled for Girya page, but for LoyalShift plan) ---
+const LoyalShiftPricingCard = ({ tier }) => (
+  <motion.div
+    variants={fadeInUp}
+    whileHover={{ y: -5, scale: 1.01 }}
+    transition={{ type: "spring", stiffness: 250, damping: 15 }}
+    className={`flex flex-col rounded-xl shadow-2xl overflow-hidden h-full border 
+                    ${loyalShiftColors.cardSurface} ${loyalShiftColors.cardBorderAccent} border-2 relative`}
+  >
+    <div
+      className={`absolute top-0 right-0 text-xs font-semibold px-3 py-1 ${loyalShiftColors.buttonBg} ${loyalShiftColors.buttonText} rounded-bl-lg shadow-md`}
+    >
+      Recomendado
+    </div>
+    <div className={`p-6 md:p-8 text-center pt-10`}>
+      <FiCpu
+        className={`w-10 h-10 mx-auto mb-4 ${loyalShiftColors.accentText}`}
+      />
+      <h3 className={`text-2xl font-bold ${colors.textPrimary} mb-2`}>
+        {tier.name}
+      </h3>{" "}
+      {/* Girya's light text for title */}
+      <p className={`text-4xl font-extrabold ${colors.textWhite} mb-1`}>
+        {" "}
+        {/* Girya's light text for price */}
+        {tier.price}
+        <span className={`text-base font-medium ${colors.textSecondary}`}>
+          {tier.frequency}
+        </span>{" "}
+        {/* Girya's muted light text */}
+      </p>
+      <p className={`${colors.textSecondary} text-sm min-h-[3em] mb-6`}>
+        {tier.description}
+      </p>{" "}
+      {/* Girya's muted light text */}
+    </div>
+    {/* --- REFINED FEATURES LIST SECTION --- */}
+    <div
+      className={`px-6 md:px-8 pb-8 pt-6 border-t ${loyalShiftColors.cardBorder} ${loyalShiftColors.featureListBg} flex-grow`}
+    >
+      <ul className="space-y-2.5">
+        {" "}
+        {/* Adjusted spacing */}
+        {tier.features.map((feature, index) => (
+          <li key={index} className="flex items-start gap-2.5">
+            {/* Adjusted gap */}
+            <FiCheckCircle
+              className={`w-5 h-5 ${loyalShiftColors.featureIconColor} mt-0.5 flex-shrink-0`}
+            />
+            {/* LoyalShift accent for icon */}
+            <span className={`${loyalShiftColors.featureTextColor} text-sm justify-start text-left`}>
+              {feature}
+            </span>
+            {/* LoyalShift light text for feature */}
+          </li>
+        ))}
+      </ul>
+    </div>
+    {/* --- END REFINED FEATURES LIST SECTION --- */}
+    <div className="p-6 md:p-8 mt-auto">
+      <Button
+        to={tier.ctaLink}
+        variant="primary"
+        size="lg"
+        className={`w-full ${loyalShiftColors.buttonBg} ${loyalShiftColors.buttonHoverBg} ${loyalShiftColors.buttonText} shadow-lg hover:shadow-blue-500/40`}
+      >
+        {tier.ctaText}
+      </Button>
+    </div>
+  </motion.div>
+);
+LoyalShiftPricingCard.propTypes = {
+  tier: PropTypes.object.isRequired,
 };
 
 // --- Helper Component for Feature/Benefit Items ---
@@ -314,6 +419,58 @@ export default function ProposalGiryaDetailsPage() {
           </div>
         </Section>
 
+        {/* --- NEW: LoyalShift Starter Plan Recommendation Section --- */}
+        <Section
+          bg={colors.background}
+          className="py-12 md:py-16"
+          ariaLabelledby="loyalshift-plan-title"
+        >
+          <motion.div
+            className="max-w-4xl mx-auto text-center"
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportOnce}
+            variants={staggerContainer}
+          >
+            <FiDollarSign
+              className={`w-12 h-12 ${loyalShiftColors.accentText} mx-auto mb-4`}
+            />
+            <h2
+              id="loyalshift-plan-title"
+              className={`text-3xl md:text-4xl font-bold ${colors.textWhite} mb-5`}
+            >
+              Plan de Implementación Recomendado por{" "}
+              <span style={{ color: loyalShiftColors.loyalShiftBlue }}>
+                Loyal
+              </span>
+              <span style={{ color: loyalShiftColors.loyalShiftCyan }}>
+                Shift
+              </span>
+            </h2>
+            <p
+              className={`${colors.textSecondary} text-lg leading-relaxed mb-10 md:mb-12 max-w-2xl mx-auto`}
+            >
+              Para asegurar un lanzamiento exitoso y ágil de GiryaFlow Digital,
+              recomendamos comenzar con nuestro plan{" "}
+              <strong className={loyalShiftColors.accentText}>
+                Starter Partner™
+              </strong>
+              . Este plan está diseñado para validar el valor rápidamente y
+              establecer una base sólida para el crecimiento futuro.
+            </p>
+            <div className="max-w-md mx-auto">
+              {" "}
+              {/* Container to control card width */}
+              <LoyalShiftPricingCard tier={loyalShiftStarterPlan} />
+            </div>
+            <p className={`${colors.textSecondary} text-xs italic mt-8`}>
+              Precios en USD. Pagos gestionados por nuestro socio Lemon Squeezy.
+              El IVA aplicable en Costa Rica se añadirá.
+            </p>
+          </motion.div>
+        </Section>
+        {/* --- END LoyalShift Starter Plan Section --- */}
+
         {/* Anticipated Benefits Section */}
         <Section
           bg={colors.surfaceStrong}
@@ -426,11 +583,6 @@ export default function ProposalGiryaDetailsPage() {
             </div>
           </motion.div>
         </Section>
-
-        {/* Timestamp Info */}
-        <p
-          className={`relative z-10 text-center text-sm ${colors.textSecondary} mt-12 pb-12 flex items-center justify-center gap-1.5`}
-        ></p>
       </main>
     </div>
   );

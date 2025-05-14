@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "./Header";
 import BackToLoyalShiftToast from "../BackToLoyalShiftToast";
+import Footer from "./Footer";
 
 export default function GiryaLayout() {
   const location = useLocation(); // Get location object
@@ -58,9 +59,10 @@ export default function GiryaLayout() {
         <Outlet />
       </main>
       <BackToLoyalShiftToast
-        targetUrl="/demo/anaco/cta"
+        targetUrl="/demo/girya/cta"
         theme={forceDarkTheme ? "light" : "dark"}
       />
+      <Footer />
     </div>
   );
 }

@@ -30,3 +30,22 @@ export const createStaggerContainer = ({
     },
   };
 };
+
+export const createScaleUp = (
+  hiddenOpacity = 0,
+  hiddenScale = 0.05,
+  visibleOpacity = 1,
+  visibleScale = 1,
+  visibleTansitiionDuration = 0.5,
+  visibleTansitiionEase = [0.33, 1, 0.68, 1]
+) => ({
+  hidden: { opacity: hiddenOpacity, scale: hiddenScale },
+  visible: {
+    opacity: visibleOpacity,
+    scale: visibleScale,
+    transition: {
+      duration: visibleTansitiionDuration,
+      ease: visibleTansitiionEase,
+    },
+  },
+});

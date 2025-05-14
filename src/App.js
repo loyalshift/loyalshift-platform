@@ -56,6 +56,15 @@ import GiryaLayout from "./components/Girya/Layout";
 import GiryaDemoIntroPage from "./pages/Girya/DemoIntroPage";
 import GiryaConsentPage from "./pages/Girya/ConsentPage";
 import ProposalGiryaDetailsPage from "./pages/Girya/DetailsPage";
+import GiryaEnrollmentPage from "./pages/Girya/EnrollmentPage";
+import GiryaCoachesPage from "./pages/Girya/CoachesPage";
+import GiryaProgramsAndEquipmentPage from "./pages/Girya/ProgramsAndEquipmentPage";
+import GiryaNotFound from "./pages/Girya/NotFound";
+import GiryaAboutUsPage from "./pages/Girya/AboutUs";
+import ViewCoachPage from "./pages/Girya/ViewCoachPage";
+import GiryaFranchisePage from "./pages/Girya/FranchisePage";
+import GiryaContactPage from "./pages/Girya/Contact";
+import GiryaDemoCTA from "./pages/Girya/DemoCta";
 
 function App() {
   return (
@@ -86,12 +95,11 @@ function App() {
             path="demo/girya/details"
             element={<ProposalGiryaDetailsPage />}
           />
+          <Route path="demo/girya/cta" element={<GiryaDemoCTA />} />
+
           <Route path="demo/anaco" element={<DemoPage />} />
           <Route path="demo/anaco/cta" element={<FinancialCtaPage />} />
-          <Route
-            path="demo/anaco/consent"
-            element={<ProposalConsentGate />}
-          />
+          <Route path="demo/anaco/consent" element={<ProposalConsentGate />} />
           <Route
             path="demo/anaco/details"
             element={<ProposalFinancialDetailsPage />}
@@ -157,8 +165,15 @@ function App() {
 
         <Route path="girya" element={<GiryaLayout />}>
           <Route index element={<GiryaLandingPage />} />
+          <Route path="about-us" element={<GiryaAboutUsPage />} />
+          <Route path="enroll" element={<GiryaEnrollmentPage />} />
+          <Route path="franchise" element={<GiryaFranchisePage />} />
+          <Route path="coaches" element={<GiryaCoachesPage />} />
+          <Route path="coaches/:coachId" element={<ViewCoachPage />} />
+          <Route path="programs" element={<GiryaProgramsAndEquipmentPage />} />
+          <Route path="contact" element={<GiryaContactPage />} />
 
-          <Route path="*" element={<FinancialNotFound />} />
+          <Route path="*" element={<GiryaNotFound />} />
         </Route>
       </Routes>
     </Router>
