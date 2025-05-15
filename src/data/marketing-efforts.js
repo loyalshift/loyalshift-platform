@@ -56,7 +56,7 @@ export const pricingTiers = [
       "Standard Security Protocols",
     ],
     ctaText: "Start Your Pilot",
-    ctaLink: "/signup?plan=starter", // Adjust link
+    ctaLink: "/contact-sales", // Adjust link
     popular: false,
   },
   {
@@ -86,7 +86,7 @@ export const pricingTiers = [
       "Enhanced Security Monitoring",
     ],
     ctaText: "Choose Professional",
-    ctaLink: "/signup?plan=professional", // Adjust link
+    ctaLink: "/contact-sales", // Adjust link
     popular: true,
   },
   {
@@ -118,8 +118,6 @@ export const pricingTiers = [
       "Advanced Security Architecture (SSO, Custom RBAC, etc.)", // Enterprise Needs
       "Regulatory Compliance Support (e.g., GDPR, SOC2 assistance)",
       "White-Glove Onboarding & Data Migration Assistance", // Premium Service
-
-      
     ],
     ctaText: "Contact Sales",
     ctaLink: "/contact-sales", // Adjust link

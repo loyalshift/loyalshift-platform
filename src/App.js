@@ -66,6 +66,21 @@ import GiryaFranchisePage from "./pages/Girya/FranchisePage";
 import GiryaContactPage from "./pages/Girya/Contact";
 import GiryaDemoCTA from "./pages/Girya/DemoCta";
 
+import AFCDemoIntroPage from "./pages/AFC/AFCIntroPage";
+import AFCConsentPage from "./pages/AFC/AFCConsentPage";
+import ProposalAfcDetailsPage from "./pages/AFC/AFCDetails";
+import AFCLayout from "./components/AFC/AFCLayout";
+import AFCLandingPage from "./pages/AFC/AFCLandingPage";
+import AfcCtaPage from "./pages/AFC/AFCCTAPage";
+import AFCFranchisePage from "./pages/AFC/AFCFranchisePage";
+import AFCAboutUsPage from "./pages/AFC/AFCAboutUsPage";
+import AFCContactPage from "./pages/AFC/AFCContactPage";
+import AFCEnrollmentPage from "./pages/AFC/AFCEnrollmentPage";
+import AFCCommunityPage from "./pages/AFC/AFCCommunityPage";
+import AFCTestimonialsPage from "./pages/AFC/AFCTestimonialsPage";
+import AFCSchedulePage from "./pages/AFC/AFCSchedulePage";
+import AfcNotFound from "./pages/AFC/AFCNotFoundPage";
+
 function App() {
   return (
     <Router
@@ -89,6 +104,10 @@ function App() {
             path="case-studies/vpp-strategy"
             element={<EnergyVppCaseStudy />}
           />
+          <Route path="demo/afc" element={<AFCDemoIntroPage />} />
+          <Route path="demo/afc/consent" element={<AFCConsentPage />} />
+          <Route path="demo/afc/details" element={<ProposalAfcDetailsPage />} />
+          <Route path="demo/afc/cta" element={<AfcCtaPage />} />
           <Route path="demo/girya" element={<GiryaDemoIntroPage />} />
           <Route path="demo/girya/consent" element={<GiryaConsentPage />} />
           <Route
@@ -158,11 +177,6 @@ function App() {
           <Route path="*" element={<FinancialNotFound />} />
         </Route>
 
-        <Route path="anaco/dashboard" element={<DashBoardLayout />}>
-          <Route index element={<AgentDashboard />} />
-          <Route path="*" element={<FinancialNotFound />} />
-        </Route>
-
         <Route path="girya" element={<GiryaLayout />}>
           <Route index element={<GiryaLandingPage />} />
           <Route path="about-us" element={<GiryaAboutUsPage />} />
@@ -174,6 +188,21 @@ function App() {
           <Route path="contact" element={<GiryaContactPage />} />
 
           <Route path="*" element={<GiryaNotFound />} />
+        </Route>
+        <Route path="afc" element={<AFCLayout />}>
+          <Route index element={<AFCLandingPage />} />
+          <Route path="about-us" element={<AFCAboutUsPage />} />
+          <Route path="enroll" element={<AFCEnrollmentPage />} />
+          <Route path="franchise" element={<AFCFranchisePage />} />
+          <Route path="community" element={<AFCCommunityPage />} />
+          <Route path="testimonials" element={<AFCTestimonialsPage />} />
+          <Route path="schedule" element={<AFCSchedulePage />} />
+          {/* <Route path="coaches" element={<GiryaCoachesPage />} /> */}
+          {/* <Route path="coaches/:coachId" element={<ViewCoachPage />} /> */}
+          {/* <Route path="programs" element={<GiryaProgramsAndEquipmentPage />} /> */}
+          <Route path="contact" element={<AFCContactPage />} />
+
+          <Route path="*" element={<AfcNotFound />} />
         </Route>
       </Routes>
     </Router>
