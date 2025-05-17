@@ -80,6 +80,22 @@ import AFCCommunityPage from "./pages/AFC/AFCCommunityPage";
 import AFCTestimonialsPage from "./pages/AFC/AFCTestimonialsPage";
 import AFCSchedulePage from "./pages/AFC/AFCSchedulePage";
 import AfcNotFound from "./pages/AFC/AFCNotFoundPage";
+import EquilibraDemoIntroPage from "./pages/Equilibra/EquilibraDemoIntroPage";
+import EquilibraConsentPage from "./pages/Equilibra/EquilibraConsentPage";
+import ProposalEquilibraDetailsPage from "./pages/Equilibra/ProposalEquilibraDetailsPage";
+import EquilibraLayout from "./components/Equilibra/EquilibraLayout";
+import EquilibraPlatformLandingPage from "./pages/Equilibra/EquilibraPlatformLandingPage";
+import LoyalShiftStudioPage from "./components/LoyalShiftStudio";
+import EquilibraStudioPage from "./pages/Equilibra/EquilibraStudioPage";
+import StudioLayout from "./components/Studio/StudioLayout";
+import StudioClientDashboardPage from "./pages/Studio/StudioDashboard";
+import StudioClientContentManagerPage from "./pages/Studio/StudioContent";
+import StudioNotFoundPage from "./pages/Studio/StudioNotFoundPage";
+import EquilibraNotFoundPage from "./pages/Equilibra/EquilibraNotFoundPage";
+import EquilibraContactPage from "./pages/Equilibra/EquilibraContactPage";
+import EquilibraBlogPage from "./pages/Equilibra/EquilibraBlogPage";
+import EquilibraAboutUsPage from "./pages/Equilibra/EquilibraAboutUsPage";
+import EquilibraCtaPage from "./pages/Equilibra/EquilibraCtaPage";
 
 function App() {
   return (
@@ -108,6 +124,18 @@ function App() {
           <Route path="demo/afc/consent" element={<AFCConsentPage />} />
           <Route path="demo/afc/details" element={<ProposalAfcDetailsPage />} />
           <Route path="demo/afc/cta" element={<AfcCtaPage />} />
+          <Route path="demo/equilibra" element={<EquilibraDemoIntroPage />} />
+
+          <Route
+            path="demo/equilibra/consent"
+            element={<EquilibraConsentPage />}
+          />
+          <Route path="demo/equilibra/cta" element={<EquilibraCtaPage />} />
+          <Route
+            path="demo/equilibra/details"
+            element={<ProposalEquilibraDetailsPage />}
+          />
+          {/* <Route path="demo/equilibra/cta" element={<EquilibraCtaPage />} /> */}
           <Route path="demo/girya" element={<GiryaDemoIntroPage />} />
           <Route path="demo/girya/consent" element={<GiryaConsentPage />} />
           <Route
@@ -201,8 +229,38 @@ function App() {
           {/* <Route path="coaches/:coachId" element={<ViewCoachPage />} /> */}
           {/* <Route path="programs" element={<GiryaProgramsAndEquipmentPage />} /> */}
           <Route path="contact" element={<AFCContactPage />} />
-
           <Route path="*" element={<AfcNotFound />} />
+        </Route>
+        <Route path="equilibra" element={<EquilibraLayout />}>
+          <Route index element={<EquilibraPlatformLandingPage />} />
+          <Route path="about-us" element={<EquilibraAboutUsPage />} />
+          {/* <Route path="enroll" element={<EquilibraEnrollmentPage />} /> */}
+          {/* <Route path="franchise" element={<EquilibraFranchisePage />} /> */}
+          {/* <Route path="community" element={<EquilibraCommunityPage />} /> */}
+          {/* <Route path="testimonials" element={<EquilibraTestimonialsPage />} /> */}
+          {/* <Route path="schedule" element={<EquilibraSchedulePage />} /> */}
+          <Route path="contact" element={<EquilibraContactPage />} />
+          <Route path="blog" element={<EquilibraBlogPage />} />
+
+          <Route path="*" element={<EquilibraNotFoundPage />} />
+        </Route>
+
+        <Route path="studio/:clientId" element={<StudioLayout />}>
+          {/* TODO: LoyalShiftStudioPlatformLandingPage: to explain what it does and that it is part of a much bigger system, LoyalShift's AgentHub, your business Manager */}
+          <Route index element={<LoyalShiftStudioPage />} />
+          <Route path="dashboard" element={<StudioClientDashboardPage />} />
+          <Route path="content" element={<StudioClientContentManagerPage />} />
+
+          {/* <Route path="details" element={<AboutUsPage />} />
+          <Route path="enroll" element={<EnrollmentPage />} />
+          <Route path="growth" element={<FranchisePage />} />
+          <Route path="community" element={<CommunityPage />} />
+          <Route path="testimonials" element={<TestimonialsPage />} />
+          <Route path="schedule" element={<SchedulePage />} />
+          <Route path="contact" element={<ContactPage />} /> */}
+
+          {/* TODO: StudioNotFound: to tell the :clientId was not found*/}
+          <Route path="*" element={<StudioNotFoundPage />} />
         </Route>
       </Routes>
     </Router>

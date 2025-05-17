@@ -22,6 +22,10 @@ export default function Layout() {
     "/demo/afc/cta",
     "/demo/afc/consent",
     "/demo/afc/details",
+    "/demo/equilibra/details",
+    "/demo/equilibra/consent",
+    "/demo/equilibra",
+    "/demo/equilibra/cta",
   ];
 
   const dynamicPaths = [
