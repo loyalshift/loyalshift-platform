@@ -120,33 +120,6 @@ export function LandingPage() {
     },
   ];
 
-  const caseStudiesData = [
-    {
-      title: "Insurance Claims Automation",
-      result: "75% faster claims resolution",
-      id: 2,
-      img: "/images/server-room.jpg",
-      industry: "Insurance",
-      excerpt: "Automated claims intake and validation...",
-    }, // Update img path
-    {
-      title: "Retail Inventory Sync",
-      result: "$3M inventory cost reduction",
-      id: 3,
-      img: "/images/legacy-systems-hero.jpg",
-      industry: "Retail",
-      excerpt: "Real-time inventory sync between systems...",
-    }, // Update img path
-    {
-      title: "Solar VPP Platform Launch",
-      result: "Operational VPP in 6 Months",
-      id: "solar",
-      img: "/images/solar-panels.jpg",
-      industry: "Energy",
-      excerpt: "Rapidly deployed a scalable VPP platform...",
-    }, // Update img path
-  ];
-
   return (
     <div className={`${colors.background} overflow-x-hidden`}>
       {/* =========================================== */}

@@ -280,7 +280,7 @@ export default function Hero() {
                 >
                   {/* --- Bright Primary Button --- */}
                   <Button
-                    to="/request-demo"
+                    to="/contact"
                     // variant="primary" // Remove default variant
                     icon={<FiArrowRight />}
                     size="lg" // Keep size large
@@ -291,8 +291,8 @@ export default function Hero() {
                   </Button>
 
                   {/* --- Bright Outline Button --- */}
-                  <StyledOutlineButton to="/demo">
-                    Watch Demo
+                  <StyledOutlineButton to="/smb">
+                    SMB Initiative
                   </StyledOutlineButton>
                 </motion.div>
               </motion.div>

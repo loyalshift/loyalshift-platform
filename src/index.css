@@ -13,3 +13,20 @@
     50% { transform: translateY(-20px); }
   }
 }
+
+
+.custom-scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent; /* Or a very light theme color */
+}
+.custom-scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #CBD5E1; /* theme.inputBorder or similar muted color */
+  border-radius: 10px;
+  border: 2px solid transparent; /* Creates padding around thumb */
+  background-clip: content-box;
+}
+.custom-scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background-color: #A0AEC0; /* Slightly darker on hover */
+}

@@ -8,9 +8,13 @@ import {
   AnimatePresence,
 } from "framer-motion";
 import { FiArrowRight, FiPhone, FiMenu, FiX } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PropTypes from "prop-types"; // Import PropTypes
 import Logo from "./Logo";
+import { useLocalization } from "./LocalizationContext";
+import loyalShiftV2Theme from "../themes/loyalshift-v2.theme";
+
+const theme = loyalShiftV2Theme;
 
 /**
  * Header component with scroll-based style changes and animations.
@@ -18,12 +22,20 @@ import Logo from "./Logo";
  */
 export default function Header({ forceDark = false }) {
   // Accept forceDark prop
+  const { t } = useLocalization();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const headerRef = useRef(null);
   const { scrollY } = useScroll();
 
   const SCROLL_THRESHOLD = 50;
+
+  const useDarkAppearance = forceDark || isScrolled;
+
+  const currentHeaderTheme = useDarkAppearance
+    ? theme.headerDark
+    : theme.headerLight;
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const currentlyScrolled = latest > SCROLL_THRESHOLD;
@@ -56,12 +68,11 @@ export default function Header({ forceDark = false }) {
     { name: "Solutions", path: "/solutions" },
     { name: "Case Studies", path: "/case-studies" },
     { name: "Careers", path: "/careers" },
-    { name: "Pricing", path: "/pricing" }, 
+    { name: "Pricing", path: "/pricing" },
     // { name: "Resources", path: "/resources" }, // Keep or remove as needed
   ];
 
   // Determine if the dark/scrolled appearance should be used
-  const useDarkAppearance = forceDark || isScrolled;
 
   // --- Framer Motion Variants for Header Styling ---
   // Using existing variants, the logic change is in the 'animate' prop below
@@ -129,7 +140,7 @@ export default function Header({ forceDark = false }) {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-8">
+          {/* <nav className="hidden lg:flex items-center space-x-8">
             {navLinks.map((link, index) => (
               <motion.div
                 key={index}
@@ -145,8 +156,33 @@ export default function Header({ forceDark = false }) {
                 <Link to={link.path}>{link.name}</Link>
               </motion.div>
             ))}
-          </nav>
+          </nav> */}
+          <nav className="hidden lg:flex items-center space-x-8">
+            {navLinks.map((link, index) => {
+              const isActive =
+                location.pathname === link.path ||
+                (link.path !== "/" && location.pathname.startsWith(link.path));
 
+              return (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`font-medium transition-colors duration-200 ${
+                    useDarkAppearance
+                      ? isActive
+                        ? "text-blue-400" // Dark state active color
+                        : "text-slate-300 hover:text-blue-400" // Dark state colors
+                      : isActive
+                      ? "text-blue-300" // Light state active color
+                      : "text-white hover:text-blue-300" // Light state colors
+                  }`}
+                >
+                  <Link to={link.path}>{link.name}</Link>
+                </motion.div>
+              );
+            })}
+          </nav>
           {/* Desktop CTA Buttons */}
           <motion.div
             // UPDATED: CTA animation uses useDarkAppearance
@@ -155,7 +191,7 @@ export default function Header({ forceDark = false }) {
               opacity: useDarkAppearance ? 1 : 0.9,
               transition: { type: "tween", duration: 0.3 },
             }}
-            className="hidden lg:flex items-center gap-4 origin-right flex-shrink-0"
+            className="lg:flex items-center gap-4 origin-right flex-shrink-0"
           >
             {/* Contact Link */}
             <Link
@@ -172,15 +208,14 @@ export default function Header({ forceDark = false }) {
 
             {/* Demo Link */}
             <Link
-              to="/demo"
-              // UPDATED: Demo button style uses useDarkAppearance
+              to="/smb"
               className={`flex items-center px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
                 useDarkAppearance
                   ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/30" // Dark state style
                   : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" // Top/Transparent state style
               }`}
             >
-              Watch Demo <FiArrowRight className="ml-2 h-5 w-5" />
+              SMB Initiative <FiArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </motion.div>
 
@@ -249,11 +284,11 @@ export default function Header({ forceDark = false }) {
 
                 {/* Mobile Demo CTA */}
                 <Link
-                  to="/demo"
+                  to="/smb"
                   className="flex items-center justify-center px-4 py-3 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-medium hover:shadow-md transition-shadow duration-200"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Watch Demo <FiArrowRight className="ml-2 h-5 w-5" />
+                  SMB Initiative <FiArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </div>
             </div>

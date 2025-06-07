@@ -343,7 +343,7 @@ export default function EnergyVppCaseStudy({
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              to="/request-demo?solution=vpp-derms"
+              to="/contact?solution=vpp-derms"
               variant="primary"
               size="lg"
               icon={<FiArrowRight />}

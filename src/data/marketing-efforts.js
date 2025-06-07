@@ -56,7 +56,7 @@ export const pricingTiers = [
       "Standard Security Protocols",
     ],
     ctaText: "Start Your Pilot",
-    ctaLink: "/contact-sales", // Adjust link
+    ctaLink: "/contact?form=sales", // Adjust link
     popular: false,
   },
   {
@@ -86,7 +86,7 @@ export const pricingTiers = [
       "Enhanced Security Monitoring",
     ],
     ctaText: "Choose Professional",
-    ctaLink: "/contact-sales", // Adjust link
+    ctaLink: "/contact?form=sales", // Adjust link
     popular: true,
   },
   {
@@ -120,7 +120,7 @@ export const pricingTiers = [
       "White-Glove Onboarding & Data Migration Assistance", // Premium Service
     ],
     ctaText: "Contact Sales",
-    ctaLink: "/contact-sales", // Adjust link
+    ctaLink: "/contact", // Adjust link
     popular: false,
   },
 ];

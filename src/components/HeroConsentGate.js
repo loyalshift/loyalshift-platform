@@ -1,6 +1,6 @@
 // src/pages/ProposalConsentGate.js
 // SPANISH-ONLY version. Displays consent confirmation for FINANCIAL proposal.
-// Route: '/proposal/anaco/consent'
+// Route: '/proposal/financial/consent'
 // Current time: Thursday, May 1, 2025 at 1:08:38 PM CST (San José, Costa Rica)
 
 import React, { useState, useEffect } from "react";
@@ -52,18 +52,18 @@ const staggerContainer = {
 // --- Embedded Spanish Content ---
 const content = {
   trustBadge: "40+ AÑOS DE CONFIANZA",
-  brandName1: "ANACO",
+  brandName1: "FINANCIAL",
   brandName2: "Conecta",
   headline:
     "Propuesta Estratégica: <span class='text-amber-400'>Agent Hub™</span>", // Added ™ to headline too
   subtitle:
     "Su solución personalizada está lista. Por favor, confirme su consentimiento para continuar.",
   // --- NEW KEY ---
-  premadeModuleText: `Para acelerar su éxito, esta solución aprovecha nuestro módulo <strong class='${colors.textWhite}'>Agent Hub™</strong>, una base robusta y probada, ahora <strong class='${colors.textHighlight}'>personalizada para las necesidades únicas</strong> de ANACO Inversiones.`,
+  premadeModuleText: `Para acelerar su éxito, esta solución aprovecha nuestro módulo <strong class='${colors.textWhite}'>Agent Hub™</strong>, una base robusta y probada, ahora <strong class='${colors.textHighlight}'>personalizada para las necesidades únicas</strong> de FINANCIAL Inversiones.`,
   consent_text: `
-      Esta propuesta contiene detalles estratégicos y ha sido <strong class='${colors.textWhite}'>personalizada utilizando información contextual</strong> relevante para ANACO Inversiones.
+      Esta propuesta contiene detalles estratégicos y ha sido <strong class='${colors.textWhite}'>personalizada utilizando información contextual</strong> relevante para FINANCIAL Inversiones.
       <br/><br/>
-      Le aseguramos que toda información relacionada con ANACO se utiliza <strong class='${colors.textHighlight}'>estricta y únicamente</strong> para generar esta propuesta a medida. <strong class='${colors.textHighlight}'>En ningún caso</strong> se emplea para entrenar o mejorar los modelos generales de Inteligencia Artificial de LoyalShift.
+      Le aseguramos que toda información relacionada con FINANCIAL se utiliza <strong class='${colors.textHighlight}'>estricta y únicamente</strong> para generar esta propuesta a medida. <strong class='${colors.textHighlight}'>En ningún caso</strong> se emplea para entrenar o mejorar los modelos generales de Inteligencia Artificial de LoyalShift.
       <br/><br/>
       Al hacer clic en 'Aceptar y Ver Propuesta', usted <strong class='${colors.textWhite}'>reconoce</strong> este uso limitado de la información con el propósito exclusivo de evaluar esta solución.
   `,
@@ -89,7 +89,7 @@ export default function ProposalConsentGate() {
   const handleProceed = () => {
     console.log("Consent confirmed, proceeding to proposal details (Spanish).");
     // Navigate to the details page (ensure this route exists in App.js)
-    navigate("/demo/anaco/details");
+    navigate("/demo/financial/details");
   };
 
   return (

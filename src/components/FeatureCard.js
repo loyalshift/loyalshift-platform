@@ -1,10 +1,10 @@
 // src/components/FeatureCard.js (Simplified)
 
-import React from 'react';
+import React from "react";
 // Keep motion import only if using whileHover or other simple motion features
-import { motion } from 'framer-motion';
-import PropTypes from 'prop-types';
-import { FiDatabase, FiZap, FiShield, FiBarChart2 } from 'react-icons/fi';
+import { motion } from "framer-motion";
+import PropTypes from "prop-types";
+import { FiDatabase, FiZap, FiShield, FiBarChart2 } from "react-icons/fi";
 
 // Consistent colors (remain unchanged)
 const colors = {
@@ -25,7 +25,8 @@ const iconMap = {
 
 // --- Removed animation variants and viewport settings ---
 
-const FeatureCard = ({ icon: iconName, title, description, index }) => { // index might still be useful for list keys
+const FeatureCard = ({ icon: iconName, title, description, index }) => {
+  // index might still be useful for list keys
   const IconComponent = iconMap[iconName] || FiDatabase; // Default icon
 
   return (
@@ -34,7 +35,11 @@ const FeatureCard = ({ icon: iconName, title, description, index }) => { // inde
     <motion.div
       className={`${colors.surface} p-8 rounded-xl shadow-2xl shadow-blue-950/40 border ${colors.border} hover:${colors.borderAccent} transition-colors duration-300 backdrop-blur-sm`}
       // OPTIONAL: Keep a simple hover effect. Remove this line for zero motion on hover.
-      whileHover={{ y: -10, scale: 1.03, transition: { duration: 0.2, type: 'spring', stiffness: 300 } }}
+      whileHover={{
+        y: -10,
+        scale: 1.03,
+        transition: { duration: 0.2, type: "spring", stiffness: 300 },
+      }}
     >
       {/* Icon: Changed from motion.div to div, removed animation props */}
       <div
@@ -45,7 +50,9 @@ const FeatureCard = ({ icon: iconName, title, description, index }) => { // inde
       </div>
 
       {/* Text Content (remains unchanged) */}
-      <h3 className={`text-xl font-semibold ${colors.textPrimary} mb-2`}>{title}</h3>
+      <h3 className={`text-xl font-semibold ${colors.textPrimary} mb-2`}>
+        {title}
+      </h3>
       <p className={`${colors.textSecondary} leading-relaxed`}>{description}</p>
     </motion.div>
   );
@@ -59,10 +66,5 @@ FeatureCard.propTypes = {
   // Make it optional if it's not strictly required for other purposes.
   index: PropTypes.number,
 };
-
-// Optional: Provide a default value if index is not always passed
-// FeatureCard.defaultProps = {
-//   index: 0,
-// };
 
 export default FeatureCard;

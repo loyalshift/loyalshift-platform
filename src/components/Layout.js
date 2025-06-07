@@ -10,25 +10,15 @@ export default function Layout() {
     "/solutions",
     "/security",
     "/contact",
-    "/contact-sales",
-    "/demo",
-    "/demo/girya",
-    "/demo/girya/consent",
     "/case-studies",
-    "/request-demo",
+    "/demo",
     "/pricing",
     "/careers",
-    "/demo/afc",
-    "/demo/afc/cta",
-    "/demo/afc/consent",
-    "/demo/afc/details",
-    "/demo/equilibra/details",
-    "/demo/equilibra/consent",
-    "/demo/equilibra",
-    "/demo/equilibra/cta",
+    "/support",
   ];
 
   const dynamicPaths = [
+    "/case-studies/:id",
     "/jobs/:id",
     "/personalized-demo/:id",
     "/marketing-effort/:id",
@@ -82,10 +72,8 @@ export default function Layout() {
       <Header forceDark={forceHeaderDark} />
       <main className="flex-1">
         <Outlet />
+        <Footer />
       </main>
-      {/* <TrustBadges /> */}
-      <Footer />
-      {/* <ChatAssistantEnterprise /> */}
     </div>
   );
 }

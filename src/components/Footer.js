@@ -5,7 +5,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import {
   FiMapPin,
-  FiPhone,
   FiMail,
   FiLinkedin,
   FiTwitter, // Will be used for X
@@ -161,6 +160,10 @@ const Footer = () => {
               <li className="flex items-start">
                 <FiMapPin className="text-blue-400 mt-1 mr-3 flex-shrink-0 w-4 h-4" />
                 <span className="text-gray-400 text-sm">Boston, MA</span>
+              </li>
+              <li className="flex items-start">
+                <FiMapPin className="text-blue-400 mt-1 mr-3 flex-shrink-0 w-4 h-4" />
+                <span className="text-gray-400 text-sm">Alajuela, CR</span>
               </li>
               <li className="flex items-center">
                 <FiMail className="text-blue-400 mr-3 flex-shrink-0 w-4 h-4" />

@@ -1,8 +1,7 @@
 // src/pages/JobApplicationPage.js
-// Page for job application submission and status tracking.
-// UPDATED: Form layout changed to two columns on medium screens and up.
-// Uses LoyalShift Dark Theme.
-// Current time: Tuesday, May 6, 2025 at 12:58 PM CST.
+// Page for job application submission.
+// USES loyalShiftV2Theme.
+// Tailored for a specific job via URL parameter.
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
@@ -10,47 +9,21 @@ import { motion, AnimatePresence } from 'framer-motion';
 import PropTypes from 'prop-types';
 import {
     FiFileText, FiUploadCloud, FiUser, FiMail, FiPhone, FiLink, FiSend,
-    FiLoader, FiCheckCircle, FiAlertCircle, FiInfo, FiArrowLeft, FiClock,
-    FiEye // for status view
-} from 'react-icons/fi';
+    FiLoader, FiCheckCircle, FiAlertCircle, FiArrowLeft, FiBriefcase, FiMapPin, FiClock
+} from 'react-icons/fi'; // FiEye removed as it was for status page
 import toast, { Toaster } from 'react-hot-toast';
 
 // Reusable Components (ensure paths are correct)
 import Button from '../components/Button';
-import InputField from '../components/InputField';
+import InputField from '../components/InputField'; // Assuming InputField can use theme
 import Section from '../components/Section'; // Assuming Section component exists
 import { jobOpenings } from '../data/jobs'; // Assuming jobs data is imported
+import loyalShiftV2Theme from '../themes/loyalshift-v2.theme'; // IMPORT THE V2 THEME
 
-// --- Dark Theme Color Palette ---
-const colors = {
-  background: "bg-slate-900",
-  surface: "bg-slate-800",
-  surfaceMuted: "bg-slate-800/70 backdrop-blur-sm",
-  primary: "text-cyan-400",
-  secondary: "text-slate-400",
-  textPrimary: "text-slate-100",
-  textWhite: "text-white",
-  border: "border-slate-700",
-  borderAccent: "border-cyan-500/50",
-  iconColor: "text-cyan-400",
-  accentSuccess: "text-lime-400",
-  accentError: "text-red-400",
-  buttonPrimaryBg: "bg-gradient-to-r from-cyan-500 to-blue-500",
-  buttonPrimaryHover: "hover:from-cyan-400 hover:to-blue-400",
-  neonGlowCyan: "shadow-[0_0_15px_rgba(34,211,238,0.4)]",
-  inputBg: "bg-slate-700/50",
-  inputBorder: "border-slate-600",
-  inputFocusBorder: "focus:border-cyan-500",
-  inputFocusRing: "focus:ring-cyan-500/50",
-  buttonSecondaryBorder: "border-cyan-500",
-  buttonSecondaryText: "text-cyan-400",
-  buttonSecondaryHoverBg: "hover:bg-cyan-500/10",
-};
+const theme = loyalShiftV2Theme; // Use the imported theme
 
-// --- Animation Variants ---
-const viewportOnce = { once: true, amount: 0.1 };
+// --- Animation Variants (from existing context) ---
 const fadeInUp = { hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }};
-const staggerContainer = { visible: { transition: { staggerChildren: 0.1 } }};
 const formStepVariants = {
     hidden: { opacity: 0, x: 30 },
     visible: { opacity: 1, x: 0, transition: { type: "spring", stiffness: 100, damping: 15 } },
@@ -72,12 +45,8 @@ export default function JobApplicationPage() {
     });
     const [resumeFile, setResumeFile] = useState(null);
     const [resumeFileName, setResumeFileName] = useState('');
-    const [applicationStatus, setApplicationStatus] = useState(null);
-    const [statusLoading, setStatusLoading] = useState(false);
+    const [generatedApplicationId, setGeneratedApplicationId] = useState(null);
 
-    useEffect(() => {
-        // Placeholder for fetching existing application status
-    }, [jobId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -87,6 +56,11 @@ export default function JobApplicationPage() {
     const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
+            if (file.size > 5 * 1024 * 1024) { // 5MB limit
+                toast.error("File is too large. Max 5MB allowed.");
+                e.target.value = null;
+                return;
+            }
             setResumeFile(file);
             setResumeFileName(file.name);
             toast.success(`File "${file.name}" selected.`);
@@ -109,13 +83,21 @@ export default function JobApplicationPage() {
 
         setSubmissionPhase('submitting');
         const toastId = toast.loading("Submitting your application...");
+        const newApplicationId = `APP-${jobId.toUpperCase()}-${Date.now().toString().slice(-6)}`;
+        setGeneratedApplicationId(newApplicationId);
 
-        console.log("Submitting Application:", { jobId, ...formData, resume: resumeFile?.name });
+        console.log("Submitting Application:", { jobId, applicationId: newApplicationId, ...formData, resume: resumeFile?.name });
         try {
             await new Promise(resolve => setTimeout(resolve, 2000));
-            toast.success("Application submitted successfully!", { id: toastId, duration: 4000 });
-            setApplicationStatus("Application Received");
-            setSubmissionPhase('status_display');
+            localStorage.setItem(`application_data_${newApplicationId}`, JSON.stringify({
+                jobId: jobId,
+                jobTitle: job.title,
+                applicantName: formData.fullName,
+                status: "Application Received",
+                submittedAt: new Date().toISOString(),
+            }));
+            toast.success("Application submitted successfully!", { id: toastId, duration: 3000 });
+            setSubmissionPhase('success');
         } catch (error) {
             console.error("Application Submission Error:", error);
             toast.error("Failed to submit application. Please try again.", { id: toastId });
@@ -123,51 +105,48 @@ export default function JobApplicationPage() {
         }
     };
 
-    const handleCheckStatus = async () => {
-        setStatusLoading(true);
-        const toastId = toast.loading("Checking status...");
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        const statuses = [ "Under Review", "Interview Scheduled", "Final Consideration", "Offer Extended", "Process Completed" ];
-        const currentStatusIndex = statuses.indexOf(applicationStatus);
-        let nextStatus = applicationStatus;
-        if (currentStatusIndex > -1 && currentStatusIndex < statuses.length -1) {
-            nextStatus = statuses[currentStatusIndex + 1];
-        } else if (applicationStatus === "Application Received") {
-            nextStatus = statuses[0];
-        }
-        setApplicationStatus(nextStatus);
-        setStatusLoading(false);
-        toast.dismiss(toastId);
-        toast.success(`Status updated: ${nextStatus}`);
-    }
-
     if (!job) {
         return (
-            <div className={`${colors.background} min-h-screen flex flex-col items-center justify-center text-center p-8`}>
-                <FiAlertCircle className={`w-16 h-16 ${colors.accentError || 'text-red-500'} mb-4`} />
-                <h1 className={`text-2xl font-bold ${colors.textPrimary} mb-2`}>Job Opening Not Found</h1>
-                <p className={`${colors.textSecondary} mb-6`}>Sorry, we couldn't find the details for this job opening.</p>
+            <div className={`${theme.background} min-h-screen flex flex-col items-center justify-center text-center p-8`}>
+                <FiAlertCircle className={`w-16 h-16 ${theme.errorText} mb-4`} />
+                <h1 className={`text-2xl font-bold ${theme.textPrimary} mb-2`}>Job Opening Not Found</h1>
+                <p className={`${theme.textSecondary} mb-6`}>Sorry, the job ID "{jobId}" does not correspond to an open position.</p>
                 <Button to="/careers" variant="secondary" icon={<FiArrowLeft/>}>Back to Careers</Button>
             </div>
         );
     }
 
+    const isSubmitting = submissionPhase === 'submitting';
+
+    // Assuming InputField component is updated to accept and use `theme` prop
+    // or it directly uses `loyalShiftV2Theme` if imported there.
+    // For this example, I'll pass theme colors to a hypothetical InputField prop `themeColors`
+    // or rely on global theme context if InputField is designed that way.
+
     return (
-        <div className={`${colors.background} ${colors.textPrimary} min-h-screen py-16 md:py-20`}>
+        <div className={`${theme.background} ${theme.textPrimary} min-h-screen py-16 md:py-20`}>
             <Toaster position="bottom-center" toastOptions={{
-                style: { background: colors.surface, color: colors.textPrimary, border: `1px solid ${colors.border}` },
+                style: { background: theme.surfaceCard, color: theme.textPrimary, border: `1px solid ${theme.border}` },
+                success: { iconTheme: { primary: theme.successText.replace('text-',''), secondary: 'white' } },
+                error: { iconTheme: { primary: theme.errorText.replace('text-',''), secondary: 'white' } },
             }} />
-            <Section bg="bg-transparent" ariaLabelledby="application-title">
+            <Section bg="bg-transparent" ariaLabelledby="application-title"> {/* Use theme.background if needed */}
                 <motion.div
-                    className={`max-w-4xl mx-auto ${colors.surface} p-6 md:p-10 rounded-xl shadow-2xl border ${colors.border} ${colors.neonGlowCyan}`}
+                    className={`max-w-4xl mx-auto ${theme.surfaceCard} p-6 md:p-10 rounded-2xl shadow-2xl border ${theme.border} ${theme.cardShadow}`} // Applied shadow & border
                     initial="hidden" animate="visible" variants={fadeInUp}
                 >
                     <div className="text-center mb-8">
-                        <FiFileText className={`w-12 h-12 ${colors.iconColor} mx-auto mb-3`} />
-                        <h1 id="application-title" className={`text-3xl font-bold ${colors.textWhite} mb-2`}>
-                            Application for: {job.title}
+                        <FiFileText className={`w-12 h-12 ${theme.textHighlight} mx-auto mb-3`} />
+                        <h1 id="application-title" className={`text-3xl font-bold ${theme.textPrimary} mb-1`}>
+                            Apply for: {job.title}
                         </h1>
-                        <p className={`${colors.secondary} text-sm`}>{job.department} | {job.location}</p>
+                        <div className={`flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-sm ${theme.textSecondary}`}>
+                            <span className="flex items-center"><FiBriefcase className="w-4 h-4 mr-1.5 opacity-80" /> {job.department}</span>
+                            <span className="hidden sm:inline">|</span>
+                            <span className="flex items-center"><FiMapPin className="w-4 h-4 mr-1.5 opacity-80" /> {job.location}</span>
+                            <span className="hidden sm:inline">|</span>
+                            <span className="flex items-center"><FiClock className="w-4 h-4 mr-1.5 opacity-80" /> {job.type}</span>
+                        </div>
                     </div>
 
                     <AnimatePresence mode="wait">
@@ -176,84 +155,94 @@ export default function JobApplicationPage() {
                                 key="applicationForm"
                                 onSubmit={handleSubmitApplication}
                                 variants={formStepVariants} initial="hidden" animate="visible" exit="exit"
-                                // className="space-y-6" // Removed direct space-y from form
                             >
-                                {/* *** START UPDATED LAYOUT: Two-column grid *** */}
                                 <div className="grid md:grid-cols-2 md:gap-x-8 gap-y-6">
                                     {/* Left Column: Personal Info */}
                                     <div className="space-y-6">
-                                        <InputField label="Full Name" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required placeholder="Your full name" icon={FiUser} themeColors={colors} />
-                                        <InputField label="Email Address" id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="your@email.com" icon={FiMail} themeColors={colors} />
-                                        <InputField label="Phone (Optional)" id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="Your phone number" icon={FiPhone} themeColors={colors} />
-                                        <InputField label="Portfolio/LinkedIn Link (Optional)" id="portfolioLink" name="portfolioLink" type="url" value={formData.portfolioLink} onChange={handleChange} placeholder="https://..." icon={FiLink} themeColors={colors} />
+                                        <InputField label="Full Name" id="fullName" name="fullName" value={formData.fullName} onChange={handleChange} required placeholder="Your full name" icon={FiUser} themeColors={theme} />
+                                        <InputField label="Email Address" id="email" name="email" type="email" value={formData.email} onChange={handleChange} required placeholder="your@email.com" icon={FiMail} themeColors={theme} />
+                                        <InputField label="Phone (Optional)" id="phone" name="phone" type="tel" value={formData.phone} onChange={handleChange} placeholder="Your phone number" icon={FiPhone} themeColors={theme} />
+                                        <InputField label="Portfolio/LinkedIn Link (Optional)" id="portfolioLink" name="portfolioLink" type="url" value={formData.portfolioLink} onChange={handleChange} placeholder="https://linkedin.com/in/yourprofile or website" icon={FiLink} themeColors={theme} />
                                     </div>
 
                                     {/* Right Column: Resume and Cover Letter */}
                                     <div className="space-y-6">
                                         <div>
-                                            <label htmlFor="resume" className={`block text-sm font-medium ${colors.textSecondary} mb-1`}>
-                                                Resume/CV <span className={colors.primary}>*</span>
+                                            <label htmlFor="resumeFileField" className={`block text-sm font-medium ${theme.textSecondary} mb-1`}>
+                                                Resume/CV <span className={theme.textHighlight}>*</span>
                                             </label>
-                                            <div className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 ${colors.borderAccent} border-dashed rounded-md hover:border-cyan-400 transition-colors`}>
+                                            <div className={`mt-1 flex justify-center px-6 pt-5 pb-6 border-2 ${theme.uploadZoneBorder} border-dashed rounded-md ${theme.uploadZoneHoverBorder} transition-colors`}>
                                                 <div className="space-y-1 text-center">
-                                                    <FiUploadCloud className={`mx-auto h-10 w-10 ${colors.secondary}`} />
-                                                    <div className="flex text-sm text-slate-500">
-                                                        <label htmlFor="resumeFile" className={`relative cursor-pointer rounded-md font-medium ${colors.primary} hover:text-cyan-300 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-offset-slate-800 focus-within:ring-cyan-500`}>
+                                                    <FiUploadCloud className={`mx-auto h-10 w-10 ${theme.textMuted}`} />
+                                                    <div className={`flex text-sm ${theme.textMuted}`}>
+                                                        <label htmlFor="resumeFileField" className={`relative cursor-pointer rounded-md font-medium ${theme.textHighlight} hover:text-cyan-700 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 ${theme.inputFocusRing} ring-offset-slate-800`}>
                                                             <span>Upload a file</span>
-                                                            <input id="resumeFile" name="resumeFile" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf,.doc,.docx" required />
+                                                            <input id="resumeFileField" name="resumeFile" type="file" className="sr-only" onChange={handleFileChange} accept=".pdf,.doc,.docx,.txt" required />
                                                         </label>
                                                         <p className="pl-1">or drag and drop</p>
                                                     </div>
-                                                    <p className="text-xs text-slate-500">PDF, DOC, DOCX up to 5MB</p>
-                                                    {resumeFileName && <p className={`text-xs ${colors.accentSuccess} mt-1`}>File: {resumeFileName}</p>}
+                                                    <p className={`text-xs ${theme.textMuted}`}>PDF, DOC, DOCX, TXT up to 5MB</p>
+                                                    {resumeFileName && <p className={`text-xs ${theme.successText} mt-1`}>File: {resumeFileName}</p>}
                                                 </div>
                                             </div>
                                         </div>
-                                        <InputField label="Short Cover Letter (Optional)" id="coverLetterSnippet" name="coverLetterSnippet" type="textarea" rows={4} value={formData.coverLetterSnippet} onChange={handleChange} placeholder="Brief introduction or why you're interested..." themeColors={colors} />
+                                        <InputField label="Short Cover Letter / Why you're a good fit (Optional)" id="coverLetterSnippet" name="coverLetterSnippet" type="textarea" rows={job.title.toLowerCase().includes("product manager") ? 6 : 4} value={formData.coverLetterSnippet} onChange={handleChange} placeholder="Tell us briefly why you're interested and a good fit..." themeColors={theme} />
                                     </div>
                                 </div>
-                                {/* *** END UPDATED LAYOUT *** */}
 
-                                {/* Submit Button - Spans full width below columns */}
-                                <div className="pt-6"> {/* Added padding-top for spacing */}
-                                    <Button type="submit" variant="primary" size="lg" icon={<FiSend />} className={`w-full ${colors.neonGlowCyan}`}>
-                                        Submit Application
+                                <div className={`pt-8 mt-6 border-t ${theme.border}`}>
+                                    <Button type="submit" variant="primary" size="lg" icon={<FiSend />} className="w-full" disabled={isSubmitting}> {/* Button will use theme internally */}
+                                        {isSubmitting ? 'Submitting...' : 'Submit Application'}
                                     </Button>
                                 </div>
+                                <p className={`text-xs ${theme.textMuted} mt-4 text-center`}>
+                                    By submitting, you agree to LoyalShift's Data Privacy Policy. We are an equal opportunity employer.
+                                </p>
                             </motion.form>
                         )}
 
                         {submissionPhase === 'submitting' && (
-                            <motion.div key="submitting" variants={formStepVariants} initial="hidden" animate="visible" exit="exit" className="text-center py-10">
-                                <FiLoader className={`w-12 h-12 ${colors.iconColor} animate-spin mx-auto mb-4`} />
-                                <p className={`${colors.textSecondary}`}>Processing your application...</p>
+                            <motion.div key="submitting" variants={formStepVariants} initial="hidden" animate="visible" exit="exit" className="text-center py-20">
+                                <FiLoader className={`w-12 h-12 ${theme.textHighlight} animate-spin mx-auto mb-4`} />
+                                <p className={`${theme.textSecondary}`}>Processing your application...</p>
                             </motion.div>
                         )}
 
-                        {submissionPhase === 'status_display' && applicationStatus && (
+                        {submissionPhase === 'success' && generatedApplicationId && (
                             <motion.div
-                                key="statusDisplay"
+                                key="successScreen"
                                 variants={formStepVariants} initial="hidden" animate="visible" exit="exit"
-                                className={`text-center py-10 px-4 rounded-lg ${colors.surfaceMuted} border ${colors.border}`}
+                                className={`text-center py-12 px-4 rounded-lg ${theme.surfaceMuted} border ${theme.border}`}
                             >
-                                <FiEye className={`w-16 h-16 ${colors.iconColor} mx-auto mb-6 opacity-80`} />
-                                <h2 className={`text-2xl font-semibold ${colors.textWhite} mb-3`}>Your Application Status</h2>
-                                <p className={`text-3xl font-bold ${colors.primary} mb-4`}>
-                                    {applicationStatus}
+                                <FiCheckCircle className={`w-16 h-16 ${theme.successText} mx-auto mb-6`} />
+                                <h2 className={`text-2xl font-semibold ${theme.textPrimary} mb-3`}>Application Received!</h2>
+                                <p className={`${theme.textSecondary} text-md mb-2`}>
+                                    Thank you, {formData.fullName.split(" ")[0]}, for applying to the <strong>{job.title}</strong> position.
                                 </p>
-                                <p className={`${colors.textSecondary} text-sm mb-6 max-w-md mx-auto`}>
-                                    Thank you for your interest in LoyalShift. We will update the status here as the process moves forward. You can check this page periodically.
+                                <p className={`${theme.textSecondary} text-sm mb-6`}>
+                                    Your Application ID is: <strong className={theme.textHighlight}>{generatedApplicationId}</strong>.
+                                    <br />
+                                    We've sent a confirmation to <strong className={theme.textHighlight}>{formData.email}</strong>.
+                                    You can use the link below to track your application status.
                                 </p>
-                                <Button
-                                    onClick={handleCheckStatus}
-                                    variant="secondary"
-                                    size="base"
-                                    icon={statusLoading ? <FiLoader className="animate-spin"/> : <FiClock />}
-                                    disabled={statusLoading}
-                                    className={`border ${colors.buttonSecondaryBorder} ${colors.buttonSecondaryText} ${colors.buttonSecondaryHoverBg}`}
-                                >
-                                    {statusLoading ? "Checking..." : "Refresh Status"}
-                                </Button>
+                                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                                    <Button
+                                        to={`/job-application/${generatedApplicationId}/status`}
+                                        variant="primary" // Will use theme.buttonPrimaryBg etc.
+                                        size="base"
+                                        icon={<FiFileText />}
+                                    >
+                                        View Application Status
+                                    </Button>
+                                    <Button
+                                        to="/careers"
+                                        variant="secondary" // Will use theme.buttonSecondaryBg etc.
+                                        size="base"
+                                        icon={<FiArrowLeft />}
+                                    >
+                                        Back to Careers
+                                    </Button>
+                                </div>
                             </motion.div>
                         )}
                     </AnimatePresence>
@@ -264,10 +253,39 @@ export default function JobApplicationPage() {
 }
 
 // --- PropTypes ---
-JobApplicationPage.propTypes = {};
+JobApplicationPage.propTypes = {}; // No direct props for this page itself
 Section.propTypes = {
     children: PropTypes.node.isRequired,
     bg: PropTypes.string,
     ariaLabelledby: PropTypes.string,
     className: PropTypes.string,
+};
+// Assuming InputField and Button components are already using loyalShiftV2Theme internally
+// or are passed the theme object if they are designed to be themeable via props.
+// If InputField needs explicit theme colors passed:
+InputField.propTypes = {
+    label: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    type: PropTypes.string,
+    required: PropTypes.bool,
+    placeholder: PropTypes.string,
+    rows: PropTypes.number,
+    themeColors: PropTypes.object, // Prop to pass the theme object
+    icon: PropTypes.elementType,
+};
+Button.propTypes = {
+    to: PropTypes.string,
+    type: PropTypes.string,
+    variant: PropTypes.string, // 'primary', 'secondary', 'outline', 'text'
+    size: PropTypes.string,    // 'sm', 'base', 'lg', 'xl'
+    disabled: PropTypes.bool,
+    icon: PropTypes.node,      // Icon component for the left
+    icon: PropTypes.node,  // Explicit icon for the left
+    iconRight: PropTypes.node, // Explicit icon for the right
+    children: PropTypes.node.isRequired,
+    className: PropTypes.string,
+    onClick: PropTypes.func,
 };

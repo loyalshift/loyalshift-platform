@@ -1,335 +1,799 @@
 // src/pages/Solutions.js
-// REFINED AESTHETIC + FIXED cardGridStagger error + ADDED Agent Hub
-
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FiZap,
-  FiShare2,
+  FiCheckSquare,
   FiCpu,
   FiShield,
   FiCheckCircle,
   FiArrowRight,
-  FiLayers,
-  FiUsers // **** ADDED FiUsers ****
+  FiLock,
+  FiGitMerge,
+  FiClipboard,
+  FiTrendingUp,
+  FiChevronDown,
+  FiHexagon,
+  FiTriangle,
+  FiSquare,
+  FiTool,
+  FiEye,
+  FiBox,
 } from "react-icons/fi";
-import Button from "../components/Button"; // Adjust path if needed
 
-// Define light theme colors (consistent)
-const colors = {
-  bgBase: "bg-neutral-light", // Main page background
-  bgWhite: "bg-neutral-white", // Card backgrounds
-  textHeading: "text-neutral-dark", // Darker text for headings
-  textBody: "text-neutral-main", // Main body text color
-  textPrimary: "text-primary-main", // Accent color (Steel Blue)
-  textPrimaryDark: "text-primary-dark", // Darker accent
-  primaryMain: "bg-primary-main", // Accent background
-  primaryContrast: "text-primary-contrast", // Text on accent background
-  borderLight: "border-neutral-200", // Lighter border (used more now)
-  borderMedium: "border-neutral-300", // Medium border
-  borderDark: "border-neutral-main", // Darker border
-  borderPrimary: "border-primary-main", // Accent border
-  accentSuccess: "text-status-success", // Success color (adjusted for consistency)
-  // Dark theme colors for final CTA
-  darkBgGradient: "bg-gradient-to-br from-slate-900 to-gray-900",
-  darkTextPrimary: "text-white",
-  darkTextSecondary: "text-slate-300",
-  darkTextHighlight: "text-cyan-400",
-  darkRing: "ring-1 ring-inset ring-white/10",
-   // Added Amber colors from previous refinement (ensure these are needed/used consistently)
-   badgeGradient: "bg-gradient-to-r from-amber-500 to-amber-600",
-   amberHoverGradient: "hover:from-amber-400 hover:to-amber-500",
-   darkTextForAmber: "text-slate-900",
-   amberBorder: "border-amber-500",
-   amberBorderHover: "hover:border-amber-400",
-   textHighlightAmber: "text-amber-400",
-};
+import loyalShiftV2Theme from "../themes/loyalshift-v2.theme";
+// Assuming Button and useLocalization are correctly imported from your project structure
+import Button from "../components/Button";
+import { useLocalization } from "../components/LocalizationContext";
+import ProductDashboardSection from "../components/Solutions/ProductDashboardSection";
+
+const theme = loyalShiftV2Theme;
 
 // --- Animation Variants ---
 const viewportSettings = { once: true, amount: 0.1 };
-
 const fadeInUp = {
-  hidden: { opacity: 0, y: 25 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "circOut" } },
 };
-
 const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
 };
-
 const cardGridStagger = {
-    visible: { transition: { staggerChildren: 0.1 } }
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.1 } },
 };
-// --- End Animation Variants ---
 
-
-// Reusable list item for benefits within ProductSection
-const BenefitListItem = ({ children }) => (
-    <motion.li variants={fadeInUp} className="flex items-start py-1 group">
-      <FiCheckCircle
-        className={`w-5 h-5 ${colors.accentSuccess} mr-3 mt-0.5 flex-shrink-0 transition-transform duration-200 group-hover:scale-110`}
-        aria-hidden="true"
-      />
-      <span className={`${colors.textBody} text-base group-hover:${colors.textHeading} transition-colors`}>
-        {children}
-      </span>
-    </motion.li>
+// --- Geometric elements ---
+const GeometricElement = ({
+  shape,
+  size = 240,
+  className = "",
+  colorClass = `${theme.textHighlight}/5`,
+}) => {
+  const IconComponent =
+    { hexagon: FiHexagon, triangle: FiTriangle, square: FiSquare }[shape] ||
+    FiHexagon;
+  return (
+    <IconComponent
+      className={`${colorClass} ${className} absolute`}
+      size={size}
+      style={{ filter: "blur(1.5px)", opacity: 0.07 }}
+    />
   );
-BenefitListItem.propTypes = { children: PropTypes.node.isRequired };
+};
 
+// --- Reusable Components ---
+const SectionWrapper = ({
+  children,
+  className = "",
+  bg = theme.background,
+  id,
+  noContainer = false,
+  bleedTop = false,
+  bleedBottom = false,
+}) => (
+  <motion.section
+    id={id}
+    className={`relative ${bleedTop ? "pt-0" : "py-20 md:py-28"} ${
+      bleedBottom ? "pb-0" : "py-20 md:py-28"
+    } ${bg} ${className}`}
+    initial="hidden"
+    whileInView="visible"
+    viewport={viewportSettings}
+    variants={staggerContainer}
+  >
+    {noContainer ? (
+      children
+    ) : (
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        {children}
+      </div>
+    )}
+  </motion.section>
+);
 
-// --- ProductSection Component ---
-const ProductSection = ({ icon: Icon, title, description, benefits }) => (
+const SectionTitle = ({
+  t,
+  titleKey,
+  subtitleKey,
+  defaultTitle,
+  defaultSubtitle,
+  align = "text-center",
+  className = "",
+}) => (
+  <motion.div
+    className={`mb-12 md:mb-16 ${align} ${className}`}
+    variants={fadeInUp}
+  >
+    {subtitleKey && (
+      <p
+        className={`text-base font-semibold ${theme.textHighlight} uppercase tracking-wider mb-3`}
+      >
+        {t(subtitleKey, defaultSubtitle)}
+      </p>
+    )}
+    <h2 className={`text-4xl md:text-5xl font-bold ${theme.textPrimary}`}>
+      {t(titleKey, defaultTitle)}
+    </h2>
+  </motion.div>
+);
+
+const BenefitListItem = ({ children, t, itemKey }) => (
+  <motion.li variants={fadeInUp} className="flex items-start py-1.5 group">
+    <FiCheckCircle
+      className={`w-5 h-5 ${theme.textHighlight} mr-3 mt-1 flex-shrink-0 transition-transform duration-200 group-hover:scale-110`}
+    />
+    <span
+      className={`${theme.textSecondary} text-base group-hover:${theme.textPrimary} transition-colors`}
+    >
+      {t(itemKey, children)}
+    </span>
+  </motion.li>
+);
+
+const ProductSection = ({ product, t }) => {
+  const [useCasesVisible, setUseCasesVisible] = useState(false);
+  const IconComponent = product.icon;
+
+  return (
     <motion.div
       variants={fadeInUp}
-      className={`flex flex-col p-8 rounded-2xl shadow-xl border ${colors.borderLight} ${colors.bgWhite} transition-all duration-300 hover:shadow-2xl hover:border-primary-main/30`}
-      whileHover={{ y: -5 }}
+      className={`flex flex-col ${theme.surfaceCard} rounded-2xl ${theme.cardShadow} overflow-hidden transition-all duration-300 ease-out group border ${theme.borderLight} hover:border-cyan-500/40`}
+      whileHover={{
+        y: -8,
+        scale: 1.02,
+        boxShadow: "0 25px 50px -12px rgba(0, 174, 239, 0.15)",
+      }}
     >
-      <div className="flex items-center mb-6">
-        <div className={`inline-flex p-4 rounded-xl mr-5 flex-shrink-0 bg-gradient-to-br ${colors.primaryMain}/10 from-primary-main/10 to-primary-main/5 border ${colors.borderPrimary}/20 shadow-inner`}>
-          {/* Render Icon component directly */}
-          <Icon className={`w-10 h-10 ${colors.textPrimary}`} />
+      <div className="p-6 md:p-8">
+        <div className="flex items-start sm:items-center mb-5">
+          <div
+            className={`relative inline-flex p-3.5 items-center justify-center rounded-xl mr-4 sm:mr-5 flex-shrink-0 ${theme.surfaceMuted} border ${theme.borderLight} shadow-inner`}
+          >
+            <div
+              className={`absolute inset-0 rounded-xl bg-gradient-to-br from-cyan-400/20 to-blue-500/10 opacity-0 group-hover:opacity-75 transition-opacity duration-300 blur-sm`}
+            ></div>
+            <IconComponent
+              className={`relative z-10 w-8 h-8 ${theme.textHighlight} transition-transform duration-300 group-hover:scale-110`}
+            />
+          </div>
+          <div>
+            <h3 className={`text-2xl font-semibold ${theme.textPrimary}`}>
+              {t(product.titleKey, product.defaultTitle)}
+            </h3>
+            {product.categoryKey && (
+              <p
+                className={`text-xs ${theme.textMuted} uppercase tracking-wider`}
+              >
+                {t(product.categoryKey, product.defaultCategory)}
+              </p>
+            )}
+          </div>
         </div>
-        <h3 className={`text-2xl font-semibold ${colors.textHeading}`}>
-          {title}
-        </h3>
-      </div>
-      <p className={`text-base ${colors.textBody} mb-6 leading-relaxed flex-grow`}>
-        {description}
-      </p>
-      <div className={`mt-auto pt-6 border-t ${colors.borderLight}`}>
-        <h4 className={`text-sm font-semibold ${colors.textBody} mb-3 uppercase tracking-wider`}>
-          Key Benefits:
-        </h4>
-        <motion.ul
-           className="list-none pl-0 space-y-2"
-           variants={staggerContainer} // Stagger list items within the card
-           initial="hidden"
-           animate="visible" // Animate when card becomes visible
+        <p className={`text-sm ${theme.accentCyan} font-medium italic mb-2`}>
+          {t(product.missionKey, product.defaultMission)}
+        </p>
+        {product.visionKey && (
+          <p className={`text-xs ${theme.textMuted} italic mb-3`}>
+            {t(product.visionKey, product.defaultVision)}
+          </p>
+        )}
+        <p
+          className={`text-base ${theme.textSecondary} mb-5 leading-relaxed flex-grow min-h-[5rem]`}
         >
-          {benefits.map((benefit, i) => (
-            <BenefitListItem key={i}>{benefit}</BenefitListItem>
-          ))}
-        </motion.ul>
+          {t(product.descriptionKey, product.defaultDescription)}
+        </p>
       </div>
+
+      {product.benefits && product.benefits.length > 0 && (
+        <div
+          className={`px-6 md:px-8 py-5 ${theme.surfaceMuted} border-t ${theme.borderLight}`}
+        >
+          <h4
+            className={`text-sm font-semibold ${theme.textSecondary} mb-3 uppercase tracking-wider`}
+          >
+            {t("solutionsPage.keyBenefits", "Key Benefits:")}
+          </h4>
+          <motion.ul
+            className="list-none pl-0 space-y-1.5"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+          >
+            {product.benefits.map((benefitKey, i) => (
+              <BenefitListItem key={i} itemKey={benefitKey} t={t} />
+            ))}
+          </motion.ul>
+        </div>
+      )}
+
+      {product.useCases && product.useCases.length > 0 && (
+        <div className={`px-6 md:px-8 py-4 border-t ${theme.borderLight}`}>
+          <button
+            onClick={() => setUseCasesVisible(!useCasesVisible)}
+            className={`w-full flex justify-between items-center py-2 text-left text-sm font-semibold ${theme.textHighlight} hover:text-cyan-700 transition-colors ${theme.focusRingDefault}`}
+            aria-expanded={useCasesVisible}
+          >
+            {t("solutionsPage.viewUseCases", "View Enterprise Use Cases")}
+            <motion.div animate={{ rotate: useCasesVisible ? 180 : 0 }}>
+              <FiChevronDown className="w-5 h-5" />
+            </motion.div>
+          </button>
+          <AnimatePresence>
+            {useCasesVisible && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: "auto" }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="mt-3 space-y-3 overflow-hidden text-xs"
+              >
+                {product.useCases.map((uc, i) => (
+                  <div
+                    key={i}
+                    className={`p-3 rounded-md ${theme.surfaceMuted} border ${theme.borderLight}`}
+                  >
+                    <h5 className={`font-semibold ${theme.textPrimary} mb-0.5`}>
+                      {t(uc.titleKey)}
+                    </h5>
+                    <p className={`${theme.textSecondary} mb-0.5`}>
+                      <strong className={theme.textPrimary}>Problem:</strong>{" "}
+                      {t(uc.problemKey)}
+                    </p>
+                    <p className={`${theme.textSecondary} mb-0.5`}>
+                      <strong className={theme.textPrimary}>Solution:</strong>{" "}
+                      {t(uc.solutionKey)}
+                    </p>
+                    <p className={`${theme.textSecondary}`}>
+                      <strong className={theme.textPrimary}>Outcome:</strong>{" "}
+                      {t(uc.outcomeKey)}
+                    </p>
+                  </div>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      )}
+
+      {/* {product.industryTable && product.industryTable.length > 0 && (
+        <div
+          className={`px-6 md:px-8 py-4 border-t ${theme.borderLight} overflow-x-auto`}
+        >
+          <h4
+            className={`text-sm font-semibold ${theme.textSecondary} mb-3 uppercase tracking-wider`}
+          >
+            {t(
+              product.industryUsageTitleKey ||
+                "solutionsPage.industryUsageTitle",
+              "Industry Adoption"
+            )}
+          </h4>
+          <table className="min-w-full text-xs">
+            <thead className={`${theme.tableHeaderBg}`}>
+              <tr>
+                <th
+                  className={`py-2 px-3 text-left font-medium ${theme.textSecondary} uppercase`}
+                >
+                  {t("solutionsPage.tableHeaderIndustry", "Industry")}
+                </th>
+                <th
+                  className={`py-2 px-3 text-left font-medium ${theme.textSecondary} uppercase`}
+                >
+                  {t("solutionsPage.tableHeaderUsage", "Usage %")}
+                </th>
+                <th
+                  className={`py-2 px-3 text-left font-medium ${theme.textSecondary} uppercase`}
+                >
+                  {t(
+                    "solutionsPage.tableHeaderApplications",
+                    "Primary Applications"
+                  )}
+                </th>
+              </tr>
+            </thead>
+            <tbody className={theme.textSecondary}>
+              {product.industryTable.map((row, i) => (
+                <tr
+                  key={i}
+                  className={`border-b ${theme.borderLight} last:border-b-0 hover:${theme.tableRowStripeBg}`}
+                >
+                  <td className={`py-2 px-3 ${theme.textPrimary}`}>
+                    {t(row.industryKey)}
+                  </td>
+                  <td className="py-2 px-3">{row.usagePercent}</td>
+                  <td className="py-2 px-3">{t(row.applicationsKey)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )} */}
+      {product.specificCtaKey && (
+        <div
+          className={`p-6 md:p-8 mt-auto border-t ${theme.borderLight} ${theme.surfaceMuted}`}
+        >
+          <p
+            className={`text-sm italic ${theme.textHighlight} text-center`}
+            dangerouslySetInnerHTML={{
+              __html: t(product.specificCtaKey).replace(
+                /\*(.*?)\*/g,
+                `<strong class="${theme.accentCyan}"><em>$1</em></strong>`
+              ),
+            }}
+          />
+        </div>
+      )}
     </motion.div>
   );
-ProductSection.propTypes = {
-    icon: PropTypes.elementType.isRequired,
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    benefits: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
+const IndustrySolutionCard = ({
+  t,
+  titleKey,
+  stackKey,
+  roiKey,
+  implementationKey,
+  edgeKey,
+  theme,
+}) => (
+  <motion.div
+    variants={fadeInUp}
+    className={`${theme.surface} rounded-lg border ${theme.borderLight} p-5`}
+  >
+    <h3 className={`text-lg font-medium ${theme.textPrimary} mb-4`}>
+      {t(titleKey)}
+    </h3>
+
+    <div className="space-y-4 text-sm">
+      <div>
+        <h4 className={`font-medium ${theme.textPrimary} mb-1`}>
+          {t("solutionsPage.solutionStack", "Solution Components:")}
+        </h4>
+        <p className={theme.textSecondary}>{t(stackKey)}</p>
+      </div>
+
+      <div>
+        <h4 className={`font-medium ${theme.textPrimary} mb-1`}>
+          {t("solutionsPage.businessImpact", "Business Impact:")}
+        </h4>
+        <p className={theme.textSecondary}>{t(roiKey)}</p>
+      </div>
+
+      <div>
+        <h4 className={`font-medium ${theme.textPrimary} mb-1`}>
+          {t("solutionsPage.deployment", "Deployment Characteristics:")}
+        </h4>
+        <p className={theme.textSecondary}>{t(implementationKey)}</p>
+      </div>
+
+      <div className={`mt-4 pt-4 border-t ${theme.borderLight}`}>
+        <h4 className={`font-medium ${theme.textPrimary} mb-1`}>
+          {t(
+            "solutionsPage.technicalDifferentiator",
+            "Technical Differentiator:"
+          )}
+        </h4>
+        <p className={`${theme.textPrimary}`}>{t(edgeKey)}</p>
+      </div>
+    </div>
+  </motion.div>
+);
 
 // --- Main Solutions Component ---
 export default function Solutions() {
+  const { t } = useLocalization();
 
-  // --- UPDATED Product Data with Agent Hub™ Module ---
-  const products = [
+  const crossModuleSynergiesData = [
     {
-      id: "smart-mirror",
-      icon: FiZap,
-      title: "Smart Mirror™",
-      description:
-        "Safely validate changes against live data in a parallel environment using Smart Mirror™. Test integrations and workflows with zero risk to your operational systems, ensuring confident, disruption-free deployments.",
-      benefits: [
-        "Validate changes risk-free before deployment.",
-        "Eliminate 'big bang' cutover failures.",
-        "Ensure business continuity during updates.",
-        "Achieve phased, confident rollouts.",
-        "Accelerate testing cycles significantly."
-      ],
+      challengeKey: "solutionsEnterprise.synergy.bankMA.challenge",
+      solutionStackKey: "solutionsEnterprise.synergy.bankMA.stack",
+      impactKey: "solutionsEnterprise.synergy.bankMA.impact",
     },
     {
-      id: "universal-adapter",
-      icon: FiShare2,
-      title: "Universal Adapter™",
-      description:
-        "Bridge legacy and modern systems instantly with Universal Adapter™. Unlock siloed data through a unified API layer, enabling real-time sync and new applications without costly migrations.",
-      benefits: [
-        "Unlock data trapped in siloed systems.",
-        "Integrate with 200+ sources via pre-built & custom adapters.",
-        "Enable real-time data synchronization & modern applications.",
-        "Avoid costly, high-risk data migration projects.",
-        "Simplify new development and integration efforts."
-      ],
+      challengeKey: "solutionsEnterprise.synergy.manufacturing.challenge",
+      solutionStackKey: "solutionsEnterprise.synergy.manufacturing.stack",
+      impactKey: "solutionsEnterprise.synergy.manufacturing.impact",
     },
     {
-      id: "audit-guardian",
-      icon: FiShield,
-      title: "Audit Guardian™",
-      description:
-        "Embed compliance and trust with Audit Guardian™. Enforce custom rules (SOC2, HIPAA, SUGEF) and maintain immutable audit trails for all AI/human actions, simplifying reporting and ensuring security.",
-      benefits: [
-        "Customize compliance rules for specific laws & policies.",
-        "Guarantee workflow privacy and data security.",
-        "Provide complete transparency with traceable AI decisions.",
-        "Automate compliance logging and reporting.",
-        "Reduce audit preparation time and costs."
-      ],
+      challengeKey: "solutionsEnterprise.synergy.government.challenge",
+      solutionStackKey: "solutionsEnterprise.synergy.government.stack",
+      impactKey: "solutionsEnterprise.synergy.government.impact",
     },
-    {
-      id: "ai-insights",
-      icon: FiCpu,
-      title: "AI-Powered Insights Engine",
-      description:
-        "Leverage Explainable AI (XAI) to analyze your operational data via our Insights Engine. Proactively identify bottlenecks and receive data-driven recommendations for continuous process optimization.",
-      benefits: [
-        "Identify hidden process inefficiencies proactively.",
-        "Improve forecasting accuracy with ML.",
-        "Make data-backed strategic decisions.",
-        "Enable a continuous improvement loop.",
-        "Unlock insights previously buried in legacy data."
-      ]
-    },
-    // **** NEW AGENT HUB MODULE ****
-    {
-        id: "agent-hub",
-        icon: FiUsers, // Icon representing agents/partnerships
-        title: "Agent Hub™ Module",
-        description:
-          "Empower your partners (like real estate agents) with a dedicated portal built on our core tech. Streamline application intake, document management, and status communication for faster, smoother collaboration.",
-        benefits: [
-          "Accelerate partner-driven workflows (e.g., loan origination).",
-          "Enhance partner experience and loyalty.",
-          "Reduce manual processing for internal teams.",
-          "Provide transparency for all stakeholders.",
-          "Rapidly deployable and customizable solution foundation."
-        ]
-      }
-    // **** END NEW MODULE ****
   ];
-
-
-  const workflowTransformationData = { icon: FiCpu, title: "Intelligent Workflow Transformation", subtitle: "Leveraging AI-Powered Process Automation", description: "Beyond simple connection and safety, we transform your core processes...", benefits: ["Dramatically reduce manual effort (>80%)", "Automate document understanding", "Implement intelligent exception handling", "Free up employees for strategic work", "Increase efficiency & reduce errors"] };
-
+  const legacyInterfaces = [
+    "solutionsEnterprise.legacyInterface.mainframe",
+    "solutionsEnterprise.legacyInterface.industrial",
+    "solutionsEnterprise.legacyInterface.database",
+    "solutionsEnterprise.legacyInterface.document",
+  ];
+  const strategicValuePoints = [
+    "solutionsEnterprise.strategicValue.deRisked",
+    "solutionsEnterprise.strategicValue.roiExtension",
+    "solutionsEnterprise.strategicValue.complianceAuto",
+    "solutionsEnterprise.strategicValue.partnerEco",
+    "solutionsEnterprise.strategicValue.aiAdoption",
+  ];
+  const industrySolutionsData = [
+    {
+      titleKey: "solutionsEnterprise.bankingSolutionTitle",
+      stackKey: "solutionsEnterprise.bankingSolution.stack",
+      roiKey: "solutionsEnterprise.bankingSolution.businessImpact",
+      implementationKey: "solutionsEnterprise.bankingSolution.deployment",
+      edgeKey: "solutionsEnterprise.bankingSolution.technicalDifferentiator",
+    },
+    {
+      titleKey: "solutionsEnterprise.healthcareSolutionTitle",
+      stackKey: "solutionsEnterprise.healthcareSolution.stack",
+      roiKey: "solutionsEnterprise.healthcareSolution.businessImpact",
+      implementationKey: "solutionsEnterprise.healthcareSolution.deployment",
+      edgeKey: "solutionsEnterprise.healthcareSolution.technicalDifferentiator",
+    },
+    {
+      titleKey: "solutionsEnterprise.energySolutionTitle",
+      stackKey: "solutionsEnterprise.energySolution.stack",
+      roiKey: "solutionsEnterprise.energySolution.businessImpact",
+      implementationKey: "solutionsEnterprise.energySolution.deployment",
+      edgeKey: "solutionsEnterprise.energySolution.technicalDifferentiator",
+    },
+  ];
+  const workflowTransformationData = {
+    icon: FiTool,
+    titleKey: "solutionsEnterprise.workflow.title",
+    subtitleKey: "solutionsEnterprise.workflow.subtitle",
+    descriptionKey: "solutionsEnterprise.workflow.descriptionP1",
+    benefitsPreambleKey: "solutionsEnterprise.workflow.descriptionP2",
+    benefits: [
+      "solutionsEnterprise.workflow.benefit1",
+      "solutionsEnterprise.workflow.benefit2",
+      "solutionsEnterprise.workflow.benefit3",
+      "solutionsEnterprise.workflow.benefit4",
+      "solutionsEnterprise.workflow.benefit5",
+    ],
+  };
+  const geometricFeatureCardsData = [
+    {
+      icon: FiZap,
+      titleKey: "solutionsPage.geometricFeatures.featureCard1Title",
+      descKey: "solutionsPage.geometricFeatures.featureCard1Desc",
+      defaultTitle: "Speed & Agility",
+      defaultDesc: "Accelerated timelines for modernization projects.",
+      bg: "bg-cyan-50",
+    },
+    {
+      icon: FiShield,
+      titleKey: "solutionsPage.geometricFeatures.featureCard2Title",
+      descKey: "solutionsPage.geometricFeatures.featureCard2Desc",
+      defaultTitle: "Enhanced Security",
+      defaultDesc: "Robust protection for your critical data and systems.",
+      bg: "bg-amber-50",
+    },
+    {
+      icon: FiTrendingUp,
+      titleKey: "solutionsPage.geometricFeatures.featureCard3Title",
+      descKey: "solutionsPage.geometricFeatures.featureCard3Desc",
+      defaultTitle: "Scalable Growth",
+      defaultDesc: "Future-proof architecture that adapts to your needs.",
+      bg: "bg-cyan-50",
+    },
+    {
+      icon: FiLock,
+      titleKey: "solutionsPage.geometricFeatures.featureCard4Title",
+      descKey: "solutionsPage.geometricFeatures.featureCard4Desc",
+      defaultTitle: "Data Integrity",
+      defaultDesc: "Ensuring accuracy and consistency across systems.",
+      bg: "bg-amber-50",
+    },
+  ];
+  const geometricFeatureListItems = [
+    {
+      titleKey: "solutionsPage.geometricFeatures.featureList1Title",
+      descKey: "solutionsPage.geometricFeatures.featureList1Desc",
+      defaultTitle: "Precision Engineering",
+      defaultDesc:
+        "Algorithmic solutions tailored to your unique infrastructure and data landscape.",
+    },
+    {
+      titleKey: "solutionsPage.geometricFeatures.featureList2Title",
+      descKey: "solutionsPage.geometricFeatures.featureList2Desc",
+      defaultTitle: "Optimized Pathways",
+      defaultDesc:
+        "AI identifies the most efficient routes for modernization and integration.",
+    },
+    {
+      titleKey: "solutionsPage.geometricFeatures.featureList3Title",
+      descKey: "solutionsPage.geometricFeatures.featureList3Desc",
+      defaultTitle: "Risk Mitigation",
+      defaultDesc:
+        "Geometric modeling helps foresee and mitigate potential disruption points proactively.",
+    },
+  ];
+  // --- End Data ---
 
   return (
-    <div className={`${colors.bgBase} py-16 md:py-24 overflow-x-hidden relative`}>
-       {/* Subtle Background Decorative Blobs */}
-       <div className="absolute top-0 left-0 w-1/2 h-1/2 bg-gradient-to-br from-primary-main/5 via-transparent to-transparent -translate-x-1/3 -translate-y-1/4 opacity-40 blur-3xl pointer-events-none" aria-hidden="true"></div>
-       <div className="absolute bottom-0 right-0 w-1/3 h-1/3 bg-gradient-to-tl from-status-success/5 via-transparent to-transparent translate-x-1/4 translate-y-1/4 opacity-30 blur-3xl pointer-events-none" aria-hidden="true"></div>
+    <div className={`${theme.background} py-0 overflow-x-hidden relative`}>
+      {/* --- Hero Section --- */}
+      <section className="relative mt-16 py-10 md:py-20 text-center">
+        <div className="container mx-auto relative">
+          <div className="max-w-3xl xl:max-w-4xl mx-auto">
+            <motion.h1
+              className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold ${theme.textPrimary} mb-6 leading-tight`}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+            >
+              <span className="block">
+                {t("solutionsPage.heroTitle1", "Modernize Your Legacy Systems")}
+              </span>
+              <span className={`block ${theme.textHighlight} mt-2`}>
+                {t("solutionsPage.heroTitle2", "Without Disruption")}
+              </span>
+            </motion.h1>
+            <motion.p
+              className={`text-lg md:text-xl ${theme.textSecondary} max-w-2xl mx-auto mb-10`}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+            >
+              {t(
+                "solutionsPage.heroSubtitle",
+                "Transform outdated systems into agile, efficient operations with our AI-powered solutions, leveraging geometric intelligence for unparalleled precision and safety."
+              )}
+            </motion.p>
+            <motion.div
+              className="flex flex-col sm:flex-row justify-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.6, ease: "easeOut" }}
+            >
+              <Button
+                to="/contact"
+                variant="outline"
+                size="lg"
+                className={`border-2 ${theme.accentCyan} ${theme.accentCyan} px-8 py-3.5 font-bold hover:bg-cyan-500/10 hover:border-cyan-700 shadow-sm hover:shadow-md transition-all ${theme.focusRingDefault} ring-offset-2 ring-offset-[#FDFDFD]`}
+              >
+                {t("solutionsPage.ctaExperts", "Talk to Experts")}
+              </Button>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
+      <ProductDashboardSection />
 
-      <div className="container mx-auto px-4 relative z-10">
-        {/* --- Refined Hero Section --- */}
-        <motion.section className="text-center mt-16 mb-20 md:mb-28" initial="hidden" animate="visible" variants={staggerContainer}>
-           {/* ... Hero Content ... */}
-           <motion.div variants={fadeInUp} className={`inline-block p-6 bg-white rounded-full mb-6 shadow-lg border ${colors.borderLight}`}>
-             <FiLayers className={`w-16 h-16 md:w-20 md:w-20 ${colors.textPrimary}`} />
-           </motion.div>
-           <motion.h1 variants={fadeInUp} className={`text-4xl sm:text-5xl md:text-6xl font-bold ${colors.textHeading} mb-5 leading-tight max-w-4xl mx-auto`}>
-             Intelligent Solutions for <br className="sm:hidden"/>
-             <span className={` ${colors.textPrimary}`}>
-               Legacy System Modernization
-             </span>
-           </motion.h1>
-           <motion.p variants={fadeInUp} className={`text-lg md:text-xl ${colors.textBody} max-w-3xl mx-auto`}>
-             Leverage LoyalShift's core framework and explainable AI to transform outdated systems into agile, efficient, and compliant operations—without the disruption.
-           </motion.p>
-        </motion.section>
-
-        {/* --- Core Products Section - Grid Layout --- */}
-        <motion.section
-          className={`mb-20 md:mb-28`}
-          aria-labelledby="core-tech-title"
+      {/* --- Our Lab Section --- */}
+      <SectionWrapper id="our-lab" bg={theme.surfaceMuted}>
+        <SectionTitle
+          t={t}
+          titleKey="solutionsEnterprise.ourLabTitle"
+          defaultTitle="Our Lab: Integrating the Future"
+          subtitleKey="solutionsEnterprise.ourLabSubtitle"
+          defaultSubtitle="Where Innovation Meets Integration"
+        />
+        <motion.div
+          className="max-w-3xl mx-auto text-center"
+          variants={fadeInUp}
         >
+          <p className={`${theme.textSecondary} text-lg leading-relaxed mb-6`}>
+            {t("solutionsEnterprise.ourLabTextP1")}
+          </p>
+          <p className={`${theme.textSecondary} text-lg leading-relaxed mb-10`}>
+            {t("solutionsEnterprise.ourLabTextP2")}
+          </p>
+          <div className="grid sm:grid-cols-3 gap-6 text-left">
+            {[
+              {
+                icon: (
+                  <FiGitMerge
+                    className={`w-7 h-7 mb-2 ${theme.textHighlight}`}
+                  />
+                ),
+                key: "solutionsEnterprise.ourLabFocus1",
+                default: "Cross-Platform Agentic Workflows",
+              },
+              {
+                icon: (
+                  <FiCpu className={`w-7 h-7 mb-2 ${theme.textHighlight}`} />
+                ),
+                key: "solutionsEnterprise.ourLabFocus2",
+                default: "Physics-Informed AI Validation",
+              },
+              {
+                icon: (
+                  <FiShield className={`w-7 h-7 mb-2 ${theme.textHighlight}`} />
+                ),
+                key: "solutionsEnterprise.ourLabFocus3",
+                default: "Quantum-Resilient Security Architectures",
+              },
+            ].map((focus) => (
+              <motion.div
+                key={focus.key}
+                variants={fadeInUp}
+                className={`p-6 rounded-lg ${theme.surface} border ${theme.borderLight} ${theme.cardShadow}`}
+              >
+                {focus.icon}
+                <h4 className={`font-semibold ${theme.textPrimary}`}>
+                  {t(focus.key, focus.default)}
+                </h4>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+      </SectionWrapper>
+
+      {/* --- Strategic Benefits --- */}
+      <SectionWrapper id="strategic-benefits" bg={theme.surfaceMuted}>
+        <SectionTitle
+          t={t}
+          titleKey="solutionsEnterprise.strategicValueTitle"
+          defaultTitle="Strategic Benefits"
+          subtitleKey="solutionsEnterprise.strategicValueSubtitle"
+          defaultSubtitle="Enhancing operational efficiency and business outcomes"
+        />
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+          {strategicValuePoints.map((key) => (
+            <motion.div
+              key={key}
+              variants={fadeInUp}
+              className={`p-4 rounded-lg ${theme.surface} border ${theme.borderLight} flex flex-col`}
+            >
+              <FiCheckCircle
+                className={`w-5 h-5 mb-2 ${theme.textSecondary}`}
+              />
+              <h4 className={`font-medium ${theme.textPrimary} text-base`}>
+                {t(key)}
+              </h4>
+            </motion.div>
+          ))}
+        </div>
+      </SectionWrapper>
+
+      {/* --- Industry-Specific Battle Cards --- */}
+      <SectionWrapper id="battle-cards" bg={theme.background}>
+        <SectionTitle
+          t={t}
+          titleKey="solutionsEnterprise.battleCardsTitle"
+          defaultTitle="Industry-Specific Accelerators"
+          subtitleKey="solutionsEnterprise.battleCardsSubtitle"
+          defaultSubtitle="Tailored Solutions, Proven ROI"
+        />
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-8">
+          {industrySolutionsData.map((card) => (
+            <IndustrySolutionCard
+              key={card.titleKey}
+              t={t}
+              theme={theme}
+              {...card}
+            />
+          ))}
+        </div>
+      </SectionWrapper>
+
+      <section
+        className={`relative py-20 md:py-24 px-6 md:px-8 ${theme.surfaceMuted} rounded-none sm:rounded-2xl ${theme.cardShadow} text-center overflow-hidden border ${theme.border}`}
+      >
+        <div
+          className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
+          aria-hidden="true"
+        >
+          <div
+            className={`w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl opacity-70`}
+          ></div>
+        </div>
+        <div
+          className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3"
+          aria-hidden="true"
+        >
+          <div
+            className={`w-72 h-72 bg-amber-500/5 rounded-full blur-3xl opacity-70`}
+          ></div>
+        </div>
+
+        <div className="relative z-10">
           <motion.h2
-            id="core-tech-title"
             variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
-            className={`text-3xl md:text-4xl font-bold ${colors.textHeading} text-center mb-16 md:mb-20`}
+            className={`text-4xl md:text-5xl font-extrabold ${theme.textPrimary} mb-5 max-w-3xl mx-auto leading-tight`}
           >
-            Our Core Technology Suite & Modules
+            {t("solutionsPage.finalCta.titleMain", "Ready to Modernize")}{" "}
+            <span className={theme.textHighlight}>
+              {t("solutionsPage.finalCta.titleAccent", "Without Disruption?")}
+            </span>
           </motion.h2>
-           {/* Using lg:grid-cols-2 still, will wrap the 5th item */}
-          <motion.div
-            className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-12 max-w-5xl mx-auto"
-            variants={cardGridStagger}
+          <motion.p
+            variants={fadeInUp}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
+            transition={{ delay: 0.1 }}
+            className={`text-lg ${theme.textSecondary} max-w-2xl mx-auto mb-12 leading-relaxed`}
+          >
+            {t(
+              "solutionsPage.finalCta.subtitle",
+              "Discover how our unique AI-driven approach delivers measurable results, guaranteed security, and a seamless transition. Request a personalized assessment today."
+            )}
+          </motion.p>
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewportSettings}
+            transition={{ delay: 0.2 }}
+            className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-5"
+          >
+            <Button
+              to="/contact"
+              size="xl"
+              variant="primary"
+              icon={<FiArrowRight />}
             >
-            {products.map((product) => (
-              <ProductSection
-                key={product.id}
-                icon={product.icon}
-                title={product.title}
-                description={product.description}
-                benefits={product.benefits}
-              />
-            ))}
+              {t("solutionsPage.finalCta.ctaDemo", "Request Personalized Demo")}
+            </Button>
+            <Button to="/contact" size="xl" variant="secondary">
+              {t("solutionsPage.finalCta.ctaSales", "Talk to Sales")}
+            </Button>
+            <Button
+              to="/case-studies"
+              variant="text"
+              size="lg"
+              icon={<FiArrowRight />}
+              className={`${theme.textSecondary} hover:${theme.focusRingDefault} hover:underline ${theme.buttonSecondaryBg} rounded-md`}
+            >
+              {t("solutionsPage.finalCta.ctaCases", "See Client Results")}
+            </Button>
           </motion.div>
-        </motion.section>
-
-        {/* --- Intelligent Workflow Transformation Section --- */}
-        <motion.section
-             className={`py-20 md:py-24 my-20 md:my-28 bg-white rounded-3xl shadow-2xl border ${colors.borderLight} px-8 md:px-12 relative overflow-hidden`}
-             initial="hidden" whileInView="visible" viewport={viewportSettings} variants={fadeInUp} aria-labelledby="workflow-title"
-        >
-            {/* ... Workflow section content remains the same ... */}
-             <div className={`absolute top-0 left-0 -translate-x-1/4 -translate-y-1/4 w-64 h-64 ${colors.primaryMain}/5 rounded-full blur-3xl opacity-50`} aria-hidden="true"></div>
-             <div className={`absolute bottom-0 right-0 translate-x-1/4 translate-y-1/4 w-80 h-80 ${colors.primaryMain}/10 rounded-full blur-3xl opacity-60`} aria-hidden="true"></div>
-             <div className={`relative z-10 max-w-4xl mx-auto border-l-4 ${colors.borderPrimary} pl-8 md:pl-12`}>
-                  <div className="flex flex-col md:flex-row items-center mb-8 text-center md:text-left">
-                     <div className={`inline-flex p-5 rounded-2xl mr-0 md:mr-8 mb-5 md:mb-0 flex-shrink-0 bg-gradient-to-br ${colors.primaryMain}/10 from-primary-main/10 to-primary-main/5 border ${colors.borderPrimary}/20`}>
-                         <workflowTransformationData.icon className={`w-16 h-16 md:w-20 md:w-20 ${colors.textPrimary}`} />
-                     </div>
-                     <div>
-                         <h2 id="workflow-title" className={`text-3xl md:text-4xl font-bold ${colors.textHeading}`}>{workflowTransformationData.title}</h2>
-                         <p className={`text-xl font-semibold ${colors.textPrimary}`}>{workflowTransformationData.subtitle}</p>
-                     </div>
-                 </div>
-                 <p className={`text-lg ${colors.textBody} mb-6`}>{workflowTransformationData.description}</p>
-                 <p className={`text-lg ${colors.textBody} mb-10 font-medium ${colors.textHeading}`}>Because every business process is unique, a personalized strategy call is the best way to map how our AI automation can specifically address your challenges and unlock new efficiencies.</p>
-                 <div className="text-center mt-10">
-                     <Button to="/contact?subject=WorkflowTransformationCall" variant="primary" size="lg" icon={<FiArrowRight/>} className="shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">Schedule a Workflow Strategy Call</Button>
-                 </div>
-             </div>
-        </motion.section>
-
-        {/* --- Refined Implementation Snippet --- */}
-        <motion.section
-             className={`my-20 md:my-28 pt-16 md:pt-20 border-t ${colors.borderMedium} text-center`}
-             initial="hidden" whileInView="visible" viewport={viewportSettings} variants={staggerContainer} aria-labelledby="implementation-title"
-        >
-           {/* ... Implementation section content remains the same ... */}
-            <motion.h2 id="implementation-title" variants={fadeInUp} className={`text-3xl md:text-4xl font-bold ${colors.textHeading} mb-6`}>Phased Implementation, Rapid Value</motion.h2>
-            <motion.p variants={fadeInUp} className={`text-lg ${colors.textBody} max-w-3xl mx-auto mb-16`}>Our proven methodology ensures a smooth, low-risk transition with tangible outcomes delivered quickly:</motion.p>
-            <div className="flex flex-col md:flex-row justify-center gap-8 max-w-5xl mx-auto">
-                  {[ { week: "Weeks 1-2", title: "Discovery & Pilot Design", desc: "Collaborative system mapping and design of the initial high-impact pilot workflow."}, { week: "Weeks 3-4", title: "First Workflow Live", desc: "Deployment and validation of the first automated process using Smart Mirror™."}, { week: "Months 2-3+", title: "Scaled Rollout & ROI", desc: "Iterative expansion across departments, focusing on maximizing business value."},].map((phase, index) => ( <motion.div key={index} variants={fadeInUp} className={`p-8 rounded-xl ${colors.bgWhite} shadow-xl border ${colors.borderLight} text-left flex-1 min-w-[280px] transition-all duration-300 group hover:shadow-cyan-500/10 hover:border-primary-main/30`} whileHover={{ y: -4, scale: 1.02 }}>
-                      <p className={`text-sm font-bold ${colors.textPrimary} mb-2 uppercase tracking-wider group-hover:text-primary-dark transition-colors`}>{phase.week}</p>
-                      <h3 className={`text-xl font-semibold ${colors.textHeading} mb-3`}>{phase.title}</h3>
-                      <p className={`text-base ${colors.textBody}`}>{phase.desc}</p>
-                  </motion.div> ))}
-             </div>
-        </motion.section>
-
-        {/* --- Refined Final Call to Action (Dark Theme) --- */}
-        <motion.section
-             className={`relative mt-24 md:mt-32 py-20 md:py-24 px-6 md:px-8 ${colors.darkBgGradient} rounded-2xl shadow-2xl text-center overflow-hidden ${colors.darkRing}`}
-             initial="hidden" whileInView="visible" viewport={viewportSettings} variants={fadeInUp} aria-labelledby="final-cta-title"
-        >
-           {/* ... Final CTA content remains the same, using refined button styles ... */}
-            <div className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3" aria-hidden="true"><div className={`w-80 h-80 bg-cyan-500/5 rounded-full blur-3xl opacity-50`}></div></div>
-            <div className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3" aria-hidden="true"><div className={`w-72 h-72 bg-blue-600/10 rounded-full blur-3xl opacity-60`}></div></div>
-            <div className="relative z-10">
-                 <motion.h2 id="final-cta-title" variants={fadeInUp} className={`text-4xl md:text-5xl font-bold ${colors.darkTextPrimary} mb-5 max-w-3xl mx-auto leading-tight`}>Ready to Modernize <span className={colors.darkTextHighlight}>Without Disruption?</span></motion.h2>
-                 <motion.p variants={fadeInUp} className={`text-lg ${colors.darkTextSecondary} max-w-2xl mx-auto mb-12`}>Discover how our unique AI-driven approach delivers measurable results, guaranteed security, and a seamless transition. Request a personalized assessment today.</motion.p>
-                 <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-5">
-                     <Button to="/request-demo" size="lg" icon={<FiArrowRight />} className={` group px-7 py-3.5 text-base ${colors.badgeGradient} ${colors.darkTextForAmber} font-bold ${colors.amberHoverGradient} hover:shadow-lg hover:shadow-amber-500/40 ring-1 ring-amber-600/50 !shadow-xl transform hover:-translate-y-1 transition-all duration-300 ease-out animate-pulse `}> Request Personalized Demo </Button>
-                     <Button to="/contact" size="lg" className={` px-7 py-3.5 text-base bg-slate-900/30 border-2 ${colors.amberBorder}/70 ${colors.textHighlightAmber} hover:bg-amber-500/10 ${colors.amberBorderHover} hover:${colors.textHighlightAmber} backdrop-blur-sm transform hover:-translate-y-0.5 transition-all duration-300 ease-out `}> Talk to Sales </Button>
-                     <Button to="/case-studies" variant="secondary" size="lg" icon={<FiArrowRight />} className={`!text-slate-400 !bg-transparent !border-none hover:!text-slate-100 hover:underline`}> See Client Results </Button>
-                 </motion.div>
-            </div>
-        </motion.section>
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
+
+// Prop types
+Solutions.propTypes = {};
+SectionWrapper.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  bg: PropTypes.string,
+  id: PropTypes.string,
+  noContainer: PropTypes.bool,
+  bleedTop: PropTypes.bool,
+  bleedBottom: PropTypes.bool,
+};
+SectionTitle.propTypes = {
+  t: PropTypes.func.isRequired,
+  titleKey: PropTypes.string,
+  subtitleKey: PropTypes.string,
+  defaultTitle: PropTypes.string,
+  defaultSubtitle: PropTypes.string,
+  align: PropTypes.string,
+  className: PropTypes.string,
+};
+BenefitListItem.propTypes = {
+  children: PropTypes.node,
+  t: PropTypes.func.isRequired,
+  itemKey: PropTypes.string.isRequired,
+};
+ProductSection.propTypes = {
+  product: PropTypes.object.isRequired,
+  t: PropTypes.func.isRequired,
+};
+GeometricElement.propTypes = {
+  shape: PropTypes.oneOf(["hexagon", "triangle", "square"]).isRequired,
+  size: PropTypes.number,
+  className: PropTypes.string,
+  colorClass: PropTypes.string,
+};
+IndustrySolutionCard.propTypes = {
+  t: PropTypes.func.isRequired,
+  titleKey: PropTypes.string,
+  stackKey: PropTypes.string,
+  roiKey: PropTypes.string,
+  implementationKey: PropTypes.string,
+  edgeKey: PropTypes.string,
+};

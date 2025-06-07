@@ -36,7 +36,7 @@ export const jobOpenings = [
       "Remote work flexibility.",
       "Opportunity to work on cutting-edge AI technology with significant impact.",
     ],
-    applyLink: "/jobs/pm-ai-platforms/application", // Example link to a contact form or external ATS
+    applyLink: "/contact", // Example link to a contact form or external ATS
   },
   {
     id: "jr-ai-prompt-engineer", // Unique ID
@@ -77,7 +77,7 @@ export const jobOpenings = [
       "Opportunity to gain hands-on experience with cutting-edge enterprise AI and legacy system modernization.", // Added benefit
       "Be part of a collaborative, supportive, and innovative company culture.", // Emphasized benefit
     ],
-    applyLink: "/careers", // Link back to the main careers page or a specific application link
+    applyLink: "/contact", // Link back to the main careers page or a specific application link
   },
   {
     id: "sales-partner-cr-2025", // Unique ID
@@ -116,7 +116,7 @@ export const jobOpenings = [
       "Direct Impact: Play a key role in driving the growth of LoyalShift and helping businesses transform.",
     ],
     // Link to a specific contact form or page explaining the partner program
-    applyLink: "/careers",
+    applyLink: "/contact",
   },
   // --- NEW ROLE 1: Solutions Architect ---
   {
@@ -159,7 +159,7 @@ export const jobOpenings = [
       "Remote work flexibility.",
       "Collaborative and dynamic team environment.",
     ],
-    applyLink: "/careers", // Link to main careers or specific application
+    applyLink: "/contact", // Link to main careers or specific application
   },
 
   // --- NEW ROLE 2: Data Engineer ---
@@ -204,7 +204,7 @@ export const jobOpenings = [
       "Remote work flexibility.",
       "Collaborative engineering culture.",
     ],
-    applyLink: "/careers",
+    applyLink: "/contact",
   },
 
   // --- NEW ROLE 3: Frontend Engineer (React - Data Visualization) ---
@@ -251,6 +251,6 @@ export const jobOpenings = [
       "Remote work flexibility.",
       "Modern frontend stack.",
     ],
-    applyLink: "/careers",
+    applyLink: "/contact",
   },
 ];

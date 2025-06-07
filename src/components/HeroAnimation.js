@@ -137,7 +137,6 @@ const HeroAnimation = ({ onComplete }) => {
                                 transition={{ delay: 0.9, duration: 0.8, ease: "easeOut"}}
                                 className={`h-1 w-16 ${colors.accentBlue} mx-auto mb-4 origin-center`}
                             />
-                            <p className={`${colors.textHighlight} text-lg opacity-80`}>Trusted by enterprise leaders</p>
                         </motion.div>
                     </motion.div>
                 )}

@@ -1,60 +1,33 @@
 // src/pages/Careers.js
-
 import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 import {
-  FiBriefcase, // Main Hero, Team Section
-  FiUsers, // Why Work Here Alt
-  FiCoffee, // Benefits/Values
-  FiTrendingUp, // Benefits/Values, Growth
-  FiCpu, // Tech Stack
-  FiSearch, // Filter/Search
-  FiMapPin, // Location
-  FiFilter, // Filter Alt
+  FiBriefcase,
+  FiUsers,
+  FiCoffee,
+  FiTrendingUp,
+  FiCpu,
+  FiSearch,
+  FiMapPin,
+  FiFilter,
   FiArrowRight,
-  FiMail, // Contact HR
-  FiLinkedin, // Social Link (example)
-  FiImage, // Image placeholder
+  FiMail,
+  FiLinkedin,
   FiChevronDown,
-  FiEdit3, // Application Process
-  FiThumbsUp, // Application Process
+  FiEdit3,
+  FiThumbsUp,
 } from "react-icons/fi";
 
-// Assuming Button component path is correct
 import Button from "../components/Button";
+import { jobOpenings } from "../data/jobs"; // Assuming this data uses localization keys or will be adapted
+import { useLocalization } from "../components/LocalizationContext"; // Assuming this path is correct
+import loyalShiftV2Theme from "../themes/loyalshift-v2.theme"; // Using the V2 theme
 
-import { jobOpenings } from "../data/jobs";
-
-// --- Theme Colors (Light Theme) ---
-// (Assuming colors object is available or imported similarly to AboutUs.js)
-const colors = {
-  bgBase: "bg-neutral-light",
-  bgWhite: "bg-neutral-white",
-  textHeading: "text-neutral-dark",
-  textBody: "text-neutral-main",
-  textPrimary: "text-primary-main",
-  textPrimaryDark: "text-primary-dark",
-  primaryMain: "bg-primary-main",
-  primaryDark: "hover:bg-primary-dark",
-  primaryContrast: "text-primary-contrast",
-  borderLight: "border-neutral-light",
-  borderMedium: "border-neutral-main/30",
-  borderDark: "border-neutral-main",
-  borderPrimary: "border-primary-main",
-  accentSuccess: "text-status-success",
-  accentInfo: "text-status-info",
-  bgHighlightSoft: "bg-primary-main/5",
-  borderHighlightSoft: "border-primary-main/10",
-  bgHighlightMedium: "bg-primary-main/10",
-  borderHighlightMedium: "border-primary-main/20",
-  inputBorder: "border-neutral-main/50",
-  inputFocusBorder: "focus:border-primary-main",
-  inputFocusRing: "focus:ring-primary-main/50",
-};
+const theme = loyalShiftV2Theme;
 
 // --- Animation Variants ---
-const viewportSettings = { once: true, amount: 0.1 }; // Slightly less amount needed
+const viewportSettings = { once: true, amount: 0.1 };
 const fadeInUp = {
   hidden: { opacity: 0, y: 25 },
   visible: {
@@ -81,134 +54,166 @@ const scaleUp = {
 // --- End Animation Variants ---
 
 // --- Reusable Components ---
-const SectionTitle = ({ title, subtitle, align = "center" }) => (
+const SectionTitle = ({
+  t,
+  titleKey,
+  subtitleKey,
+  defaultTitle,
+  defaultSubtitle,
+  align = "center",
+}) => (
   <motion.div
     className={`mb-12 md:mb-16 ${
       align === "center" ? "text-center" : "text-left"
     }`}
     variants={fadeInUp}
   >
-    {subtitle && (
+    {subtitleKey && (
       <p
-        className={`text-base font-semibold ${colors.textPrimary} uppercase tracking-wider mb-2`}
+        className={`text-base font-semibold ${theme.textHighlight} uppercase tracking-wider mb-2`}
       >
-        {subtitle}
+        {t(subtitleKey, defaultSubtitle)}
       </p>
     )}
-    <h2 className={`text-3xl md:text-4xl font-bold ${colors.textHeading}`}>
-      {title}
+    <h2 className={`text-3xl md:text-4xl font-bold ${theme.textPrimary}`}>
+      {t(titleKey, defaultTitle)}
     </h2>
   </motion.div>
 );
 SectionTitle.propTypes = {
-  title: PropTypes.string.isRequired,
-  subtitle: PropTypes.string,
+  t: PropTypes.func.isRequired,
+  titleKey: PropTypes.string.isRequired,
+  defaultTitle: PropTypes.string.isRequired,
+  subtitleKey: PropTypes.string,
+  defaultSubtitle: PropTypes.string,
   align: PropTypes.oneOf(["left", "center"]),
 };
 
-const ValuePropCard = ({ icon: Icon, title, description }) => (
+const ValuePropCard = ({
+  t,
+  icon: Icon,
+  titleKey,
+  descriptionKey,
+  defaultTitle,
+  defaultDescription,
+}) => (
   <motion.div
     variants={fadeInUp}
-    className={`p-6 text-center ${colors.bgWhite} rounded-lg border ${colors.borderLight} shadow-sm hover:shadow-md transition-shadow`}
+    className={`p-6 text-center ${theme.surfaceCard} rounded-xl border ${theme.borderLight} ${theme.cardShadow} ${theme.cardHoverShadow} transition-all duration-300`}
+    whileHover={{
+      y: -5,
+      borderColor: theme.inputFocusBorder.replace("focus:border-", "border-"),
+    }}
   >
     <Icon
-      className={`w-10 h-10 ${colors.textPrimary} mx-auto mb-4`}
+      className={`w-10 h-10 ${theme.textHighlight} mx-auto mb-4`}
       aria-hidden="true"
     />
-    <h3 className={`text-lg font-semibold ${colors.textHeading} mb-2`}>
-      {title}
+    <h3 className={`text-lg font-semibold ${theme.textPrimary} mb-2`}>
+      {t(titleKey, defaultTitle)}
     </h3>
-    <p className={`text-sm ${colors.textBody}`}>{description}</p>
+    <p className={`text-sm ${theme.textSecondary}`}>
+      {t(descriptionKey, defaultDescription)}
+    </p>
   </motion.div>
 );
 ValuePropCard.propTypes = {
+  t: PropTypes.func.isRequired,
   icon: PropTypes.elementType.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  titleKey: PropTypes.string.isRequired,
+  defaultTitle: PropTypes.string.isRequired,
+  descriptionKey: PropTypes.string.isRequired,
+  defaultDescription: PropTypes.string.isRequired,
 };
 
-const JobListingCard = ({ job }) => (
+const JobListingCard = ({ t, job }) => (
   <motion.div
     variants={fadeInUp}
-    layout // Animate layout changes when filtering
-    initial="hidden" // Apply variants for entrance animation
+    layout
+    initial="hidden"
     animate="visible"
-    exit="hidden" // Apply variants for exit animation
-    className={`p-6 ${colors.bgWhite} rounded-lg border ${colors.borderLight} shadow-sm hover:shadow-lg hover:border-primary-main/40 transition-all duration-300 group flex flex-col`}
+    exit="hidden"
+    className={`p-6 ${theme.surfaceCard} rounded-xl border ${theme.borderLight} ${theme.cardShadow} hover:border-cyan-500/40 transition-all duration-300 group flex flex-col`}
     whileHover={{ y: -4 }}
   >
     <div className="flex justify-between items-start mb-2">
-      {/* Job Title */}
       <h3
-        className={`text-xl font-semibold ${colors.textHeading} group-hover:${colors.textPrimary} transition-colors mr-4`}
+        className={`text-xl font-semibold ${theme.textPrimary} group-hover:${theme.textHighlight} transition-colors mr-4`}
       >
-        {" "}
-        {/* Added margin */}
-        {job.title}
+        {t(job.titleKey, job.title)}
       </h3>
-      {/* Full-time Tag */}
       <span
-        className={`
-            self-start /* Add this to explicitly prevent vertical stretching */
-            text-xs font-medium py-1 px-3 rounded-full 
-            ${colors.bgHighlightSoft} ${colors.textPrimaryDark} 
-            whitespace-nowrap flex-shrink-0 /* Prevent wrapping/shrinking */
-        `}
+        className={`self-start text-xs font-medium py-1 px-3 rounded-full ${theme.accentCyanBg}/10 ${theme.accentCyan} border ${theme.borderAccent} whitespace-nowrap flex-shrink-0`}
       >
-        {job.type}
+        {t(job.typeKey, job.type)}
       </span>
     </div>
-    <div className={`flex items-center text-sm ${colors.textBody} mb-4`}>
-      <FiBriefcase className="w-4 h-4 mr-1.5 opacity-80" aria-hidden="true" />{" "}
-      {job.department}
-      <span className="mx-2">|</span>
-      <FiMapPin className="w-4 h-4 mr-1.5 opacity-80" aria-hidden="true" />{" "}
-      {job.location}
+    <div className={`flex items-center text-sm ${theme.textSecondary} mb-4`}>
+      <FiBriefcase className="w-4 h-4 mr-1.5 opacity-80" />{" "}
+      {t(job.departmentKey, job.department)}
+      <span className="mx-2 text-slate-600">|</span>{" "}
+      {/* This was text-slate-600, should be theme.textMuted or similar */}
+      <FiMapPin className="w-4 h-4 mr-1.5 opacity-80" />{" "}
+      {t(job.locationKey, job.location)}
     </div>
-    <p className={`text-sm ${colors.textBody} mb-5 flex-grow`}>
-      {job.description}
+    <p className={`text-sm ${theme.textSecondary} mb-5 flex-grow`}>
+      {t(job.descriptionKey, job.description)}
     </p>
     <div className="mt-auto">
+      {/* --- UPDATED BUTTON STYLING --- */}
       <Button
         to={`/jobs/${job.id}`}
+        // variant prop removed to rely purely on className for this specific style
+        size="base" // Or 'md' depending on your Button component's sizing
         variant="secondary"
-        size="base"
-        className={`w-full sm:w-auto group-hover:!bg-primary-main group-hover:!text-white group-hover:!border-primary-main transition-colors duration-300`}
         icon={<FiArrowRight />}
       >
-        Learn More & Apply
+        {t("careers.jobCard.cta", "Learn More & Apply")}
       </Button>
+      {/* --- END OF UPDATED BUTTON STYLING --- */}
     </div>
   </motion.div>
 );
-JobListingCard.propTypes = { job: PropTypes.object.isRequired };
+JobListingCard.propTypes = {
+  t: PropTypes.func.isRequired,
+  job: PropTypes.object.isRequired, // Ensure job object has localization keys
+};
 
 // --- Main Careers Component ---
 export default function Careers() {
-  // --- Placeholder Data ---
+  const { t } = useLocalization();
+
   const companyValues = [
     {
       icon: FiTrendingUp,
-      title: "Impactful Work",
-      description:
+      titleKey: "careers.values.impact.title",
+      defaultTitle: "Impactful Work",
+      descriptionKey: "careers.values.impact.desc",
+      defaultDescription:
         "Directly contribute to modernizing critical systems for major enterprises.",
     },
     {
       icon: FiCpu,
-      title: "Cutting-Edge Tech",
-      description:
+      titleKey: "careers.values.tech.title",
+      defaultTitle: "Cutting-Edge Tech",
+      descriptionKey: "careers.values.tech.desc",
+      defaultDescription:
         "Work with explainable AI, advanced NLP, and robust integration platforms.",
     },
     {
       icon: FiUsers,
-      title: "Collaborative Culture",
-      description:
+      titleKey: "careers.values.culture.title",
+      defaultTitle: "Collaborative Culture",
+      descriptionKey: "careers.values.culture.desc",
+      defaultDescription:
         "Join a passionate team of experts focused on innovation and client success.",
     },
     {
       icon: FiCoffee,
-      title: "Growth & Learning",
-      description:
+      titleKey: "careers.values.growth.title",
+      defaultTitle: "Growth & Learning",
+      descriptionKey: "careers.values.growth.desc",
+      defaultDescription:
         "Continuous learning opportunities and career development support.",
     },
   ];
@@ -216,53 +221,78 @@ export default function Careers() {
   const applicationSteps = [
     {
       icon: FiEdit3,
-      title: "Submit Application",
-      description:
+      titleKey: "careers.process.step1.title",
+      defaultTitle: "Submit Application",
+      descriptionKey: "careers.process.step1.desc",
+      defaultDescription:
         "Apply online through our careers portal for the role that best fits your skills.",
     },
     {
       icon: FiUsers,
-      title: "Interview Process",
-      description:
+      titleKey: "careers.process.step2.title",
+      defaultTitle: "Interview Process",
+      descriptionKey: "careers.process.step2.desc",
+      defaultDescription:
         "Engage with our hiring team and technical experts through virtual interviews.",
     },
     {
       icon: FiThumbsUp,
-      title: "Offer & Onboarding",
-      description:
+      titleKey: "careers.process.step3.title",
+      defaultTitle: "Offer & Onboarding",
+      descriptionKey: "careers.process.step3.desc",
+      defaultDescription:
         "Successful candidates receive an offer and begin our comprehensive onboarding program.",
     },
   ];
 
-  // --- State for Filtering ---
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDept, setSelectedDept] = useState("All");
-  const departments = [
-    "All",
-    ...new Set(jobOpenings.map((job) => job.department)),
-  ]; // Get unique departments
 
-  // --- Filtering Logic ---
+  // Assuming jobOpenings data is structured with localization keys like job.titleKey, job.departmentKey etc.
+  const departments = useMemo(
+    () => [
+      { key: "all", default: "All Departments" },
+      ...jobOpenings.reduce((acc, job) => {
+        if (!acc.find((d) => d.key === job.departmentKey)) {
+          acc.push({ key: job.departmentKey, default: job.department });
+        }
+        return acc;
+      }, []),
+    ],
+    []
+  );
+
   const filteredJobs = useMemo(() => {
     return jobOpenings.filter((job) => {
+      const title = t(job.titleKey, job.title);
+      const description = t(job.descriptionKey, job.description);
+      const department = t(job.departmentKey, job.department);
+
       const termMatch =
         searchTerm === "" ||
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.description.toLowerCase().includes(searchTerm.toLowerCase());
+        title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        description.toLowerCase().includes(searchTerm.toLowerCase());
+
       const deptMatch =
-        selectedDept === "All" || job.department === selectedDept;
+        selectedDept === "All" ||
+        selectedDept === "all" ||
+        department === selectedDept;
+
       return termMatch && deptMatch;
     });
-  }, [searchTerm, selectedDept]);
+  }, [searchTerm, selectedDept, t]);
 
   const dottedBackgroundStyle = {
-    backgroundImage: `radial-gradient(${colors.textBody}33 1px, transparent 0)`,
-    backgroundSize: "16px 16px",
+    backgroundImage: `radial-gradient(${theme.textMuted.replace(
+      "text-",
+      "var(--color-"
+    )}22 1px, transparent 0)`, // Use CSS var for color
+    backgroundSize: "20px 20px", // Slightly larger dots
   };
 
   return (
     <div
-      className={`${colors.bgBase} py-16 md:py-24 overflow-x-hidden`}
+      className={`${theme.background} py-16 md:py-24 overflow-x-hidden`} // Using theme.background
       style={dottedBackgroundStyle}
       role="main"
     >
@@ -277,58 +307,65 @@ export default function Careers() {
         >
           <motion.div
             variants={scaleUp}
-            className={`inline-block p-4 ${colors.bgHighlightMedium} rounded-full mb-4 border ${colors.borderHighlightMedium}`}
+            className={`inline-block p-4 ${theme.accentCyanBg}/10 rounded-full mb-4 border ${theme.borderAccent} shadow-md`}
           >
-            <FiBriefcase className={`w-12 h-12 ${colors.textPrimary}`} />
+            <FiBriefcase className={`w-12 h-12 ${theme.textHighlight}`} />
           </motion.div>
           <motion.h1
             variants={fadeInUp}
             id="careers-hero-title"
-            className={`text-4xl md:text-5xl lg:text-6xl font-bold ${colors.textHeading} mb-4`}
+            className={`text-4xl md:text-5xl lg:text-6xl font-bold ${theme.textPrimary} mb-4`}
           >
-            Build the Future of{" "}
-            <span className={colors.textPrimary}>Enterprise AI</span>
+            {t("careers.hero.title1", "Build the Future of")}{" "}
+            <span className={theme.textHighlight}>
+              {t("careers.hero.titleAccent", "Enterprise AI")}
+            </span>
           </motion.h1>
           <motion.p
             variants={fadeInUp}
-            className={`${colors.textBody} text-lg md:text-xl max-w-3xl mx-auto`}
+            className={`${theme.textSecondary} text-lg md:text-xl max-w-3xl mx-auto`}
           >
-            Join LoyalShift and help companies unlock decades of trapped value
-            by modernizing their core systems with groundbreaking, explainable
-            AI – without the disruption.
+            {t(
+              "careers.hero.subtitle",
+              "Join LoyalShift and help companies unlock decades of trapped value by modernizing their core systems with groundbreaking, explainable AI – without the disruption."
+            )}
           </motion.p>
         </motion.section>
 
         {/* --- Why Work Here --- */}
         <motion.section
           aria-labelledby="why-work-here-title"
-          className={`mb-16 md:mb-24 p-8 rounded-lg ${colors.bgWhite} shadow-sm border ${colors.borderLight}`}
+          className={`mb-16 md:mb-24 p-8 rounded-2xl ${theme.surfaceCard} shadow-xl border ${theme.borderLight}`}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={staggerContainer}
         >
           <SectionTitle
-            title="Shape the Future with Us"
-            subtitle="Why LoyalShift?"
+            t={t}
+            titleKey="careers.whyWorkHere.title"
+            defaultTitle="Shape the Future with Us"
+            subtitleKey="careers.whyWorkHere.subtitle"
+            defaultSubtitle="Why LoyalShift?"
             align="left"
           />
           <motion.p
             variants={fadeInUp}
-            className={`text-lg ${colors.textBody} mb-10 max-w-4xl`}
+            className={`text-lg ${theme.textSecondary} mb-10 max-w-4xl`}
           >
-            We're not just building software; we're solving fundamental business
-            problems with a unique blend of deep system understanding and
-            cutting-edge AI. If you're passionate about impactful work,
-            innovation, and collaboration, you'll thrive here.
+            {t(
+              "careers.whyWorkHere.description",
+              "We're not just building software; we're solving fundamental business problems with a unique blend of deep system understanding and cutting-edge AI. If you're passionate about impactful work, innovation, and collaboration, you'll thrive here."
+            )}
           </motion.p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {companyValues.map((value, index) => (
-              <ValuePropCard key={index} {...value} />
+              <ValuePropCard key={index} t={t} {...value} />
             ))}
           </div>
           <div id="open-positions" />
         </motion.section>
+
         {/* --- Open Positions --- */}
         <motion.section
           aria-labelledby="open-positions-title"
@@ -338,124 +375,127 @@ export default function Careers() {
           viewport={viewportSettings}
           variants={staggerContainer}
         >
-          <SectionTitle title="Open Positions" subtitle="Find Your Role" />
+          <SectionTitle
+            t={t}
+            titleKey="careers.openPositions.title"
+            defaultTitle="Open Positions"
+            subtitleKey="careers.openPositions.subtitle"
+            defaultSubtitle="Find Your Role"
+          />
 
-          {/* Filter Controls */}
           <motion.div
             variants={fadeInUp}
-            className={`mb-8 p-4 ${colors.bgWhite} rounded-lg border ${colors.borderLight} shadow-sm flex flex-col sm:flex-row gap-4 items-center`}
+            className={`mb-8 p-4 ${theme.surfaceCard} rounded-xl border ${theme.borderLight} shadow-lg flex flex-col sm:flex-row gap-4 items-center`}
           >
             <div className="relative flex-grow w-full sm:w-auto">
               <FiSearch
-                className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${colors.textBody} opacity-60`}
-                aria-hidden="true"
+                className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textMuted} pointer-events-none`}
               />
               <input
                 type="text"
-                placeholder="Search by title or keyword..."
+                placeholder={t(
+                  "careers.searchPlaceholder",
+                  "Search by title or keyword..."
+                )}
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2 rounded-md border ${colors.inputBorder} ${colors.textBody} focus:outline-none ${colors.inputFocusRing} ${colors.inputFocusBorder}`}
-                aria-label="Search job openings"
+                className={`w-full pl-11 pr-4 py-2.5 rounded-lg border ${theme.inputBorder} ${theme.textPrimary} ${theme.inputBg} ${theme.inputFocusStyle} transition-colors`}
+                aria-label={t("careers.searchAriaLabel", "Search job openings")}
               />
             </div>
-            <div className="relative w-full sm:w-auto sm:min-w-[200px]">
+            <div className="relative w-full sm:w-auto sm:min-w-[220px]">
               <FiFilter
-                className={`absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 ${colors.textBody} opacity-60`}
-                aria-hidden="true"
+                className={`absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textMuted} pointer-events-none`}
               />
               <select
                 value={selectedDept}
                 onChange={(e) => setSelectedDept(e.target.value)}
-                className={`w-full pl-10 pr-8 py-2 appearance-none rounded-md border ${colors.inputBorder} ${colors.textBody} focus:outline-none ${colors.inputFocusRing} ${colors.inputFocusBorder} bg-white`}
-                aria-label="Filter by department"
+                className={`w-full pl-11 pr-10 py-2.5 appearance-none rounded-lg border ${theme.inputBorder} ${theme.textPrimary} ${theme.inputBg} ${theme.inputFocusStyle} transition-colors`}
+                aria-label={t(
+                  "careers.filterAriaLabel",
+                  "Filter by department"
+                )}
               >
                 {departments.map((dept) => (
-                  <option key={dept} value={dept}>
-                    {dept}
+                  <option key={dept.key} value={t(dept.key, dept.default)}>
+                    {t(dept.key, dept.default)}
                   </option>
                 ))}
               </select>
               <FiChevronDown
-                className={`absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 ${colors.textBody} opacity-60 pointer-events-none`}
+                className={`absolute right-3.5 top-1/2 -translate-y-1/2 w-5 h-5 ${theme.textMuted} pointer-events-none`}
               />
             </div>
           </motion.div>
 
-          {/* Job List */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredJobs.length > 0 ? (
               filteredJobs.map((job) => (
-                <JobListingCard key={job.id} job={job} />
+                <JobListingCard key={job.id} t={t} job={job} />
               ))
             ) : (
               <motion.p
                 variants={fadeInUp}
-                className={`lg:col-span-3 text-center ${colors.textBody} p-8 bg-neutral-white/50 rounded-lg border border-dashed ${colors.borderMedium}`}
+                className={`lg:col-span-3 text-center ${theme.textSecondary} p-10 ${theme.surfaceMuted} rounded-xl border border-dashed ${theme.borderLight}`}
               >
-                No open positions match your current filters. Try broadening
-                your search!
+                {t(
+                  "careers.noPositionsFound",
+                  "No open positions match your current filters. Try broadening your search!"
+                )}
               </motion.p>
             )}
           </div>
         </motion.section>
 
-        {/* --- Life at LoyalShift (Placeholder) --- */}
+        {/* --- Life at LoyalShift --- */}
         <motion.section
           aria-labelledby="life-title"
-          className={`mb-16 md:mb-24 p-8 rounded-lg ${colors.bgWhite} shadow-sm border ${colors.borderLight} text-center`}
+          className={`mb-16 md:mb-24 p-8 rounded-2xl ${theme.surfaceCard} shadow-xl border ${theme.borderLight} text-center`}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={fadeInUp}
         >
           <SectionTitle
-            title="Life at LoyalShift"
-            subtitle="Culture & Community"
+            t={t}
+            titleKey="careers.lifeAtLoyalShift.title"
+            defaultTitle="Life at LoyalShift"
+            subtitleKey="careers.lifeAtLoyalShift.subtitle"
+            defaultSubtitle="Culture & Community"
           />
-          <p className={`text-lg ${colors.textBody} max-w-3xl mx-auto mb-8`}>
-            We foster a dynamic environment where innovation thrives. Expect
-            challenging projects, supportive colleagues, and opportunities to
-            make a real difference.
-          </p>
-          {/* Placeholder for images/videos */}
-          {/* <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-4 h-40 ${colors.textBody} opacity-50`}
+          <p
+            className={`text-lg ${theme.textSecondary} max-w-3xl mx-auto mb-8`}
           >
-            <div
-              className={`bg-neutral-main/10 rounded flex items-center justify-center`}
-            >
-              <FiImage className="w-8 h-8" />
-            </div>
-            <div
-              className={`bg-neutral-main/10 rounded flex items-center justify-center`}
-            >
-              <FiImage className="w-8 h-8" />
-            </div>
-            <div
-              className={`bg-neutral-main/10 rounded flex items-center justify-center`}
-            >
-              <FiImage className="w-8 h-8" />
-            </div>
-            <div
-              className={`bg-neutral-main/10 rounded flex items-center justify-center`}
-            >
-              <FiImage className="w-8 h-8" />
-            </div>
-          </div> */}
+            {t(
+              "careers.lifeAtLoyalShift.description",
+              "We foster a dynamic environment where innovation thrives. Expect challenging projects, supportive colleagues, and opportunities to make a real difference."
+            )}
+          </p>
+          {/* Placeholder for images/videos would go here, styled with theme */}
         </motion.section>
 
         {/* --- Application Process --- */}
         <motion.section
           aria-labelledby="process-title"
-          className={`mb-16 md:mb-24 p-8 rounded-lg ${colors.bgWhite} shadow-sm border ${colors.borderLight}`}
+          className={`mb-16 md:mb-24 p-8 rounded-2xl ${theme.surfaceCard} shadow-xl border ${theme.borderLight}`}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={staggerContainer}
         >
-          <SectionTitle title="Our Application Process" align="left" />
-          <div className="grid md:grid-cols-3 gap-8 relative before:absolute before:hidden md:before:block before:top-5 before:left-1/2 before:transform before:-translate-x-1/2 before:w-[calc(66%-2rem)] before:h-0.5 before:bg-neutral-main/20">
+          <SectionTitle
+            t={t}
+            titleKey="careers.applicationProcess.title"
+            defaultTitle="Our Application Process"
+            align="left"
+          />
+          <div
+            className={`grid p-8 md:grid-cols-3 gap-8 relative 
+                          before:absolute before:hidden md:before:block 
+                          before:top-6 before:left-1/2 before:transform before:-translate-x-1/2 
+                          before:w-[calc(66%-2.5rem)] before:h-1 
+                          ${theme.surfaceMuted} rounded-full`}
+          >
             {applicationSteps.map((step, index) => (
               <motion.div
                 key={index}
@@ -463,17 +503,17 @@ export default function Careers() {
                 className="text-center relative z-10 px-4"
               >
                 <div
-                  className={`inline-flex items-center justify-center w-12 h-12 rounded-full ${colors.bgHighlightMedium} border-2 ${colors.borderHighlightSoft} mb-3`}
+                  className={`inline-flex items-center justify-center w-14 h-14 rounded-full ${theme.accentCyanBg}/10 border-2 ${theme.borderAccent} mb-4 shadow-sm`}
                 >
-                  <step.icon className={`w-6 h-6 ${colors.textPrimary}`} />
+                  <step.icon className={`w-7 h-7 ${theme.textHighlight}`} />
                 </div>
                 <h3
-                  className={`text-lg font-semibold ${colors.textHeading} mb-1`}
+                  className={`text-lg font-semibold ${theme.textPrimary} mb-1`}
                 >
-                  {step.title}
+                  {t(step.titleKey, step.defaultTitle)}
                 </h3>
-                <p className={`text-sm ${colors.textBody}`}>
-                  {step.description}
+                <p className={`text-sm ${theme.textSecondary}`}>
+                  {t(step.descriptionKey, step.defaultDescription)}
                 </p>
               </motion.div>
             ))}
@@ -483,7 +523,7 @@ export default function Careers() {
         {/* --- Final CTA Section --- */}
         <motion.section
           aria-labelledby="cta-careers-title"
-          className={`text-center ${colors.bgHighlightMedium} p-10 rounded-lg shadow-sm border ${colors.borderHighlightSoft}`}
+          className={`text-center ${theme.surfaceMuted} p-10 rounded-2xl shadow-lg border ${theme.borderLight}`}
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
@@ -491,31 +531,77 @@ export default function Careers() {
         >
           <h2
             id="cta-careers-title"
-            className={`text-3xl font-bold ${colors.textHeading} mb-4`}
+            className={`text-3xl font-bold ${theme.textPrimary} mb-4`}
           >
-            Don't See the Perfect Fit?
+            {t("careers.cta.title", "Don't See the Perfect Fit?")}
           </h2>
-          <p className={`text-lg ${colors.textBody} max-w-2xl mx-auto mb-8`}>
-            We're always looking for talented individuals passionate about AI
-            and system modernization. Send us your resume or connect with us on
-            LinkedIn.
+          <p
+            className={`text-lg ${theme.textSecondary} max-w-2xl mx-auto mb-8`}
+          >
+            {t(
+              "careers.cta.subtitle",
+              "We're always looking for talented individuals passionate about AI and system modernization. Send us your resume or connect with us on LinkedIn."
+            )}
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button to="/contact" variant="primary" size="lg" icon={<FiMail />}>
-              Contact HR
+            <Button
+              to="/contact?subject=CareerInquiry"
+              variant="primary"
+              size="lg"
+              icon={<FiMail />}
+            >
+              {t("careers.cta.contactHR", "Contact HR")}
             </Button>
-            {/* Replace '#' with your actual LinkedIn URL */}
-            <a
-              href="https://www.linkedin.com/in/loyalshift/"
+            <Button
+              to="https://www.linkedin.com/in/loyalshift/"
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center justify-center px-7 py-3.5 text-base font-semibold rounded-lg transition-all duration-300 ease-out shadow-md ${colors.textBody} bg-white border border-neutral-light hover:border-neutral-main hover:scale-105 transform`}
+              variant="outline" // Use outline for secondary actions like this
+              size="lg"
+              icon={<FiLinkedin />}
+              className={`!border-2 !${theme.accentCyan} !${theme.accentCyan} hover:!bg-cyan-500/10`} // Ensure outline button uses theme
             >
-              <FiLinkedin className="mr-2 w-5 h-5" /> Follow on LinkedIn
-            </a>
+              {t("careers.cta.linkedin", "Follow on LinkedIn")}
+            </Button>
           </div>
         </motion.section>
       </div>
     </div>
   );
 }
+
+// PropTypes
+Careers.propTypes = {}; // No direct props for this page
+SectionTitle.propTypes = {
+  t: PropTypes.func.isRequired,
+  titleKey: PropTypes.string.isRequired,
+  defaultTitle: PropTypes.string.isRequired,
+  subtitleKey: PropTypes.string,
+  defaultSubtitle: PropTypes.string,
+  align: PropTypes.oneOf(["left", "center"]),
+};
+ValuePropCard.propTypes = {
+  t: PropTypes.func.isRequired,
+  icon: PropTypes.elementType.isRequired,
+  titleKey: PropTypes.string.isRequired,
+  defaultTitle: PropTypes.string.isRequired,
+  descriptionKey: PropTypes.string.isRequired,
+  defaultDescription: PropTypes.string.isRequired,
+};
+JobListingCard.propTypes = {
+  t: PropTypes.func.isRequired,
+  job: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    titleKey: PropTypes.string.isRequired, // Expecting localization keys now
+    title: PropTypes.string.isRequired, // Default fallback
+    departmentKey: PropTypes.string.isRequired,
+    department: PropTypes.string.isRequired,
+    locationKey: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
+    typeKey: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
+    descriptionKey: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    // Add other job properties with localization keys as needed
+  }).isRequired,
+};

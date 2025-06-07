@@ -6,6 +6,12 @@ module.exports = {
     extend: {
       fontFamily: { logo: ["Montserrat", "sans-serif"] },
       colors: {
+               'smb-primary-green': '#baffa7',
+        'smb-off-white': '#FAF9F6',
+        'smb-light-gray': '#d4d2cb',
+        // You might want to define specific dark neutrals if not using Tailwind's defaults
+        'smb-dark-1': '#333333', // Example dark text/bg
+        'smb-dark-2': '#2C2C2C', // Example darker bg
         "equilibra-peach": "#FDB386",
         "equilibra-blush": "#F7C6B7",
         "equilibra-cream": "#FFF7F2",

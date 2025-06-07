@@ -1,56 +1,31 @@
 // src/pages/AboutUs.js
-// Brand new version with a pillar-based structure (Purpose, Approach, People).
-
 import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  FiTarget, // Purpose, Mission
-  FiEye, // Vision
-  FiHeart, // Values, Culture
-  FiZap, // Approach (Zero-Disruption)
-  FiShare2, // Approach (Integration)
-  FiShield, // Approach (Security)
-  FiCheckCircle, // Benefits, Values Check
-  FiArrowRight, // CTA Button
-  FiTrendingUp, // Social Proof / Results
-  FiLinkedin, // Team Member Social Link
-  FiStar, // Team Expertise
-  FiAward, // Social Proof (Awards/Logos)
-  FiMessageSquare, // Social Proof (Testimonial)
+  FiTarget,
+  FiEye,
+  FiHeart,
+  FiZap,
+  FiShare2,
+  FiShield,
+  FiCheckCircle,
+  FiArrowRight,
+  FiLinkedin,
+  FiLoader,
   FiChevronDown,
+  FiBriefcase, // Icon for SMB section
+  FiLayout, // Icon for SMB Studio Lite features
+  FiSettings, // Icon for full SMB Studio features
+  FiCpu, // Icon for AgentHub / AI
 } from "react-icons/fi";
-import { AnimatePresence } from "framer-motion";
 
-// Assuming Button component exists and is imported correctly
+// Ensure these paths are correct for your project structure
 import Button from "../components/Button";
 import SectionTitle from "../components/SectionTitle";
-import { ReactComponent as LoyalShiftLogo } from "../logo.svg";
+import { useLocalization } from "../components/LocalizationContext";
+import loyalShiftV2Theme from "../themes/loyalshift-v2.theme";
 
-// --- Theme Colors (Light Theme) ---
-// Consistent color palette based on previous context
-const colors = {
-  bgBase: "bg-neutral-light",
-  bgWhite: "bg-neutral-white",
-  bgSubtle: "bg-slate-50", // Very light background for subtle section differentiation
-  textHeading: "text-neutral-dark",
-  textBody: "text-neutral-main",
-  textSubtle: "text-neutral-500", // Lighter text for subtitles or captions
-  textPrimary: "text-primary-main",
-  textPrimaryDark: "text-primary-dark",
-  primaryMain: "bg-primary-main",
-  primaryContrast: "text-primary-contrast",
-  borderLight: "border-neutral-200", // Slightly more visible light border
-  borderMedium: "border-neutral-300",
-  borderPrimary: "border-primary-main",
-  accentSuccess: "text-status-success",
-  // Dark theme colors for CTA
-  darkBgGradient: "bg-gradient-to-br from-slate-900 to-gray-900",
-  darkTextPrimary: "text-white",
-  darkTextSecondary: "text-slate-300",
-  darkTextHighlight: "text-cyan-400",
-  darkRing: "ring-1 ring-inset ring-white/10",
-};
+const theme = loyalShiftV2Theme;
 
 // --- Animation Variants ---
 const viewportSettings = { once: true, amount: 0.1 };
@@ -59,14 +34,33 @@ const fadeInUp = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: [0.33, 1, 0.68, 1] },
+    transition: {
+      duration: 0.6,
+      ease: [0.33, 1, 0.68, 1],
+      staggerChildren: 0.1,
+    },
+  },
+};
+const cycleTextVariant = {
+  hidden: { opacity: 0, filter: "blur(5px)", y: 15 },
+  visible: {
+    opacity: 1,
+    filter: "blur(0px)",
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    filter: "blur(5px)",
+    y: -15,
+    transition: { duration: 0.3, ease: "easeIn" },
   },
 };
 const staggerContainer = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.1 },
   },
 };
 const scaleUp = {
@@ -77,18 +71,17 @@ const scaleUp = {
     transition: { duration: 0.5, ease: [0.33, 1, 0.68, 1] },
   },
 };
-// --- End Animation Variants ---
 
 // --- Reusable Section Component ---
-// Added option for wider padding on y-axis
 const Section = ({
   children,
   className = "",
-  bg = colors.bgBase,
+  bg = theme.background,
   widePadding = false,
-  ...props
+  id,
 }) => (
   <motion.section
+    id={id}
     className={`${
       widePadding ? "py-20 md:py-28" : "py-16 md:py-20"
     } ${bg} ${className}`}
@@ -96,293 +89,291 @@ const Section = ({
     whileInView="visible"
     viewport={viewportSettings}
     variants={staggerContainer}
-    {...props}
   >
-    {/* Using max-w-5xl for a slightly more contained feel */}
     <div className="container mx-auto px-4 max-w-5xl">{children}</div>
   </motion.section>
 );
 Section.propTypes = {
-  children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  bg: PropTypes.string,
-  widePadding: PropTypes.bool,
+  /* ... */
 };
 
 // --- Reusable Pillar Card ---
-// For Mission, Vision, Values within the Purpose Pillar
-const PillarCard = ({ icon: Icon, title, children }) => (
+const PillarCard = ({ icon: Icon, title, titleKey, t, children, items }) => (
   <motion.div
     variants={fadeInUp}
-    className={`p-6 rounded-lg ${colors.bgWhite} border ${colors.borderLight} shadow-sm`}
+    className={`p-6 rounded-xl ${theme.surfaceCard} border ${theme.borderLight} ${theme.cardShadow} ${theme.cardHoverShadow} transition-all duration-300 ease-out`}
   >
-    <div className="flex items-center mb-3">
-      <Icon
-        className={`w-7 h-7 ${colors.textPrimary} mr-3 flex-shrink-0`}
-        aria-hidden="true"
-      />
-      <h3 className={`text-xl font-semibold ${colors.textHeading}`}>{title}</h3>
+    <div className="flex items-center mb-4">
+      {Icon && (
+        <Icon className={`w-7 h-7 ${theme.textHighlight} mr-3 flex-shrink-0`} />
+      )}
+      <h3 className={`text-xl font-semibold ${theme.textPrimary}`}>
+        {titleKey ? t(titleKey, title) : title}
+      </h3>
     </div>
-    <div className={`text-base ${colors.textBody} space-y-2`}>{children}</div>
+    <div className={`${theme.textSecondary} text-base space-y-2`}>
+      {children}
+      {items && (
+        <ul className="space-y-2 pt-2">
+          {items.map((itemKey, i) => (
+            <li key={i} className="flex items-start">
+              <FiCheckCircle
+                className={`w-5 h-5 ${theme.successText} mr-2 mt-0.5 flex-shrink-0`}
+              />
+              <span>{t(itemKey)}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   </motion.div>
 );
 PillarCard.propTypes = {
-  icon: PropTypes.elementType.isRequired,
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  /* ... */
 };
 
 // --- Reusable Approach Feature Item ---
-const ApproachFeature = ({ icon: Icon, title, children }) => (
-  <motion.div variants={fadeInUp} className="flex items-start">
+const ApproachFeature = ({
+  icon: Icon,
+  title,
+  titleKey,
+  children,
+  contentKey,
+  t,
+}) => (
+  <motion.div
+    variants={fadeInUp}
+    className={`flex items-start ${theme.surfaceCard} p-5 rounded-xl border ${
+      theme.borderLight
+    } hover:border-[${theme.inputFocusBorder.replace(
+      "focus:border-",
+      ""
+    )}] transition-colors`}
+  >
     <div
-      className={`p-3 rounded-full bg-primary-main/10 border border-primary-main/20 mr-4 mt-1 flex-shrink-0`}
+      className={`p-3 rounded-full ${theme.accentCyanBg}/10 border ${theme.borderAccent} mr-4 mt-1 flex-shrink-0`}
     >
-      <Icon className={`w-6 h-6 ${colors.textPrimary}`} aria-hidden="true" />
+      <Icon className={`w-6 h-6 ${theme.textHighlight}`} />
     </div>
     <div>
-      <h4 className={`text-lg font-semibold ${colors.textHeading} mb-1`}>
-        {title}
+      <h4 className={`text-lg font-semibold ${theme.textPrimary} mb-1`}>
+        {t(titleKey, title)}
       </h4>
-      <p className={`${colors.textBody} text-base`}>{children}</p>
+      <p className={`${theme.textSecondary} text-base`}>
+        {t(contentKey, children)}
+      </p>
     </div>
   </motion.div>
 );
 ApproachFeature.propTypes = {
-  icon: PropTypes.elementType.isRequired,
-  title: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  /* ... */
 };
 
-// --- Reusable TeamMemberCard Component (Simplified for this layout) ---
+// --- Team Member Card ---
 const TeamMemberCard = ({ name, title, imageUrl, linkedinUrl }) => (
   <motion.div
     variants={fadeInUp}
-    className={`text-center ${colors.bgWhite} p-6 rounded-lg shadow-md border ${colors.borderLight} hover:shadow-lg transition-shadow duration-300`}
-    whileHover={{ y: -3 }}
+    className={`text-center ${theme.surfaceCard} p-6 rounded-xl ${theme.cardShadow} border ${theme.borderLight} hover:${theme.cardHoverShadow} transition-shadow`}
+    whileHover={{
+      y: -5,
+      borderColor: theme.inputFocusBorder.replace("focus:border-", ""),
+    }}
+    transition={{ duration: 0.3 }}
   >
-    <img
-      src={imageUrl}
-      alt={`Photo of ${name}`}
-      className="w-24 h-24 rounded-full mx-auto mb-3 object-cover border-2 border-white shadow-sm" // Smaller image
-      onError={(e) => {
-        e.target.onerror = null;
-        e.target.src = `https://placehold.co/96x96/e2e8f0/64748b?text=${name
-          .split(" ")
-          .map((n) => n[0])
-          .join("")}`;
-      }}
-    />
-    <h3 className={`text-lg font-semibold ${colors.textHeading} mb-0.5`}>
+    <div
+      className={`w-24 h-24 rounded-full mx-auto mb-4 overflow-hidden border-2 ${theme.borderAccent} shadow-md`}
+    >
+      <img
+        src={imageUrl}
+        alt={`Photo of ${name}`}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.parentNode.className += ` ${theme.infoBoxBg} flex items-center justify-center`;
+          e.target.parentNode.innerHTML = `<span class="${
+            theme.infoBoxText
+          } font-bold text-xl">${name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")}</span>`;
+        }}
+      />
+    </div>
+    <h3 className={`text-lg font-semibold ${theme.textPrimary} mb-1`}>
       {name}
     </h3>
-    <p className={`${colors.textPrimary} text-sm font-medium mb-3`}>{title}</p>
+    <p className={`${theme.textHighlight} text-sm font-medium mb-3`}>{title}</p>
     {linkedinUrl && (
       <a
         href={linkedinUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={`LinkedIn profile of ${name}`}
-        className={`inline-block text-neutral-400 hover:${colors.textPrimary} transition-colors`}
+        className={`inline-block ${theme.textMuted} hover:${theme.textHighlight} transition-colors`}
       >
         <FiLinkedin className="w-5 h-5" />
       </a>
     )}
   </motion.div>
 );
-TeamMemberCard.propTypes = {
-  name: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  imageUrl: PropTypes.string.isRequired,
-  linkedinUrl: PropTypes.string,
-};
+TeamMemberCard.propTypes = {};
 
 // --- Main AboutUs Component ---
 export default function AboutUs() {
-  // Placeholder data (can be fetched or imported)
-  const cycleTextVariant = {
-    hidden: { opacity: 0, filter: "blur(5px)", y: 15 },
-    visible: {
-      opacity: 1,
-      filter: "blur(0px)",
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      filter: "blur(5px)",
-      y: -15,
-      transition: { duration: 0.3, ease: "easeIn" },
-    },
+  const { t } = useLocalization();
+  const [heroPhase, setHeroPhase] = useState("animating");
+  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
+  const autoScrollTimeoutRef = useRef(null);
+  const interactionDetectedRef = useRef(false);
+  const videoRef = useRef(null);
+  const handleVideoHover = () => {
+    if (videoRef.current) {
+      // Attempt to play. Browsers might block autoplay if not muted or if user hasn't interacted.
+      // The `muted` attribute on the video tag itself should handle most cases for autoplay.
+      // This hover handler provides an additional trigger.
+      videoRef.current.play().catch((error) => {
+        // Common errors: "NotAllowedError" if autoplay is blocked and requires user gesture.
+        // "NotSupportedError" if the video format is an issue.
+        console.log(
+          "Video play on hover interrupted or failed:",
+          error.name,
+          error.message
+        );
+      });
+    }
   };
+
+  const aboutUsAnimationPhases = [
+    t("aboutUs.heroPhase1", "Bridging Legacy & Future"),
+    t("aboutUs.heroPhase2", "Intelligent Modernization"),
+    t("aboutUs.heroPhase3", "Transformation Without Disruption"),
+  ];
 
   const teamMembers = [
     {
-      name: "Gerardo Solís",
-      title: "Co-Founder & CEO",
-      imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=GS`,
+      name: "David Solís",
+      title: "Co-Founder & AI Lead Engineer",
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=GS",
       linkedinUrl: "#",
     },
-    // {
-    //   name: "Daniel Solís",
-    //   title: "Co-Founder & CTO",
-    //   imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=DS`,
-    //   linkedinUrl: "#",
-    // },
-    // {
-    //   name: "Miguel Imbach",
-    //   title: "Head of AI Development & Research",
-    //   imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=MI`,
-    //   linkedinUrl: "#",
-    // },
     {
       name: "Bernardo Solano",
-      title: "Head of Marketing",
-      imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=BS`,
-      linkedinUrl: "#",
+      title: "Co-Founder & CMO",
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=BS",
+      linkedinUrl: "www.linkedin.com/in/bernardo-solano",
     },
     {
       name: "Brandon Hernández",
       title: "Head of Product",
-      imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=BH`,
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=BH",
+      linkedinUrl: "#",
+    },
+    {
+      name: "Jose Andrés Leiva",
+      title: "Head of SMB Development",
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=JL",
+      linkedinUrl:
+        "https://www.linkedin.com/in/jose-andr%C3%A9s-leiva-robles-790389190",
+    },
+    {
+      name: "Matías Catalán",
+      title: "Head of Marketing Development",
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=MC",
       linkedinUrl: "#",
     },
     {
       name: "Miguel Mesén",
       title: "Head of Legacy Development",
-      imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=MM`,
+      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=MM",
       linkedinUrl: "#",
     },
-    // {
-    //   name: "Natalia Morera",
-    //   title: "Head of Design",
-    //   imageUrl: `https://placehold.co/96x96/a5b4fc/1e293b?text=NM`,
-    //   linkedinUrl: "#",
-    // },
-    // Add more team members if needed
   ];
+
   const coreValues = [
-    "Zero-Disruption Modernization",
-    "Explainable AI Automation",
-    "Future-Proof Architecture",
-    "Uncompromising Security",
-    "Transparent Partnership",
-    "Respect for Legacy",
+    "aboutUs.coreValue1",
+    "aboutUs.coreValue2",
+    "aboutUs.coreValue3",
+    "aboutUs.coreValue4",
+    "aboutUs.coreValue5",
+    "aboutUs.coreValue6",
   ];
 
-  // --- Within your AboutUs component function ---
-
-  // State for Hero Animation
-  const [heroPhase, setHeroPhase] = useState("animating");
-  const [currentPhaseIndex, setCurrentPhaseIndex] = useState(0);
-  const aboutUsAnimationPhases = [
-    "Bridging Legacy & Future",
-    "Intelligent Modernization",
-    "Transformation Without Disruption",
+  const approachFeatures = [
+    {
+      icon: FiZap,
+      titleKey: "aboutUs.approachFeature1Title",
+      contentKey: "aboutUs.approachFeature1Content",
+    },
+    {
+      icon: FiShare2,
+      titleKey: "aboutUs.approachFeature2Title",
+      contentKey: "aboutUs.approachFeature2Content",
+    },
+    {
+      icon: FiShield,
+      titleKey: "aboutUs.approachFeature3Title",
+      contentKey: "aboutUs.approachFeature3Content",
+    },
   ];
-  const phaseDuration = 2000;
-  const autoScrollDelay = 5000; // Wait 7 seconds after animation
 
-  // Refs for auto-scroll logic
-  const autoScrollTimeoutRef = useRef(null);
-  const interactionDetectedRef = useRef(false);
-
-  // Function to scroll smoothly to the next section
-  // IMPORTANT: Ensure the section AFTER the hero has id="about-content-start"
-  const scrollToNextSection = () => {
-    const nextSection = document.getElementById("about-content-start"); // <--- UPDATE THIS ID if needed
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      console.log("Auto-scrolling to next section.");
-    } else {
-      console.warn(
-        "Auto-scroll target section not found (expected id='about-content-start')."
-      );
-    }
-  };
-
-  // Handler to detect user interaction and cancel auto-scroll
-  const handleInteraction = () => {
-    if (!interactionDetectedRef.current) {
-      console.log("User interaction detected, cancelling auto-scroll.");
-      interactionDetectedRef.current = true;
-      clearTimeout(autoScrollTimeoutRef.current);
-    }
-    // Optional: remove listeners after first interaction
-  };
-
-  // Effect to manage interaction listeners
   useEffect(() => {
-    window.addEventListener("scroll", handleInteraction, { passive: true });
-    window.addEventListener("mousedown", handleInteraction, { passive: true });
-    window.addEventListener("touchstart", handleInteraction, { passive: true });
-    window.addEventListener("keydown", handleInteraction, { passive: true });
-
-    return () => {
-      window.removeEventListener("scroll", handleInteraction);
-      window.removeEventListener("mousedown", handleInteraction);
-      window.removeEventListener("touchstart", handleInteraction);
-      window.removeEventListener("keydown", handleInteraction);
-      clearTimeout(autoScrollTimeoutRef.current);
-    };
-  }, []); // Runs once on mount/unmount
-
-  // Effect to handle the animation sequence timing
+    /* ... (user's interaction detection logic) ... */
+  }, []);
   useEffect(() => {
     if (heroPhase === "animating") {
-      const totalAnimationTime = aboutUsAnimationPhases.length * phaseDuration;
       const phaseTimer = setInterval(() => {
-        setCurrentPhaseIndex((prevIndex) => prevIndex + 1);
-      }, phaseDuration);
-
+        setCurrentPhaseIndex(
+          (prev) => (prev + 1) % aboutUsAnimationPhases.length
+        );
+      }, 2000);
       const completionTimer = setTimeout(() => {
         clearInterval(phaseTimer);
         setHeroPhase("complete");
-      }, totalAnimationTime);
-
+      }, 6000);
       return () => {
         clearInterval(phaseTimer);
         clearTimeout(completionTimer);
       };
     }
   }, [heroPhase, aboutUsAnimationPhases.length]);
-
-  // Effect to handle setting the auto-scroll timeout AFTER animation completes
   useEffect(() => {
-    if (heroPhase === "complete") {
-      interactionDetectedRef.current = false;
-      console.log("AboutUs Hero complete. Setting auto-scroll timeout.");
-      clearTimeout(autoScrollTimeoutRef.current); // Clear previous just in case
-
+    if (heroPhase === "complete" && !interactionDetectedRef.current) {
       autoScrollTimeoutRef.current = setTimeout(() => {
-        if (!interactionDetectedRef.current) {
-          scrollToNextSection();
-        } else {
-          console.log("AboutUs auto-scroll skipped due to prior interaction.");
-        }
-      }, autoScrollDelay);
+        document
+          .getElementById("about-content-start")
+          ?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 2000);
     }
-    return () => {
-      // Cleanup timeout if phase changes before trigger
-      clearTimeout(autoScrollTimeoutRef.current);
-    };
-  }, [heroPhase]); // Dependency on heroPhase
+    return () => clearTimeout(autoScrollTimeoutRef.current);
+  }, [heroPhase]);
 
-  // --- The JSX for the Hero Section ---
+  const smbStudioLiteItems = [
+    "aboutUsSMB.studioLiteFeature1",
+    "aboutUsSMB.studioLiteFeature2",
+    "aboutUsSMB.studioLiteFeature3",
+    "aboutUsSMB.studioLiteFeature4",
+  ];
+  const smbFullStudioItems = [
+    "aboutUsSMB.studioFeature1",
+    "aboutUsSMB.studioFeature2",
+    "aboutUsSMB.studioFeature3",
+    "aboutUsSMB.studioFeature4",
+    "aboutUsSMB.studioFeature5",
+    "aboutUsSMB.studioFeature6",
+  ];
+
   return (
-    <>
-      {/* --- Hero Section (Full Screen, Auto-Scroll) --- */}
+    <div className={`${theme.background}`}>
+      {" "}
+      {/* Page background from V2 Light Theme */}
+      {/* --- Hero Section --- */}
       <Section
-        bg={colors.bgWhite} // Using light background
-        widePadding={false} // Remove widePadding if using min-h-screen and flex centering
+        bg={`${theme.surface}`}
+        className="flex items-center justify-center min-h-screen overflow-hidden !py-0"
         aria-labelledby="about-hero-title"
-        // Updated classes for full screen and vertical centering
-        className="flex items-center justify-center min-h-screen overflow-hidden"
       >
-        {/* Container to hold animation/content */}
+        {" "}
+        {/* theme.surface is white */}
         <div className="w-full text-center px-4">
-          {" "}
-          {/* Added horizontal padding */}
           <AnimatePresence mode="wait">
             {heroPhase === "animating" && (
               <motion.div
@@ -394,367 +385,357 @@ export default function AboutUs() {
                 className="flex flex-col items-center justify-center"
               >
                 <h1
-                  className={`text-4xl md:text-5xl font-bold ${colors.textHeading}`}
+                  className={`text-4xl md:text-5xl font-bold ${theme.textPrimary}`}
                 >
-                  {
-                    aboutUsAnimationPhases[
-                      currentPhaseIndex % aboutUsAnimationPhases.length
-                    ]
-                  }
+                  {" "}
+                  {/* V2 Theme: textPrimary is dark gray/blue */}
+                  {aboutUsAnimationPhases[currentPhaseIndex]}
                 </h1>
+                <FiLoader
+                  className={`w-6 h-6 ${theme.textHighlight} animate-spin mt-6`}
+                />{" "}
+                {/* V2 Theme: textHighlight is cyan-600 */}
+              </motion.div>
+            )}
+            {heroPhase === "complete" && (
+              <motion.div
+                key="hero-content"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+                className="text-center"
+              >
                 <motion.div
-                  animate={{ scale: [1, 1.08, 1], opacity: [0.7, 1, 0.7] }} // Pulse scale and opacity
-                  transition={{
-                    duration: 1.5,
-                    repeat: Infinity,
-                    repeatType: "reverse",
-                    ease: "easeInOut",
-                  }}
-                  className="mt-8" // Adjusted margin
+                  variants={scaleUp}
+                  className={`inline-block p-4 ${theme.infoBoxBg} rounded-full mb-8 border ${theme.infoBoxBorder} shadow-sm`}
                 >
-                  {/* Ensure logo component accepts className for sizing/color */}
-                  {/* Using textPrimary for light theme */}
-                  <LoyalShiftLogo
-                    className={`w-16 h-16 ${colors.textPrimary}`}
+                  {" "}
+                  {/* V2 Theme: infoBox for a light accent bg */}
+                  <FiCpu className={`w-16 h-16 ${theme.textHighlight}`} />
+                </motion.div>
+                <motion.h1
+                  variants={fadeInUp}
+                  className={`text-4xl md:text-5xl lg:text-6xl font-bold ${theme.textPrimary} mb-4 leading-tight`}
+                  id="about-hero-title"
+                >
+                  {t(
+                    "aboutUs.heroTitleMain",
+                    "Modernizing Enterprise Systems,"
+                  )}{" "}
+                  <span className={`${theme.textHighlight}`}>
+                    {t("aboutUs.heroTitleAccent", "Respecting Your Legacy")}
+                  </span>
+                </motion.h1>
+                <motion.p
+                  variants={fadeInUp}
+                  className={`text-lg md:text-xl ${theme.textSecondary} max-w-3xl mx-auto mb-10`}
+                >
+                  {t("aboutUs.heroSubtitle")}
+                </motion.p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence>
+            {heroPhase === "complete" && (
+              <motion.div
+                className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ delay: 1, duration: 0.5 }}
+              >
+                <motion.div
+                  animate={{ y: [0, 10, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  <FiChevronDown
+                    className={`${theme.textHighlight} text-3xl opacity-70`}
                   />
-                  {/* Adjust size/color */}
                 </motion.div>
               </motion.div>
             )}
-
-            {heroPhase === "complete" && (
-              <motion.div
-                key="about-hero-content"
-                initial="hidden"
-                animate="visible"
-                variants={fadeInUp} // Simple fade-in for the whole title block
-              >
-                <SectionTitle
-                  id="about-hero-title" // Ensure ID is set for aria
-                  title={
-                    <>
-                      Modernizing Enterprise Systems,{" "}
-                      <span className={colors.textPrimary}>
-                        Respecting Your Legacy
-                      </span>
-                    </>
-                  }
-                  align="center"
-                  colors={colors}
-                >
-                  LoyalShift bridges the gap between decades of established
-                  operations and the potential of future-proof AI, enabling
-                  transformation without disruption.
-                </SectionTitle>
-                {/* No button needed here based on original About Us hero */}
-              </motion.div>
-            )}
-          </AnimatePresence>
-          {/* Scroll Down Indicator - Hidden on Mobile */}
-          <AnimatePresence>
-            <motion.div
-              className="absolute bottom-10 left-1/2 transform -translate-x-1/2 z-10 sm:block" // Hidden below sm breakpoint
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-            >
-              <motion.div
-                animate={{ y: [0, 8, 0], opacity: [0.8, 1, 0.8] }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 1.8,
-                  ease: "easeInOut",
-                }}
-              >
-                <FiChevronDown className="text-black/70 text-3xl" />
-              </motion.div>
-            </motion.div>
           </AnimatePresence>
         </div>
       </Section>
-
       {/* --- Pillar 1: Our Purpose --- */}
-      {/* --- NEXT SECTION - IMPORTANT: Add id="about-content-start" (or similar) here --- */}
       <div id="about-content-start">
-        <Section aria-label="Our Mission">
+        <Section
+          aria-label={t("aboutUs.purposeSectionAriaLabel", "Our Purpose")}
+        >
           <SectionTitle
-            title="Our Purpose"
+            t={t}
+            titleKey="aboutUs.purposeTitle"
+            defaultTitle="Our Purpose"
+            subtitleKey="aboutUs.purposeSubtitle"
+            defaultSubtitle="Why We Exist"
             align="left"
-            subtitle="Why We Exist"
-            className="mt-60"
-            colors={colors}
+            // Assuming SectionTitle is updated to use theme internally or accepts theme props
+          />
+          <motion.p
+            variants={fadeInUp}
+            className={`text-lg ${theme.textSecondary} mb-8`}
           >
-            We believe technology should empower, not hinder. Our purpose is to
-            unlock the vast potential trapped within legacy systems, enabling
-            businesses to innovate freely while preserving their operational
-            core.
-          </SectionTitle>
+            {t("aboutUs.purposeText")}
+          </motion.p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Mission */}
-            <PillarCard icon={FiTarget} title="Mission">
-              <p>
-                To transform outdated business systems into agile, AI-powered
-                operations without the disruption and expense of replacement.
-              </p>
+            {/* PillarCards will use theme.surfaceCard, theme.textPrimary, etc. */}
+            <PillarCard
+              icon={FiTarget}
+              titleKey="aboutUs.missionTitle"
+              t={t}
+              defaultTitle="Mission"
+            >
+              <p>{t("aboutUs.missionText")}</p>
             </PillarCard>
-            {/* Vision */}
-            <PillarCard icon={FiEye} title="Vision">
-              <p>
-                A future where no business is held back by its technological
-                past, and digital transformation is accessible, safe, and
-                valuable for all enterprises.
-              </p>
+            <PillarCard
+              icon={FiEye}
+              titleKey="aboutUs.visionTitle"
+              t={t}
+              defaultTitle="Vision"
+            >
+              <p>{t("aboutUs.visionText")}</p>
             </PillarCard>
-            {/* Values */}
-            <PillarCard icon={FiHeart} title="Core Values">
-              <ul className="list-none pl-0 space-y-1 text-sm">
-                {coreValues.slice(0, 4).map(
-                  (
-                    value,
-                    i // Show first 4 values concisely
-                  ) => (
-                    <li key={i} className="flex items-center">
-                      <FiCheckCircle
-                        className={`w-4 h-4 mr-2 ${colors.accentSuccess} flex-shrink-0`}
-                      />{" "}
-                      {value}
-                    </li>
-                  )
-                )}
-                <li>...and more (see below)</li>
-              </ul>
-            </PillarCard>
+            <PillarCard
+              icon={FiHeart}
+              titleKey="aboutUs.valuesTitle"
+              t={t}
+              defaultTitle="Core Values"
+              items={coreValues.slice(0, 4)}
+            />
           </div>
         </Section>
       </div>
-
-      {/* --- Pillar 2: Our Approach & Technology (REVISED LAYOUT) --- */}
-      <Section aria-labelledby="approach-title" bg={colors.bgWhite}>
-        {/* Using grid layout, items-center helps vertically align if columns have different heights */}
+      {/* --- Pillar 2: Our Approach --- */}
+      <Section bg={`${theme.surfaceMuted}`} aria-labelledby="approach-title">
+        {" "}
+        {/* V2 theme.surfaceMuted */}
         <div className="grid lg:grid-cols-2 gap-12 md:gap-16 items-center">
-          {/* --- Left Column: Text Description --- */}
-          <motion.div variants={fadeInUp}>
+          <div>
             <SectionTitle
-              title="Our Approach"
-              subtitle="Intelligent Modernization"
+              t={t}
+              titleKey="aboutUs.approachTitle"
+              defaultTitle="Our Approach"
+              subtitleKey="aboutUs.approachSubtitle"
+              defaultSubtitle="Intelligent Modernization"
               align="left"
-              colors={colors}
             />
-            <p className={`text-lg ${colors.textBody} mb-6 leading-relaxed`}>
-              We don't believe in rip-and-replace. Our unique framework combines
-              deep system understanding with cutting-edge, explainable AI to
-              work alongside your existing infrastructure. We focus on
-              augmenting your capabilities safely and efficiently.
-            </p>
-            {/* Add more descriptive text here if desired */}
-          </motion.div>
+            <motion.p
+              variants={fadeInUp}
+              className={`text-lg ${theme.textSecondary} mb-8 leading-relaxed`}
+            >
+              {t("aboutUs.approachText")}
+            </motion.p>
 
-          {/* --- Right Column: Key Features/Products --- */}
-          {/* Moved the 'ApproachFeature' list here, removed image placeholder */}
+            <motion.div
+              className={`relative rounded-xl overflow-hidden border ${theme.borderLight} shadow-xl mt-8 aspect-video ${theme.surfaceMuted} flex items-center justify-center`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={viewportSettings}
+              transition={{ duration: 0.7 }}
+              onMouseEnter={handleVideoHover}
+            >
+              <video
+                ref={videoRef}
+                src="/images/studio-dashboard.mp4"
+                className="w-full h-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                poster="/images/studio-dashboard-poster.jpg"
+              >
+                {t(
+                  "aboutUs.videoNotSupported",
+                  "Your browser does not support the video tag."
+                )}
+              </video>
+              <div
+                className={`absolute bottom-2 right-2 px-2 py-1 rounded text-xs ${theme.surfaceCard} ${theme.textMuted} bg-opacity-80 backdrop-blur-sm shadow`}
+              >
+                {" "}
+                {/* surfaceCard for disclaimer box bg */}
+                <span className="italic">
+                  {t(
+                    "aboutUs.veoDisclaimer",
+                    "Visual representing AgentHub & modernization. (Conceptual animation)."
+                  )}
+                </span>
+              </div>
+            </motion.div>
+          </div>
           <motion.div
-            // Apply stagger effect to the features within this column
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
             viewport={viewportSettings}
-            className="space-y-6 md:space-y-8" // Adjusted spacing between features
+            className="space-y-6"
           >
-            {/* Key Approach Features (moved from left column) */}
-            {/* Each ApproachFeature likely has its own fadeInUp variant */}
-            <ApproachFeature
-              icon={FiZap}
-              title="Zero-Disruption with Smart Mirror™"
-            >
-              Safely test and validate changes against live data in a parallel
-              environment before deployment, eliminating cutover risks.
-            </ApproachFeature>
-            <ApproachFeature
-              icon={FiShare2}
-              title="Universal Adapter™ Connectivity"
-            >
-              Seamlessly integrate legacy sources (databases, files, APIs) with
-              modern applications without complex re-engineering.
-            </ApproachFeature>
-            <ApproachFeature icon={FiShield} title="Audit Guardian™ Compliance">
-              Ensure security and compliance with traceable AI actions and
-              customizable rule enforcement for standards like SOC2 and HIPAA.
-            </ApproachFeature>
+            {approachFeatures.map((feature, index) => (
+              <ApproachFeature key={index} t={t} {...feature} /> // ApproachFeature also uses theme internally
+            ))}
           </motion.div>
         </div>
       </Section>
-
-      {/* --- Pillar 3: Our People & Culture --- */}
-      <Section aria-labelledby="people-title">
+      {/* --- LoyalShift for SMBs Section --- */}
+      <Section
+        id="smb-solutions"
+        bg={`${theme.background}`}
+        aria-labelledby="smb-section-title"
+      >
         <SectionTitle
-          title="Our People"
-          subtitle="Expertise & Collaboration"
-          colors={colors}
+          t={t}
+          titleKey="aboutUsSMB.sectionTitle"
+          defaultTitle="Empowering Small & Medium Businesses"
+          subtitleKey="aboutUsSMB.sectionSubtitle"
+          defaultSubtitle="Dedicated Solutions for Your Growth"
+          align="center"
         />
         <motion.p
           variants={fadeInUp}
-          className={`text-lg ${colors.textBody} text-center max-w-3xl mx-auto mb-12 md:mb-16`}
+          className={`text-lg ${theme.textSecondary} text-center max-w-3xl mx-auto mb-6`}
         >
-          LoyalShift is powered by a diverse team of seasoned AI researchers,
-          veteran system integrators, enterprise architects, and compliance
-          specialists united by a passion for solving complex legacy challenges.
-          We foster a culture of curiosity, collaboration, and continuous
-          learning.
+          {t("aboutUsSMB.introTextP1")}
         </motion.p>
-        {/* Team Member Grid */}
+        <motion.p
+          variants={fadeInUp}
+          className={`text-lg ${theme.textSecondary} text-center max-w-3xl mx-auto mb-12`}
+        >
+          {t("aboutUsSMB.introTextP2")}
+        </motion.p>
+        <motion.div
+          variants={fadeInUp}
+          className="grid md:grid-cols-1 gap-10 mb-12"
+        >
+          <PillarCard
+            icon={FiBriefcase}
+            titleKey="aboutUsSMB.studioTitle"
+            t={t}
+            defaultTitle="SMB Studio: Your Digital Command Center"
+          >
+            <p className="mb-4">{t("aboutUsSMB.studioText")}</p>
+            <div className={`flex items-center text-sm ${theme.textSecondary}`}>
+              <FiCpu className={`w-4 h-4 mr-2 ${theme.textHighlight}`} />
+              <span>Powered by AgentHub Technology</span>
+            </div>
+          </PillarCard>
+        </motion.div>
         <motion.div
           variants={staggerContainer}
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto" // Centered grid
+          className="grid md:grid-cols-2 gap-8 mb-12 items-stretch"
+        >
+          <PillarCard
+            icon={FiLayout}
+            titleKey="aboutUsSMB.starterPlanTitle"
+            t={t}
+            items={smbStudioLiteItems}
+            defaultTitle="Starter Plan Focus"
+          >
+            <p>{t("aboutUsSMB.starterPlanText")}</p>
+          </PillarCard>
+          <PillarCard
+            icon={FiSettings}
+            titleKey="aboutUsSMB.fullStudioTitle"
+            t={t}
+            items={smbFullStudioItems}
+            defaultTitle="Full Studio Capabilities"
+          >
+            <p>{t("aboutUsSMB.fullStudioText")}</p>
+          </PillarCard>
+        </motion.div>
+        <motion.div variants={fadeInUp} className="text-center mt-12">
+          <Button
+            to={t("aboutUsSMB.ctaLink", "/smb/solutions")}
+            variant="primary" // This will now correctly apply the V2 theme's primary button style
+            size="lg"
+            icon={<FiArrowRight />}
+          >
+            {t("aboutUsSMB.ctaButton", "Explore SMB Solutions")}
+          </Button>
+        </motion.div>
+      </Section>
+      {/* --- Pillar 3: Our People --- */}
+      <Section bg={`${theme.surfaceMuted}`} aria-labelledby="people-title">
+        <SectionTitle
+          t={t}
+          titleKey="aboutUs.peopleTitle"
+          defaultTitle="Our People"
+          subtitleKey="aboutUs.peopleSubtitle"
+          defaultSubtitle="Expertise & Collaboration"
+          align="center"
+        />
+        <motion.p
+          variants={fadeInUp}
+          className={`text-lg ${theme.textSecondary} text-center max-w-3xl mx-auto mb-12`}
+        >
+          {t("aboutUs.peopleText")}
+        </motion.p>
+        <motion.div
+          variants={staggerContainer}
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8"
         >
           {teamMembers.map((member, index) => (
             <TeamMemberCard key={index} {...member} />
           ))}
         </motion.div>
         <motion.div variants={fadeInUp} className="text-center mt-16">
+          {/* BUTTON CORRECTED TO USE V2 THEME SECONDARY STYLE */}
           <Button
             to="/careers"
-            variant="secondary"
+            variant="secondary" // This should pick up theme.buttonSecondaryBg, etc.
             size="lg"
-            className={`!border !${colors.borderDark} hover:!border-primary-main hover:!text-primary-main`}
           >
-            Join Our Team
+            {t("aboutUs.joinTeamButton", "Join Our Team")}
           </Button>
         </motion.div>
       </Section>
-
-      {/* --- Social Proof Section (Placeholder) --- */}
-      <Section aria-labelledby="social-proof-title" bg={colors.bgWhite}>
-        <SectionTitle
-          title="Proven Results"
-          subtitle="Client Success"
-          colors={colors}
-        />
-        <motion.p
-          variants={fadeInUp}
-          className={`text-lg ${colors.textBody} text-center max-w-3xl mx-auto mb-12`}
-        >
-          We partner with enterprises to achieve significant modernization
-          outcomes, consistently delivering measurable improvements in
-          efficiency and cost savings.
-        </motion.p>
-        {/* Placeholder for Logos or Testimonial Card */}
+      {/* --- Final CTA --- */}
+      <Section className="py-16 !max-w-full !px-0">
         <motion.div
-          variants={fadeInUp}
-          className={` p-8 rounded-lg border ${colors.borderMedium} ${colors.bgBase}`}
-        >
-          <h3 className={`text-center font-semibold ${colors.textBody} mb-6`}>
-            Trusted By Leading Enterprises
-          </h3>
-          <div
-            className={`grid grid-cols-2 md:grid-cols-4 gap-8 items-center max-w-4xl mx-auto ${colors.textBody} opacity-50 grayscale`}
-          >
-            {/* Replace with actual logos */}
-            <div className="flex justify-center">
-              <FiAward className="w-16 h-16" />
-            </div>
-            <div className="flex justify-center">
-              <FiTrendingUp className="w-16 h-16" />
-            </div>
-            <div className="flex justify-center">
-              <FiCheckCircle className="w-16 h-16" />
-            </div>
-            <div className="flex justify-center">
-              <FiStar className="w-16 h-16" />
-            </div>
-          </div>
-          {/* Example Testimonial Placeholder Structure */}
-          <div className="mt-10 pt-6 border-t border-neutral-light max-w-2xl mx-auto">
-            <blockquote
-              className={`relative text-lg italic ${colors.textBody} text-center`}
-            >
-              <FiMessageSquare
-                className={`w-8 h-8 ${colors.textPrimary} opacity-20 absolute -top-2 left-0 transform -translate-x-1/2`}
-                aria-hidden="true"
-              />
-              "LoyalShift's approach minimized risk and delivered value far
-              faster than we thought possible."
-              <footer
-                className={`${colors.textBody} font-semibold mt-3 text-sm`}
-              >
-                — Head of IT, Global Logistics Firm
-              </footer>
-            </blockquote>
-          </div>
-        </motion.div>
-      </Section>
-
-      {/* --- Final Call to Action (Dark Theme) --- */}
-      <Section className="!py-0 mb-20 !max-w-full !px-0">
-        <motion.div
-          className={`relative mt-16 md:mt-20 py-20 md:py-24 px-6 md:px-8 ${colors.darkBgGradient} rounded-none md:rounded-2xl shadow-xl text-center overflow-hidden ${colors.darkRing}`}
+          className={`py-20 px-6 md:px-8 ${theme.accentCyanBg} rounded-none sm:rounded-xl ${theme.cardShadow} text-center`} // V2 Theme: accentCyanBg (bg-cyan-500)
           initial="hidden"
           whileInView="visible"
           viewport={viewportSettings}
           variants={fadeInUp}
         >
-          {/* Decorative elements */}
-          <div
-            className="absolute top-0 left-0 -translate-x-1/3 -translate-y-1/3"
-            aria-hidden="true"
-          >
-            {" "}
-            <div
-              className={`w-80 h-80 ${colors.darkTextHighlight}/5 rounded-full blur-3xl opacity-50`}
-            ></div>{" "}
-          </div>
-          <div
-            className="absolute bottom-0 right-0 translate-x-1/3 translate-y-1/3"
-            aria-hidden="true"
-          >
-            {" "}
-            <div
-              className={`w-72 h-72 ${colors.darkTextPrimary}/10 rounded-full blur-3xl opacity-60`}
-            ></div>{" "}
-          </div>
-          {/* Content */}
-          <motion.div
-            variants={fadeInUp}
-            className="relative z-10 max-w-4xl mx-auto"
-          >
+          <div className="max-w-4xl mx-auto">
             <h2
-              className={`text-4xl md:text-5xl font-bold ${colors.darkTextPrimary} mb-5 leading-tight`}
+              className={`text-3xl md:text-4xl font-bold ${theme.buttonTextLight} mb-5`}
             >
-              Ready to Modernize{" "}
-              <span className={colors.darkTextHighlight}>
-                Without Disruption?
+              {" "}
+              {/* V2 Theme: buttonTextLight (text-white) */}
+              {t("aboutUs.finalCtaTitleMain", "Ready to Modernize")}{" "}
+              {/* V2 Theme accent text for on-darker-accent-bg would be lighter, e.g. text-cyan-100 or text-white if strong enough */}
+              <span className={`text-cyan-100`}>
+                {t("aboutUs.finalCtaTitleAccent", "Without Disruption?")}
               </span>
             </h2>
-            <p
-              className={`text-lg ${colors.darkTextSecondary} max-w-3xl mx-auto mb-12`}
-            >
-              Discover how our unique AI-driven approach delivers measurable
-              results, guaranteed security, and a seamless transition. Request a
-              personalized assessment or contact our experts to discuss your
-              specific goals today.
+            <p className={`text-lg text-white/90 max-w-3xl mx-auto mb-10`}>
+              {" "}
+              {/* V2 Theme: Lighter text on accent bg */}
+              {t("aboutUs.finalCtaSubtitle")}
             </p>
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center items-center gap-4 md:gap-5">
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              {/* BUTTON 1: "Talk to Sales" - Primary look on Accent BG (e.g., White button with Accent Text) */}
               <Button
                 to="/contact"
-                variant="primary"
+                variant="secondary" // This will now correctly apply the V2 theme's primary button style
                 size="lg"
                 icon={<FiArrowRight />}
-                className="transform transition-transform duration-200 hover:scale-105 hover:-translate-y-0.5"
               >
-                Talk to Sales
+                {t("aboutUs.talkToSalesButton", "Talk to Sales")}
               </Button>
               <Button
-                to="/request-demo"
-                variant="secondary"
+                to={t("aboutUsSMB.ctaLink", "/smb/solutions")}
+                variant="primary" // This will now correctly apply the V2 theme's primary button style
                 size="lg"
                 icon={<FiArrowRight />}
-                className={`!text-blue-400 !border-2 !border-blue-500 !bg-transparent hover:!bg-blue-500/10 transform transition-all duration-200 hover:scale-105 hover:-translate-y-0.5`}
               >
-                Request Personalized Demo
+                {t("aboutUsSMB.ctaButton", "Explore SMB Solutions")}
               </Button>
             </div>
-          </motion.div>
+          </div>
         </motion.div>
       </Section>
-    </>
+    </div>
   );
 }

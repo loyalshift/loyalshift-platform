@@ -22,7 +22,6 @@ import {
 // Reusable Components
 import Button from "../components/Button";
 import Section from "../components/Section"; // Assuming Section uses its own motion/variants
-import FloatingBlobsBackground from "../components/Financial/FloatingItemsBackground";
 
 // --- Dark Theme Color Palette (UPDATED surface) ---
 const colors = {
@@ -80,7 +79,6 @@ export default function OverseasPartnersPage() {
           className="pt-24 md:pt-32 pb-16 md:pb-20"
           ariaLabelledby="partner-hero-title"
         >
-          <FloatingBlobsBackground />
           <motion.div
             className="text-center max-w-4xl mx-auto"
             initial="hidden"

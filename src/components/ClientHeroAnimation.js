@@ -44,12 +44,6 @@ const finalContentVariant = {
   },
 };
 
-const fadeInUp = {
-  // For staggering elements within final content
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
 /**
  * A reusable hero animation component displaying cycling text phases
  * followed by a final personalized message.
