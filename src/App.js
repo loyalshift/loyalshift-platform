@@ -50,6 +50,8 @@ import AutonomousOperationsEngineCaseStudy from "./pages/CaseStudies/AutonomousO
 import SMBBIMDashboard from "./pages/SMB/SMBBIMDashboard";
 import SMBBIMObjectLibraryPage from "./pages/SMB/SMBBIMObjectLibraryPage";
 import BIMLayout from "./components/SMB/BIM/BIMLayout";
+import SMBDeployGuidePage from "./pages/SMB/SMBDeployGuide";
+import SMBDeployGuideContaboPage from "./pages/SMB/SMBDeployGuideContaboPage";
 
 function App() {
   return (
@@ -148,6 +150,14 @@ function App() {
             <Route
               path="resources/guide/seo-basics"
               element={<SEOBasicsPage />}
+            />
+            <Route
+              path="resources/guide/deploy-ui"
+              element={<SMBDeployGuidePage />}
+            />
+            <Route
+              path="resources/guide/deploy-contabo"
+              element={<SMBDeployGuideContaboPage />}
             />
             <Route path="solutions" element={<SMBSolutionsPage />} />
             <Route path="features" element={<SMBFeaturesPage />} />

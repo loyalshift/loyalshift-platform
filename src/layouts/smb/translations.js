@@ -26,6 +26,167 @@ export const translations = {
     content: "Content",
     settings: "Settings",
 
+    aoeCTA: {
+      hero: {
+        eyebrow: "Strategic Initiative",
+        title: "Imagine Your Enterprise: Fully Autonomous, Entirely Secure.",
+        subtitle:
+          "Partner with LoyalShift to co-create a bespoke Autonomous Operations Engine (AOE) – an on-premise, AI-powered core that learns from your data, orchestrates your existing systems, and operates securely offline.",
+        ctaButton: "Discuss Your Autonomous Vision",
+      },
+      roiCalculator: {
+        title: "Calculate Your Potential ROI",
+        subtitle:
+          "Estimate the value an On-Premise Autonomous Operations Engine could bring to your business.",
+        employeesLabel: "Number of Employees (Relevant Depts.)",
+        employeesMin: "10",
+        employeesMax: "500+",
+        avgSalaryLabel: "Average Annual Salary (USD)",
+        avgSalaryPlaceholder: "e.g., 65000",
+        processesLabel: "Core Processes to Automate",
+        processesOption: "{count} process",
+        processesOptionPlural: "{count} processes",
+        dataProcessedLabel: "Data Points Processed/Managed Annually (Est.)", // Kept from previous for consistency if used
+        cloudCostLabel: "Current Annual Cloud/External AI Service Costs (USD)",
+        cloudCostPlaceholder: "e.g., 15000",
+        gpuOwnedLabel:
+          "We own suitable NVIDIA GPUs (e.g., RTX A-series, Tesla, H100)",
+        resultsTitle: "Your Estimated ROI with On-Premise AOE",
+        resultsLaborSavings: "Annual Labor Savings (Est. 15% from Automation)",
+        resultsCloudSavings: "Annual Cloud Service Savings (If GPUs owned)",
+        resultsEfficiencyGains: "Annual Efficiency Gains (Process Value)",
+        resultsDataValue: "Annual Value from Optimized Data", // Kept from previous
+        resultsTotalAnnual: "Total Estimated Annual Value",
+        resultsPayback: "Estimated Payback Period",
+        resultsPaybackUnit: "months",
+        results3YearValue: "Estimated 3-Year Net Value",
+        resultsImplementationCost: "One-Time Implementation & Setup (Est.)",
+        resultsGpuNote: "(+ Initial GPU Hardware if not owned)",
+        resultsDisclaimer:
+          "*Estimates are illustrative, based on typical deployments and industry averages. Actual ROI will vary.",
+        ctaEstimateButton: "Get a Customized ROI Estimate",
+      },
+      explanationSelector: {
+        title: "Understand the AOE: Tailored Explanations",
+        businessOwnerButton: "For Business Owners",
+        technicalLeadButton: "For Technical Leads",
+        aiSpecialistButton: "For AI Specialists",
+      },
+      explanationBusiness: {
+        title: "AOE: Drive Efficiency & Secure Your Future (Business View)",
+        p1: "Imagine your core business operations running smoother, faster, and more reliably, 24/7. The Autonomous Operations Engine (AOE) is like giving your company an incredibly smart, dedicated internal team that learns your unique processes and makes optimal decisions on its own.",
+        p2: "Crucially, this intelligence stays *within your company*. No sensitive data leaves your control. It's about boosting productivity, reducing errors, and gaining a significant competitive edge by making your existing systems work smarter, all while maintaining the highest security.",
+        benefit1:
+          "Increased Operational Efficiency: Automate complex tasks, reduce manual effort, and speed up critical workflows.",
+        benefit2:
+          "Enhanced Data Security: Keep all proprietary data and AI learning strictly on-premise, ideal for sensitive industries.",
+        benefit3:
+          "Reduced Operational Costs: Minimize errors, optimize resource use, and improve uptime.",
+        benefit4:
+          "Future-Proof Your Operations: Build a foundation for continuous improvement and adaptation without costly system overhauls.",
+      },
+      explanationTechnical: {
+        title: "AOE: Architecture & Integration (Technical View)",
+        p1: "The Autonomous Operations Engine (AOE) is a modular, on-premise AI solution designed for deep integration with your existing enterprise infrastructure. It leverages a secure, hardened AI core (CipherCore™) that performs offline learning and inference directly within your data center.",
+        p2: "Connectivity to legacy systems (mainframes, AS/400, custom databases, SCADA/ICS) and modern applications is achieved via a specialized internal configuration of our Universal Adapter™. The AOE orchestrates pre-defined business functions and can trigger custom scripts or API calls based on its learned models and real-time internal data feeds.",
+        feature1:
+          "On-Premise Deployment: Full control over the physical and network environment of the AI module.",
+        feature2:
+          "Offline Learning & Inference: AI models are trained and operate without external internet connectivity, ensuring data sovereignty.",
+        feature3:
+          "Secure API & Adapter Framework: Robust interfaces for integrating with diverse internal systems and industrial control systems.",
+        feature4:
+          "Adaptive Orchestration Layer: The AOE's core logic dynamically adjusts workflows based on real-time conditions and historical performance data.",
+      },
+      explanationAI: {
+        title: "AOE: AI Model & Learning Paradigm (AI Specialist View)",
+        p1: "The Autonomous Operations Engine (AOE) employs a hybrid AI architecture, potentially combining explainable rule-based systems with advanced machine learning models (e.g., Reinforcement Learning, Time-Series Forecasting, Anomaly Detection) tailored to your specific operational domain. Models are trained exclusively on your proprietary, on-premise data.",
+        p2: "Our offline learning paradigm focuses on continuous adaptation within your isolated environment. The AOE utilizes techniques for federated learning (if multiple internal nodes) or incremental learning to update models without data exfiltration. Explainability (XAI) components can be integrated to provide transparency into the AI's decision-making processes where required.",
+        modelDetail1:
+          "Customizable Model Architecture: Selection and fine-tuning of ML models (e.g., LSTMs for predictive maintenance, RL agents for process optimization, Graph Neural Networks for system interdependencies) based on specific use cases.",
+        modelDetail2:
+          "Secure Data Pipelines: Internal ETL processes for preparing and feeding data to the offline training and inference engine.",
+        modelDetail3:
+          "Physics-Informed AI (Optional): For relevant domains, incorporating domain knowledge and physical constraints into model training for enhanced robustness and safety.",
+        modelDetail4:
+          "Continuous Offline Improvement Loop: Mechanisms for model re-training, validation, and deployment within the secure enclave, driven by new internal operational data.",
+      },
+      need: {
+        title: "The Enterprise Imperative: Intelligence Without Exposure",
+        p1: "Many critical industries – manufacturing, energy, defense, finance – require advanced automation and AI-driven insights. However, the sensitive nature of their data and operations often precludes the use of cloud-based AI solutions due to security, compliance, or connectivity constraints.",
+        p2: "The challenge is to harness the power of AI within a completely trusted, self-contained environment, enabling true operational autonomy while maintaining absolute data sovereignty.",
+      },
+      visionPillar1: {
+        title: "Self-Learning & Optimization",
+        desc: "An engine that continuously learns from your internal data to refine processes and predict outcomes, all within your secure environment.",
+      },
+      visionPillar2: {
+        title: "Seamless Legacy Integration",
+        desc: "Connect and orchestrate your existing systems, PLCs, and custom functions through secure, high-performance internal adapters.",
+      },
+      visionPillar3: {
+        title: "Air-Gapped Security & Control",
+        desc: "Operate with complete data sovereignty. No external cloud dependencies for core AI processing and decision-making.",
+      },
+      visionPillar4: {
+        title: "Proactive & Predictive Operations",
+        desc: "Move beyond reactive fixes to predictive maintenance and proactive process adjustments, minimizing downtime and maximizing efficiency.",
+      },
+      capability: {
+        mainTitle: "LoyalShift's Blueprint for Your Autonomous Engine",
+        mainSubtitle:
+          "We provide the core technologies and expertise to build, deploy, and refine an AOE tailored to your unique operational landscape. Our approach focuses on secure on-premise deployment and integration with your existing infrastructure.",
+      },
+      capability1: {
+        title: "CipherCore™ On-Premise AI",
+        desc: "Our hardened, deployable AI module designed for secure, offline learning and execution tailored to your proprietary data.",
+      },
+      capability2: {
+        title: "Universal Adapter™ (Internal Mode)",
+        desc: "Specialized configurations for robust and secure integration with diverse internal systems, databases, and industrial controls.",
+      },
+      capability3: {
+        title: "Adaptive Orchestration Engine",
+        desc: "The intelligence layer that learns your operational workflows and orchestrates existing functions for autonomous execution.",
+      },
+      capability4: {
+        title: "Enterprise-Grade Security Framework",
+        desc: "Built with security at its core, ready for deployment in highly regulated and sensitive operational environments.",
+      },
+      process: {
+        title: "Our Collaborative Co-Creation Process",
+        subtitle:
+          "Building an Autonomous Operations Engine is a strategic partnership. We work hand-in-hand with your team through a phased approach:",
+        step1: {
+          title: "1. Deep Dive & Strategic Alignment",
+          desc: "Understanding your critical processes, existing systems, security protocols, and desired autonomous outcomes. Defining clear KPIs for success.",
+        },
+        step2: {
+          title: "2. Secure AOE Blueprinting",
+          desc: "Designing the architecture for your on-premise AOE, including data flow, AI model selection (or custom development), and integration points with legacy systems using Universal Adapter™.",
+        },
+        step3: {
+          title: "3. Phased Deployment & Offline Learning",
+          desc: "Iterative deployment of the AOE module, initial training on your historical data (offline), and integration with a subset of functions for validation.",
+        },
+        step4: {
+          title: "4. Pilot Operations & Performance Tuning",
+          desc: "The AOE begins managing select operations under supervision. Continuous monitoring, learning refinement, and performance tuning based on real-world results within your environment.",
+        },
+        step5: {
+          title: "5. Scale to Full Autonomy & Ongoing Evolution",
+          desc: "Gradual expansion of the AOE's scope to manage more processes autonomously. Establishing protocols for ongoing offline learning and future capability enhancements.",
+        },
+      },
+      final: {
+        title: "Let's Build the Future of Your Secure, Autonomous Enterprise.",
+        subtitle:
+          "If the vision of an AI-powered, on-premise engine that securely automates and optimizes your critical operations resonates with your strategic goals, we invite you to start a confidential discussion with our advanced solutions team.",
+        ctaButton: "Initiate Strategic Dialogue",
+        disclaimer:
+          "All discussions are under strict NDA. We specialize in solutions for sensitive and regulated environments.",
+      },
+    },
     smbSolutions: {
       hero: {
         title: "Solutions Built for Your Business Growth",
@@ -1647,6 +1808,181 @@ export const translations = {
 
       loading: "Loading...",
     },
+    smbDeployGuideAdvanced: {
+      pageTitle: "Advanced Deployment Guide for SMBs | LoyalShift",
+      mainTitle: "Deploying Your Modern UI with Kubernetes",
+      mainSubtitle:
+        "An advanced guide for deploying a containerized application using Namecheap for your domain and a Kubernetes cluster for hosting (e.g., on Rackspot or any cloud provider).",
+      part1Title: "Part 1: Domain & DNS Setup",
+      part1Intro:
+        "First, you need to own your domain name and know the IP address of your Kubernetes cluster's Ingress Controller. This IP is where all web traffic will be directed.",
+      part1Step1Title: "Get Your Domain & Ingress IP",
+      part1Step1Desc1:
+        "Purchase your domain from a registrar like Namecheap if you haven't already.",
+      part1Step1Desc2:
+        "Obtain the external IP address of your Kubernetes Ingress Controller. This is provided by your hosting provider (like Rackspot) or cloud service after you set up the controller (see Part 3).",
+      part1Step2Title: "Point Your Domain to the Cluster",
+      part1Step2Desc1:
+        "Log in to your Namecheap account, go to your 'Domain List', and click 'Manage' next to your domain.",
+      part1Step2Desc2:
+        "Navigate to the 'Advanced DNS' tab and add two 'A Record' entries:",
+      part1Step2Host1:
+        "Host: @ (for your main domain) | Value: <Your-Cluster-IP-Address>",
+      part1Step2Host2:
+        "Host: www (for the www subdomain) | Value: <Your-Cluster-IP-Address>",
+      part1Step2Note:
+        "Note: DNS changes can take a few hours to update across the internet.",
+      part2Title: "Part 2: Containerizing Your App with Docker",
+      part2Intro:
+        "We need to package your React application into a self-contained unit called a Docker image. This ensures it runs identically anywhere.",
+      part2Step1Title: "Create a Dockerfile",
+      part2Step1Desc:
+        "In the root of your project, create a file named `Dockerfile`. This file contains instructions to build your app's image.",
+      part2Step2Title: "Create an Nginx Configuration",
+      part2Step2Desc:
+        "For serving your React app's static files, we'll use a lightweight Nginx web server. Create a file named `nginx.conf` in your project root.",
+      part3Title: "Part 3: One-Time Kubernetes Cluster Setup",
+      part3Intro:
+        "Before deploying your app, your Kubernetes cluster needs two essential components: an Ingress Controller to manage external traffic and a Cert-Manager to automate SSL certificates.",
+      part3Step1Title: "Install NGINX Ingress Controller",
+      part3Step1Desc:
+        "This component routes external traffic to services within your cluster. Apply it by running the following command:",
+      part3Step2Title: "Install Cert-Manager",
+      part3Step2Desc:
+        "This will automatically create and manage free SSL certificates from Let's Encrypt for your domains.",
+      part3Step3Title: "Create a Let's Encrypt Issuer",
+      part3Step3Desc:
+        "This final setup step tells cert-manager how to obtain certificates. Create a file named `letsencrypt-issuer.yaml` and apply it. Don't forget to change the email address.",
+      part4Title: "Part 4: Your Application's Deployment Files",
+      part4Intro:
+        "These files tell Kubernetes how to run your application: how to deploy it, how to expose it as a service, and how to make it accessible to the outside world.",
+      part4File1Title: "Service File (service.yaml)",
+      part4File1Desc:
+        "This creates an internal network service that exposes your application's pods.",
+      part4File2Title: "Ingress File (<project-name>-ingress.yaml)",
+      part4File2Desc:
+        "This manages external access, routing traffic from your domains to your service, and handles HTTPS.",
+      part5Title: "Part 5: Deploying Your Application",
+      part5Intro:
+        "With all your configuration files ready, you can now deploy them to your cluster.",
+      part5Step1Title: "Apply Your Configurations",
+      part5Step1Desc:
+        "Run the following command for each of your YAML files (`deployment.yaml`, `service.yaml`, `<project-name>-ingress.yaml`). The `--kubeconfig` flag points to your cluster's connection file.",
+      conclusionTitle: "Deployment Complete!",
+      conclusionText:
+        "Your application is now deployed and accessible via `https://your-domain.com`. Cert-manager will automatically provision an SSL certificate within a few minutes. To update your site, you'll need to build a new Docker image, push it to a registry, and update your `deployment.yaml` file to use the new image tag.",
+      copyCodeButton: "Copy Code",
+      copiedButton: "Copied!",
+      importantNote:
+        "IMPORTANT: Replace all placeholder values like `<project-name>`, `<project-domain>`, and `<project-acme-registration-email>` with your actual information.",
+      namecheapPlaceholder: "e.g., my-awesome-business.com",
+      namecheapAriaLabel: "Domain name search input",
+      namecheapSearchButton: "Check Availability",
+      namecheapPoweredBy: "Domain search powered by Namecheap.",
+    },
+    smbDeployGuideContabo: {
+      pageTitle: "SMB Deployment Guide: Contabo | LoyalShift",
+      mainTitle: "Deploying Your Website on Contabo",
+      mainSubtitle:
+        "A practical, step-by-step guide to uploading your modern application's files to your Contabo VPS or dedicated server.",
+
+      part1Title: "Part 1: Preparing Your Application for Production",
+      part1Intro:
+        "Before you can upload your website, you need to compile your code into static files (HTML, CSS, JavaScript) that a web server can serve. This is called the 'build' process.",
+      part1Step1Title: "Run the Build Command",
+      part1Step1Desc:
+        "In your project's code directory, open a terminal and run the standard build command. This will create a new folder named `build` (or sometimes `dist`) in your project, containing the optimized, production-ready version of your site.",
+
+      part2Title: "Part 2: Securely Uploading Your Files",
+      part2Intro:
+        "The method for uploading your files depends on the operating system of your local computer and your Contabo server. The following steps prioritize security and best practices.",
+      securityPreambleTitle: "Initial Security Best Practices",
+      securityPreambleDesc:
+        "Before transferring files, it's crucial to establish a secure foundation. We strongly recommend against using the `root` user for routine file transfers.",
+      securityRootWarning:
+        "Never use the `root` user for regular SFTP/SCP file transfers. Always create a dedicated user with limited permissions for deployments to enhance security.",
+      scenario1Title:
+        "Recommended: Create a Dedicated Deploy User (Linux Server)",
+      scenario1Desc:
+        "Creating a separate user for deployments is the most secure method.",
+      scenario1Step1Title: "Create a New User",
+      scenario1Step1Desc:
+        "Connect to your server via SSH as `root` and create a new user (e.g., `deployuser`). You will be prompted to set a password.",
+      scenario1Step2Title: "Grant Permissions",
+      scenario1Step2Desc:
+        "Add the new user to the `www-data` group so they can write to the web directory. Then, set the ownership of the web directory to this user and group.",
+      scenario1Step3Title: "Upload Files via SCP",
+      scenario1Step3Desc1:
+        "Now, from your local machine, use the `scp` (secure copy) command to upload your built application files to the server as the new `deployuser`.",
+      scenario1Step3Desc2:
+        "This command recursively copies everything from your local `build` folder to the `/var/www/html` directory on your server.",
+      sshKeyTitle: "Advanced Security: Using SSH Keys",
+      sshKeyDesc:
+        "For even greater security, we recommend setting up SSH key-based authentication instead of using passwords. This involves generating a key pair on your local machine and adding the public key to your server's `~/.ssh/authorized_keys` file for your `deployuser`. This method is highly resistant to brute-force attacks.",
+
+      part3Title: "Part 3: Configuring the Web Server for a React App",
+      part3Intro:
+        "This is a critical step for Single-Page Applications (SPAs). It ensures that refreshing a page like `your-domain.com/about` works correctly instead of showing a 404 error.",
+      part3Step1Title: "Configure for Apache or Nginx",
+      part3Step1Desc:
+        "You need to add a rewrite rule. The method depends on which web server software is running on your Contabo Linux server (most common are Apache and Nginx).",
+      apacheNote:
+        "If you are using Apache, create or edit the `.htaccess` file in `/var/www/html`.",
+      nginxNote:
+        "If you are using Nginx, you'll need to edit your site's server block configuration file, typically located in `/etc/nginx/sites-available/`.",
+      part3Step2Title: "Set Correct File Permissions",
+      part3Step2Desc:
+        "After uploading, ensure the web server can read the files by setting the correct permissions on your server.",
+
+      part4Title: "Part 4: Final Steps: Domain & SSL",
+      part4Intro:
+        "The final steps are pointing your domain to the server and securing it with HTTPS.",
+      part4Step1Title: "Point Your Domain's A Record",
+      part4Step1Desc:
+        "In your domain registrar's DNS settings (e.g., Namecheap), create or update the 'A' record for your domain to point to your Contabo server's IP address. This can take a few hours to propagate.",
+      part4Step1SubTitleWHM:
+        "For WHM/cPanel Users: Linking Your Domain on the Server",
+      part4Step1SubDescWHM:
+        "If your Contabo server has a WHM/cPanel license, you must first create an account for your domain within WHM. This step properly configures the server to host your website's files.",
+      part4Step1SubStep1WHM:
+        "Log into WHM (usually at `https://your-server-ip:2087`).",
+      part4Step1SubStep2WHM:
+        "Navigate to 'Create a New Account' under the 'Account Functions' section.",
+      part4Step1SubStep3WHM:
+        "Fill in your domain information, create a username and password for its cPanel account, and select a resource package.",
+      part4Step1SubStep4WHM:
+        "Click 'Create'. WHM will now set up the dedicated hosting environment for your domain on the server.",
+      part4Step1SubStep5WHM:
+        "After creating the account in WHM, you can then proceed with pointing your domain's A record at your registrar (like Namecheap) to your server's IP address.",
+      part4Step2Title: "Install an SSL Certificate",
+      part4Step2Desc:
+        "Securing your site with HTTPS is essential. Use the tools provided by your Contabo panel (like Let's Encrypt in cPanel) or use a command-line tool like Certbot to install a free, automated SSL certificate on your server.",
+      part4Step2Sub1Title: "1. Install Certbot",
+      part4Step2Sub1Desc:
+        "First, install the Certbot software and its plugin for your web server (we'll show examples for Apache and Nginx, the most common choices).",
+      part4Step2Sub2Title: "2. Run Certbot",
+      part4Step2Sub2Desc:
+        "Next, run Certbot. It will automatically detect your domain from your web server configuration, obtain the certificate, and configure HTTPS for you. Choose the command that matches your server:",
+      apacheCommandNote: "For Apache Web Server:",
+      nginxCommandNote: "For Nginx Web Server:",
+      certbotSuccessNote:
+        "After running the command, follow the on-screen prompts. If successful, Certbot will handle automatic renewals for you.",
+
+      conclusionTitle: "You're Ready to Go Live!",
+      conclusionText:
+        "Once DNS propagates, your site will be live and secure. Remember that every time you update your code, you will need to run `npm run build` again and re-upload the contents of the `build` folder, ensuring permissions are set correctly.",
+
+      codeSnippetBuild: "npm run build",
+      codeSnippetScp: "scp -r build/* deployuser@your_server_ip:/var/www/html/",
+      codeSnippetChown:
+        "sudo chown -R www-data:www-data /var/www/html && sudo chmod -R 775 /var/www/html",
+      codeSnippetHtaccess:
+        "<IfModule mod_rewrite.c>\n  RewriteEngine On\n  RewriteBase /\n  RewriteRule ^index\\.html$ - [L]\n  RewriteCond %{REQUEST_FILENAME} !-f\n  RewriteCond %{REQUEST_FILENAME} !-d\n  RewriteCond %{REQUEST_FILENAME} !-l\n  RewriteRule . /index.html [L]\n</IfModule>",
+      codeSnippetNginx:
+        "server {\n  # ... your other server config ...\n\n  location / {\n    root /var/www/html;\n    try_files $uri /index.html;\n  }\n\n  # ...\n}",
+      copiedButton: "Copied!",
+      copyCodeButton: "Copy Code",
+    },
   },
   es: {
     // SMBHeader
@@ -1672,7 +2008,352 @@ export const translations = {
     dashboard: "Panel",
     content: "Contenido",
     settings: "Configuración",
+    smbDeployGuideContabo: {
+      pageTitle: "Guía de Despliegue en Contabo | LoyalShift PYMES",
+      mainTitle: "Desplegando su Sitio Web en Contabo",
+      mainSubtitle:
+        "Una guía práctica y paso a paso para subir los archivos de su aplicación moderna a su VPS o servidor dedicado de Contabo.",
 
+      part1Title: "Parte 1: Preparando su Aplicación para Producción",
+      part1Intro:
+        "Antes de poder subir su sitio web, necesita compilar su código en archivos estáticos (HTML, CSS, JavaScript) que un servidor web pueda servir. Este proceso se llama 'build'.",
+      part1Step1Title: "Ejecute el Comando de Compilación (Build)",
+      part1Step1Desc:
+        "En el directorio de código de su proyecto, abra una terminal y ejecute el comando de compilación estándar. Esto creará una nueva carpeta llamada `build` en su proyecto, que contiene la versión optimizada y lista para producción de su sitio.",
+
+      part2Title: "Parte 2: Subida Segura de sus Archivos",
+      part2Intro:
+        "El método para subir sus archivos depende del sistema operativo de su computadora local y de su servidor Contabo. Los siguientes pasos priorizan la seguridad y las mejores prácticas.",
+      securityPreambleTitle: "Prácticas de Seguridad Iniciales",
+      securityPreambleDesc:
+        "Antes de transferir archivos, es crucial establecer una base segura. Recomendamos encarecidamente no utilizar el usuario `root` para transferencias de archivos de rutina.",
+      securityRootWarning:
+        "Nunca use el usuario `root` para transferencias de archivos SFTP/SCP regulares. Siempre cree un usuario dedicado con privilegios limitados para los despliegues para mejorar la seguridad.",
+      scenario1Title:
+        "Recomendado: Crear un Usuario de Despliegue Dedicado (Servidor Linux)",
+      scenario1Desc:
+        "Crear un usuario separado para los despliegues es el método más seguro.",
+      scenario1Step1Title: "Crear un Nuevo Usuario",
+      scenario1Step1Desc:
+        "Conéctese a su servidor vía SSH como `root` y cree un nuevo usuario (ej., `deployuser`). Se le pedirá que establezca una contraseña.",
+      scenario1Step2Title: "Otorgar Permisos",
+      scenario1Step2Desc:
+        "Añada el nuevo usuario al grupo `www-data` para que pueda escribir en el directorio web. Luego, establezca la propiedad del directorio web para este usuario y grupo.",
+      scenario1Step3Title: "Subir Archivos vía SCP",
+      scenario1Step3Desc1:
+        "Ahora, desde su máquina local, use el comando `scp` (copia segura) para subir los archivos de su aplicación compilada al servidor como el nuevo `deployuser`.",
+      scenario1Step3Desc2:
+        "Este comando copia recursivamente todo desde su carpeta local `build` al directorio `/var/www/html` en su servidor.",
+      sshKeyTitle: "Seguridad Avanzada: Usando Claves SSH",
+      sshKeyDesc:
+        "Para una seguridad aún mayor, recomendamos configurar la autenticación basada en claves SSH en lugar de usar contraseñas. Esto implica generar un par de claves en su máquina local y agregar la clave pública al archivo `~/.ssh/authorized_keys` de su `deployuser` en el servidor. Este método es altamente resistente a ataques de fuerza bruta.",
+
+      part3Title: "Parte 3: Configurando el Servidor para React",
+      part3Intro:
+        "Este es un paso final crítico para aplicaciones de página única (SPAs) como las construidas con React. Asegura que refrescar una página como `su-dominio.com/acerca` funcione correctamente en lugar de mostrar un error 404.",
+      part3Step1Title: "Configure para Apache o Nginx",
+      part3Step1Desc:
+        "Necesita agregar una regla de reescritura. El método depende del software de servidor web que se esté ejecutando en su servidor Linux de Contabo (los más comunes son Apache y Nginx).",
+      apacheNote:
+        "Si está usando Apache, cree o edite el archivo `.htaccess` en `/var/www/html`.",
+      nginxNote:
+        "Si está usando Nginx, necesitará editar el archivo de configuración del bloque de servidor de su sitio, típicamente ubicado en `/etc/nginx/sites-available/`.",
+      part3Step2Title: "Establecer Permisos de Archivo Correctos",
+      part3Step2Desc:
+        "Después de subir los archivos, asegúrese de que el servidor web pueda leerlos estableciendo los permisos correctos en su servidor.",
+
+      part4Title: "Parte 4: Pasos Finales: Dominio y SSL",
+      part4Intro:
+        "Los pasos finales son apuntar su dominio al servidor y asegurarlo con HTTPS.",
+      part4Step1Title: "Apunte el Registro A de su Dominio",
+      part4Step1Desc:
+        "En la configuración de DNS de su registrador de dominios (ej., Namecheap), cree o actualice el registro 'A' para su dominio para que apunte a la dirección IP de su servidor de Contabo. Esto puede tardar algunas horas en propagarse.",
+      part4Step1SubTitleWHM:
+        "Para Usuarios de WHM/cPanel: Vincular su Dominio en el Servidor",
+      part4Step1SubDescWHM:
+        "Si su servidor de Contabo tiene una licencia de WHM/cPanel, primero debe crear una cuenta para su dominio dentro de WHM. Este paso configura correctamente el servidor para alojar los archivos de su sitio web.",
+      part4Step1SubStep1WHM:
+        "Inicie sesión en WHM (generalmente en `https://su-ip-de-servidor:2087`).",
+      part4Step1SubStep2WHM:
+        "Navegue a 'Crear una Nueva Cuenta' en la sección 'Funciones de la Cuenta'.",
+      part4Step1SubStep3WHM:
+        "Complete la información de su dominio, cree un nombre de usuario y contraseña para su cuenta de cPanel, y seleccione un paquete de recursos.",
+      part4Step1SubStep4WHM:
+        "Haga clic en 'Crear'. WHM ahora configurará el entorno de alojamiento dedicado para su dominio en el servidor.",
+      part4Step1SubStep5WHM:
+        "Después de crear la cuenta en WHM, puede proceder a apuntar el registro A de su dominio en su registrador (como Namecheap) a la dirección IP de su servidor.",
+      part4Step2Title: "Instale un Certificado SSL",
+      part4Step2Desc:
+        "Asegurar su sitio con HTTPS es esencial. Use las herramientas provistas por su panel de Contabo (como Let's Encrypt en cPanel) o una herramienta de línea de comandos como Certbot para instalar un certificado SSL gratuito y automatizado en su servidor.",
+      part4Step2Sub1Title: "1. Instalar Certbot",
+      part4Step2Sub1Desc:
+        "Primero, instale el software Certbot y su complemento para su servidor web (mostraremos ejemplos para Apache y Nginx, las opciones más comunes).",
+      part4Step2Sub2Title: "2. Ejecutar Certbot",
+      part4Step2Sub2Desc:
+        "A continuación, ejecute Certbot. Detectará automáticamente su dominio desde la configuración de su servidor web, obtendrá el certificado y configurará HTTPS por usted. Elija el comando que corresponda a su servidor:",
+      apacheCommandNote: "Para Servidor Web Apache:",
+      nginxCommandNote: "Para Servidor Web Nginx:",
+      certbotSuccessNote:
+        "Después de ejecutar el comando, siga las instrucciones en pantalla. Si tiene éxito, Certbot se encargará de las renovaciones automáticas por usted.",
+
+      conclusionTitle: "¡Está Listo para Lanzar!",
+      conclusionText:
+        "Una vez que el DNS se propague, su sitio estará en vivo y seguro. Recuerde que cada vez que actualice el código de su sitio, deberá ejecutar `npm run build` nuevamente y volver a subir el contenido de la carpeta `build`, asegurándose de que los permisos estén configurados correctamente.",
+
+      codeSnippetBuild: "npm run build",
+      codeSnippetScp:
+        "scp -r build/* nombre_usuario@ip_servidor:/var/www/html/",
+      codeSnippetChown:
+        "sudo chown -R www-data:www-data /var/www/html && sudo chmod -R 775 /var/www/html",
+      codeSnippetHtaccess:
+        "<IfModule mod_rewrite.c>\n  RewriteEngine On\n  RewriteBase /\n  RewriteRule ^index\\.html$ - [L]\n  RewriteCond %{REQUEST_FILENAME} !-f\n  RewriteCond %{REQUEST_FILENAME} !-d\n  RewriteCond %{REQUEST_FILENAME} !-l\n  RewriteRule . /index.html [L]\n</IfModule>",
+      codeSnippetNginx:
+        "server {\n  # ... su otra configuración de servidor ...\n\n  location / {\n    root /var/www/html;\n    try_files $uri /index.html;\n  }\n\n  # ...\n}",
+      copiedButton: "¡Copiado!",
+      copyCodeButton: "Copiar Código",
+    },
+
+    smbDeployGuideAdvanced: {
+      pageTitle: "Guía de Despliegue Avanzado para PYMES | LoyalShift",
+      mainTitle: "Desplegando su UI Moderna con Kubernetes",
+      mainSubtitle:
+        "Una guía avanzada para desplegar una aplicación en contenedores usando Namecheap para su dominio y un clúster de Kubernetes para el hosting (ej., en Rackspot o cualquier proveedor de nube).",
+      part1Title: "Parte 1: Configuración de Dominio y DNS",
+      part1Intro:
+        "Primero, necesita ser dueño de su nombre de dominio y conocer la dirección IP del Ingress Controller de su clúster de Kubernetes. Toda el tráfico web se dirigirá a esta IP.",
+      part1Step1Title: "Obtenga su Dominio e IP de Ingress",
+      part1Step1Desc1:
+        "Compre su dominio en un registrador como Namecheap si aún no lo ha hecho.",
+      part1Step1Desc2:
+        "Obtenga la dirección IP externa de su Ingress Controller de Kubernetes. Esta es proporcionada por su proveedor de hosting (como Rackspot) o servicio en la nube después de configurar el controlador (ver Parte 3).",
+      part1Step2Title: "Apunte su Dominio al Clúster",
+      part1Step2Desc1:
+        "Inicie sesión en su cuenta de Namecheap, vaya a su 'Lista de Dominios' y haga clic en 'Manage' junto a su dominio.",
+      part1Step2Desc2:
+        "Navegue a la pestaña 'Advanced DNS' y agregue dos registros 'A Record':",
+      part1Step2Host1:
+        "Host: @ (para su dominio principal) | Valor: <Su-Dirección-IP-del-Clúster>",
+      part1Step2Host2:
+        "Host: www (para el subdominio www) | Valor: <Su-Dirección-IP-del-Clúster>",
+      part1Step2Note:
+        "Nota: Los cambios de DNS pueden tardar algunas horas en propagarse por Internet.",
+      part2Title: "Parte 2: Contenerización de su App con Docker",
+      part2Intro:
+        "Necesitamos empaquetar su aplicación de React en una unidad autocontenida llamada imagen de Docker. Esto asegura que se ejecute de manera idéntica en cualquier lugar.",
+      part2Step1Title: "Crear un Dockerfile",
+      part2Step1Desc:
+        "En la raíz de su proyecto, cree un archivo llamado `Dockerfile`. Este archivo contiene instrucciones para construir la imagen de su aplicación.",
+      part2Step2Title: "Crear una Configuración de Nginx",
+      part2Step2Desc:
+        "Para servir los archivos estáticos de su aplicación React, usaremos un servidor web Nginx ligero. Cree un archivo llamado `nginx.conf` en la raíz de su proyecto.",
+      part3Title: "Parte 3: Configuración Única del Clúster de Kubernetes",
+      part3Intro:
+        "Antes de desplegar su app, su clúster de Kubernetes necesita dos componentes esenciales: un Ingress Controller para gestionar el tráfico externo y un Cert-Manager para automatizar los certificados SSL.",
+      part3Step1Title: "Instalar NGINX Ingress Controller",
+      part3Step1Desc:
+        "Este componente enruta el tráfico externo a los servicios dentro de su clúster. Aplíquelo ejecutando el siguiente comando:",
+      part3Step2Title: "Instalar Cert-Manager",
+      part3Step2Desc:
+        "Esto creará y gestionará automáticamente certificados SSL gratuitos de Let's Encrypt para sus dominios.",
+      part3Step3Title: "Crear un Emisor (Issuer) de Let's Encrypt",
+      part3Step3Desc:
+        "Este paso final de configuración le dice a cert-manager cómo obtener certificados. Cree un archivo llamado `letsencrypt-issuer.yaml` y aplíquelo. No olvide cambiar la dirección de correo electrónico.",
+      part4Title: "Parte 4: Archivos de Despliegue de su Aplicación",
+      part4Intro:
+        "Estos archivos le dicen a Kubernetes cómo ejecutar su aplicación: cómo desplegarla, cómo exponerla como un servicio y cómo hacerla accesible al mundo exterior.",
+      part4File1Title: "Archivo de Servicio (service.yaml)",
+      part4File1Desc:
+        "Esto crea un servicio de red interno que expone los pods de su aplicación.",
+      part4File2Title: "Archivo de Ingress (<nombre-proyecto>-ingress.yaml)",
+      part4File2Desc:
+        "Esto gestiona el acceso externo, enrutando el tráfico de sus dominios a su servicio, y maneja HTTPS.",
+      part5Title: "Parte 5: Desplegando su Aplicación",
+      part5Intro:
+        "Con todos sus archivos de configuración listos, ahora puede desplegarlos en su clúster.",
+      part5Step1Title: "Aplique sus Configuraciones",
+      part5Step1Desc:
+        "Ejecute el siguiente comando para cada uno de sus archivos YAML (`deployment.yaml`, `service.yaml`, `<nombre-proyecto>-ingress.yaml`). La bandera `--kubeconfig` apunta al archivo de conexión de su clúster.",
+      conclusionTitle: "¡Despliegue Completo!",
+      conclusionText:
+        "Su aplicación ya está desplegada y accesible a través de `https://su-dominio.com`. Cert-manager aprovisionará automáticamente un certificado SSL en unos minutos. Para actualizar su sitio, necesitará construir una nueva imagen de Docker, subirla a un registro y actualizar su archivo `deployment.yaml` para usar la nueva etiqueta de imagen.",
+      copyCodeButton: "Copiar Código",
+      copiedButton: "¡Copiado!",
+      importantNote:
+        "IMPORTANTE: Reemplace todos los valores de marcador de posición como `<nombre-proyecto>`, `<dominio-proyecto>`, y `<email-registro-acme>` con su información real.",
+      namecheapPlaceholder: "ej., mi-negocio-asombroso.com",
+      namecheapAriaLabel: "Campo de búsqueda de nombre de dominio",
+      namecheapSearchButton: "Verificar Disponibilidad",
+      namecheapPoweredBy: "Búsqueda de dominios por Namecheap.",
+    },
+
+    aoeCTA: {
+      hero: {
+        eyebrow: "Iniciativa Estratégica",
+        title: "Imagine su Empresa: Totalmente Autónoma, Completamente Segura.",
+        subtitle:
+          "Asóciese con LoyalShift para co-crear un Motor de Operaciones Autónomas (AOE) a medida – un núcleo local impulsado por IA que aprende de sus datos, orquesta sus sistemas existentes y opera de forma segura sin conexión.",
+        ctaButton: "Discuta su Visión Autónoma",
+      },
+      roiCalculator: {
+        title: "Calcule su ROI Potencial",
+        subtitle:
+          "Estime el valor que un Motor de Operaciones Autónomas Local podría aportar a su negocio.",
+        employeesLabel: "Número de Empleados (Dptos. Relevantes)",
+        employeesMin: "10",
+        employeesMax: "500+",
+        avgSalaryLabel: "Salario Anual Promedio (USD)",
+        avgSalaryPlaceholder: "Ej: 65000",
+        processesLabel: "Procesos Clave a Automatizar",
+        processesOption: "{count} proceso",
+        processesOptionPlural: "{count} procesos",
+        dataProcessedLabel:
+          "Puntos de Datos Procesados/Gestionados Anualmente (Est.)",
+        cloudCostLabel:
+          "Costos Anuales Actuales de Servicios Cloud/IA Externa (USD)",
+        cloudCostPlaceholder: "Ej: 15000",
+        gpuOwnedLabel:
+          "Poseemos GPUs NVIDIA adecuadas (Ej: RTX A-series, Tesla, H100)",
+        resultsTitle: "Su ROI Estimado con AOE Local",
+        resultsLaborSavings:
+          "Ahorro Anual en Costos Laborales (Est. 15% por Automatización)",
+        resultsCloudSavings: "Ahorro Anual en Servicios Cloud (Si posee GPUs)",
+        resultsEfficiencyGains:
+          "Ganancias Anuales por Eficiencia (Valor Mejora de Procesos)",
+        resultsDataValue: "Valor Anual por Datos Optimizados",
+        resultsTotalAnnual: "Valor Anual Total Estimado",
+        resultsPayback: "Período de Recuperación Estimado",
+        resultsPaybackUnit: "meses",
+        results3YearValue: "Valor Neto Estimado a 3 Años",
+        resultsImplementationCost:
+          "Implementación y Configuración Única (Est.)",
+        resultsGpuNote: "(+ Hardware GPU inicial si no se posee)",
+        resultsDisclaimer:
+          "*Las estimaciones son ilustrativas, basadas en implementaciones típicas y promedios de la industria. El ROI real variará.",
+        ctaEstimateButton: "Obtener Estimación de ROI Personalizada",
+      },
+      explanationSelector: {
+        title: "Entienda el AOE: Explicaciones a Medida",
+        businessOwnerButton: "Para Dueños de Negocios",
+        technicalLeadButton: "Para Líderes Técnicos",
+        aiSpecialistButton: "Para Especialistas en IA",
+      },
+      explanationBusiness: {
+        title:
+          "AOE: Impulse la Eficiencia y Asegure su Futuro (Visión de Negocio)",
+        p1: "Imagine que las operaciones centrales de su negocio funcionan de manera más fluida, rápida y confiable, 24/7. El Motor de Operaciones Autónomas (AOE) es como darle a su empresa un equipo interno increíblemente inteligente y dedicado que aprende sus procesos únicos y toma decisiones óptimas por sí mismo.",
+        p2: "Fundamentalmente, esta inteligencia permanece *dentro de su empresa*. Ningún dato sensible sale de su control. Se trata de impulsar la productividad, reducir errores y obtener una ventaja competitiva significativa haciendo que sus sistemas existentes funcionen de manera más inteligente, todo mientras se mantiene la más alta seguridad.",
+        benefit1:
+          "Mayor Eficiencia Operativa: Automatice tareas complejas, reduzca el esfuerzo manual y acelere los flujos de trabajo críticos.",
+        benefit2:
+          "Seguridad de Datos Mejorada: Mantenga todos los datos propietarios y el aprendizaje de IA estrictamente en sus instalaciones, ideal para industrias sensibles.",
+        benefit3:
+          "Reducción de Costos Operativos: Minimice errores, optimice el uso de recursos y mejore el tiempo de actividad.",
+        benefit4:
+          "Prepare sus Operaciones para el Futuro: Construya una base para la mejora continua y la adaptación sin costosas revisiones del sistema.",
+      },
+      explanationTechnical: {
+        title: "AOE: Arquitectura e Integración (Visión Técnica)",
+        p1: "El Motor de Operaciones Autónomas (AOE) es una solución de IA modular y local (on-premise) diseñada para una profunda integración con su infraestructura empresarial existente. Aprovecha un núcleo de IA seguro y reforzado (CipherCore™) que realiza aprendizaje e inferencia sin conexión directamente dentro de su centro de datos.",
+        p2: "La conectividad con sistemas heredados (mainframes, AS/400, bases de datos personalizadas, SCADA/ICS) y aplicaciones modernas se logra mediante una configuración interna especializada de nuestro Universal Adapter™. El AOE orquesta funciones de negocio predefinidas y puede activar scripts personalizados o llamadas API basadas en sus modelos aprendidos y flujos de datos internos en tiempo real.",
+        feature1:
+          "Implementación Local (On-Premise): Control total sobre el entorno físico y de red del módulo de IA.",
+        feature2:
+          "Aprendizaje e Inferencia sin Conexión: Los modelos de IA se entrenan y operan sin conectividad externa a Internet, garantizando la soberanía de los datos.",
+        feature3:
+          "API Segura y Marco de Adaptadores: Interfaces robustas para la integración con diversos sistemas internos y sistemas de control industrial.",
+        feature4:
+          "Capa de Orquestación Adaptativa: La lógica central del AOE ajusta dinámicamente los flujos de trabajo en función de las condiciones en tiempo real y los datos históricos de rendimiento.",
+      },
+      explanationAI: {
+        title:
+          "AOE: Modelo de IA y Paradigma de Aprendizaje (Visión de Especialista en IA)",
+        p1: "El Motor de Operaciones Autónomas (AOE) emplea una arquitectura de IA híbrida, que potencialmente combina sistemas explicables basados en reglas con modelos avanzados de aprendizaje automático (p. ej., Aprendizaje por Refuerzo, Pronóstico de Series Temporales, Detección de Anomalías) adaptados a su dominio operativo específico. Los modelos se entrenan exclusivamente con sus datos propietarios y locales.",
+        p2: "Nuestro paradigma de aprendizaje sin conexión se centra en la adaptación continua dentro de su entorno aislado. El AOE utiliza técnicas de aprendizaje federado (si hay múltiples nodos internos) o aprendizaje incremental para actualizar modelos sin exfiltración de datos. Se pueden integrar componentes de explicabilidad (XAI) para proporcionar transparencia en los procesos de toma de decisiones de la IA cuando sea necesario.",
+        modelDetail1:
+          "Arquitectura de Modelo Personalizable: Selección y ajuste fino de modelos de ML (p. ej., LSTMs para mantenimiento predictivo, agentes de RL para optimización de procesos, Redes Neuronales de Grafos para interdependencias del sistema) basados en casos de uso específicos.",
+        modelDetail2:
+          "Canalizaciones de Datos Seguras: Procesos ETL internos para preparar y alimentar datos al motor de entrenamiento e inferencia sin conexión.",
+        modelDetail3:
+          "IA Informada por la Física (Opcional): Para dominios relevantes, incorporación de conocimiento del dominio y restricciones físicas en el entrenamiento del modelo para una mayor robustez y seguridad.",
+        modelDetail4:
+          "Bucle de Mejora Continua sin Conexión: Mecanismos para el reentrenamiento, validación e implementación de modelos dentro del enclave seguro, impulsados por nuevos datos operativos internos.",
+      },
+      need: {
+        title: "El Imperativo Empresarial: Inteligencia Sin Exposición",
+        p1: "Muchas industrias críticas – manufactura, energía, defensa, finanzas – requieren automatización avanzada e información impulsada por IA. Sin embargo, la naturaleza sensible de sus datos y operaciones a menudo impide el uso de soluciones de IA basadas en la nube debido a restricciones de seguridad, cumplimiento o conectividad.",
+        p2: "El desafío es aprovechar el poder de la IA dentro de un entorno completamente confiable y autónomo, permitiendo una verdadera autonomía operativa mientras se mantiene la soberanía absoluta de los datos.",
+      },
+      visionPillar1: {
+        title: "Autoaprendizaje y Optimización",
+        desc: "Un motor que aprende continuamente de sus datos internos para refinar procesos y predecir resultados, todo dentro de su entorno seguro.",
+      },
+      visionPillar2: {
+        title: "Integración Transparente con Sistemas Heredados",
+        desc: "Conecte y orqueste sus sistemas existentes, PLCs y funciones personalizadas a través de adaptadores internos seguros y de alto rendimiento.",
+      },
+      visionPillar3: {
+        title: "Seguridad y Control 'Air-Gapped'",
+        desc: "Opere con total soberanía de datos. Sin dependencias de la nube externa para el procesamiento central de IA y la toma de decisiones.",
+      },
+      visionPillar4: {
+        title: "Operaciones Proactivas y Predictivas",
+        desc: "Vaya más allá de las soluciones reactivas hacia el mantenimiento predictivo y los ajustes proactivos de procesos, minimizando el tiempo de inactividad y maximizando la eficiencia.",
+      },
+      capability: {
+        mainTitle: "El Plan Maestro de LoyalShift para su Motor Autónomo",
+        mainSubtitle:
+          "Proporcionamos las tecnologías centrales y la experiencia para construir, implementar y refinar un AOE adaptado a su panorama operativo único. Nuestro enfoque se centra en la implementación local segura y la integración con su infraestructura existente.",
+      },
+      capability1: {
+        title: "CipherCore™ IA Local Segura",
+        desc: "Nuestro módulo de IA reforzado e implementable, diseñado para un aprendizaje y ejecución seguros y sin conexión, adaptado a sus datos propietarios.",
+      },
+      capability2: {
+        title: "Universal Adapter™ (Modo Interno)",
+        desc: "Configuraciones especializadas para una integración robusta y segura con diversos sistemas internos, bases de datos y controles industriales.",
+      },
+      capability3: {
+        title: "Motor de Orquestación Adaptativo",
+        desc: "La capa de inteligencia que aprende sus flujos de trabajo operativos y orquesta las funciones existentes para una ejecución autónoma.",
+      },
+      capability4: {
+        title: "Marco de Seguridad de Nivel Empresarial",
+        desc: "Construido con la seguridad en su núcleo, listo para su implementación en entornos operativos altamente regulados y sensibles.",
+      },
+      process: {
+        title: "Nuestro Proceso Colaborativo de Co-Creación",
+        subtitle:
+          "Construir un Motor de Operaciones Autónomas es una asociación estratégica. Trabajamos mano a mano con su equipo a través de un enfoque por fases:",
+        step1: {
+          title: "1. Inmersión Profunda y Alineación Estratégica",
+          desc: "Comprensión de sus procesos críticos, sistemas existentes, protocolos de seguridad y resultados autónomos deseados. Definición de KPIs claros para el éxito.",
+        },
+        step2: {
+          title: "2. Diseño del Plan Maestro del AOE Seguro",
+          desc: "Diseño de la arquitectura para su AOE local, incluyendo flujo de datos, selección de modelos de IA (o desarrollo personalizado) y puntos de integración con sistemas heredados usando Universal Adapter™.",
+        },
+        step3: {
+          title: "3. Implementación por Fases y Aprendizaje sin Conexión",
+          desc: "Implementación iterativa del módulo AOE, entrenamiento inicial con sus datos históricos (sin conexión) e integración con un subconjunto de funciones para validación.",
+        },
+        step4: {
+          title: "4. Operaciones Piloto y Ajuste de Rendimiento",
+          desc: "El AOE comienza a gestionar operaciones seleccionadas bajo supervisión. Monitoreo continuo, refinamiento del aprendizaje y ajuste del rendimiento basados en resultados del mundo real dentro de su entorno.",
+        },
+        step5: {
+          title: "5. Escalado a Autonomía Total y Evolución Continua",
+          desc: "Expansión gradual del alcance del AOE para gestionar más procesos de forma autónoma. Establecimiento de protocolos para el aprendizaje continuo sin conexión y futuras mejoras de capacidad.",
+        },
+      },
+      final: {
+        title: "Construyamos el Futuro de su Empresa Segura y Autónoma.",
+        subtitle:
+          "Si la visión de un motor local impulsado por IA que automatiza y optimiza de forma segura sus operaciones críticas resuena con sus objetivos estratégicos, lo invitamos a iniciar una discusión confidencial con nuestro equipo de soluciones avanzadas.",
+        ctaButton: "Iniciar Diálogo Estratégico",
+        disclaimer:
+          "Todas las discusiones se realizan bajo estricto NDA. Nos especializamos en soluciones para entornos sensibles y regulados.",
+      },
+    },
     smbSolutions: {
       hero: {
         title: "Soluciones Diseñadas para el Crecimiento de su Negocio",
@@ -2832,6 +3513,9 @@ export const translations = {
       toolSMBCalendarTitle: "Plantilla de Calendario de Contenido para PYMES",
       toolSMBCalendarDesc:
         "Descarga nuestra plantilla gratuita para planificar tus entradas de blog y contenido en redes sociales efectivamente.",
+      toolSMBDeployGuideTitle: "Guía básica de deploy para Pymes",
+      toolSMBDeployGuideDesc:
+        "Describa el proceso de deploy de su aplicación con su hosting propio",
       toolSMBCalendarLinkExternal: "#",
       toolInvoiceTemplateTitle: "Plantilla de Factura Básica (CR)",
       toolInvoiceTemplateDesc:

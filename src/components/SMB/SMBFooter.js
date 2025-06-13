@@ -13,7 +13,7 @@ import {
 import { useLocalization } from "../LocalizationContext";
 
 // LoyalShift Logo
-const loyalShiftLogoPath = process.env.PUBLIC_URL + "/logo.svg";
+const loyalShiftLogoPath = process.env.PUBLIC_URL + "/images/logo.svg";
 
 // Sub-components
 const FooterLink = ({ to, children, tKey, isDark }) => {

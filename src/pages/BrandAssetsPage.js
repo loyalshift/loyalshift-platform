@@ -258,7 +258,7 @@ export default function BrandAssetsPage() {
                 format="SVG"
                 description="Scalable vector graphic, best for web and print."
                 fileName="loyalshift-logo.svg"
-                downloadUrl="/logo.svg"
+                downloadUrl="/images/logo.svg"
               />
               <LogoDownloadItem
                 format="PNG"

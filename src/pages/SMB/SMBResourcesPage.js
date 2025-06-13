@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import PropTypes from "prop-types";
-import { useLocalization } from "../../components/LocalizationContext"; // Standardized path
 import loyalShiftV2Theme from "../../themes/loyalshift-v2.theme";
 
 // --- Icons ---
@@ -16,7 +15,10 @@ import {
   FiDownloadCloud,
   FiArrowRight,
   FiMessageSquare,
+  FiUploadCloud,
+  FiHardDrive,
 } from "react-icons/fi";
+import { useLocalization } from "../../components/LocalizationContext";
 
 const theme = loyalShiftV2Theme;
 
@@ -159,6 +161,26 @@ export default function SMBResourcesPage() {
   // Data for resources, keeping keys consistent
   const guides = [
     {
+      icon: FiHardDrive, // Icon for the new guide
+      titleKey: "smbResources.guideDeployContaboTitle", // New translation key
+      descriptionKey: "smbResources.guideDeployContaboDesc", // New translation key
+      link: "/smb/resources/guide/deploy-contabo", // Route to your Contabo guide page
+      ctaKey: "smbResources.viewResourceButton",
+      defaultTitle: "Deploying Your App on Contabo",
+      defaultDescription:
+        "A practical guide to uploading your website files to a Contabo VPS using FTP, SFTP, or Remote Desktop.",
+    },
+    {
+      icon: FiUploadCloud,
+      titleKey: "smbResources.guideDeployTitle",
+      descriptionKey: "smbResources.guideDeployDesc",
+      link: "/smb/resources/guide/deploy-ui",
+      ctaKey: "smbResources.viewResourceButton",
+      defaultTitle: "Deploying Your UI (Kubernetes)", // Clarified title
+      defaultDescription:
+        "An advanced, step-by-step guide on deploying your application using a modern Kubernetes cluster.",
+    },
+    {
       icon: FiBookOpen,
       titleKey: "smbResources.guideOllamaTitle",
       descriptionKey: "smbResources.guideOllamaDesc",
@@ -222,7 +244,6 @@ export default function SMBResourcesPage() {
       defaultDescription:
         "Download our free template to plan and organize your content marketing efforts effectively.",
     },
-    // { icon: FiDownloadCloud, titleKey: "smbResources.toolInvoiceTemplateTitle", descriptionKey: "smbResources.toolInvoiceTemplateDesc", link: "/downloads/smb-invoice-template.docx", linkType: "external", ctaKey: "smbResources.downloadTemplateButton", defaultTitle: "Professional Invoice Template", defaultDescription: "A customizable invoice template to help you bill clients professionally and efficiently." },
   ];
 
   const community = [

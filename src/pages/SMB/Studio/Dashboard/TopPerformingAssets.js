@@ -231,10 +231,6 @@ export default function TopPerformingAssets() {
             </option>
           ))}
         </select>
-        <FiChevronDown
-          className={`w-4 h-4 ${theme.textMuted} dark:text-slate-400 pointer-events-none absolute right-2 top-1/2 transform -translate-y-1/2 hidden sm:block`}
-        />{" "}
-        {/* This icon positioning might need a relative parent on the select wrapper if not using a custom select component */}
       </div>
 
       {topAssets.length === 0 ? (

@@ -120,119 +120,101 @@ export default function Header({ forceDark = false }) {
         className="fixed top-0 left-0 right-0 w-full z-50 border-b"
         variants={headerVariants}
         initial="initialState"
-        // UPDATED: Animate logic checks forceDark OR isScrolled
         animate={useDarkAppearance ? "scrolled" : "top"}
         transition={headerTransition}
       >
-        {/* Max width container */}
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          {/* Logo */}
-          <motion.div
-            // UPDATED: Logo scale animation now depends on useDarkAppearance
-            animate={{
-              scale: useDarkAppearance ? 1 : 1.1, // Smaller scale when dark
-              transition: { type: "spring", duration: 0.4, delay: 0.1 },
-            }}
-            className="origin-left flex-shrink-0 flex"
-          >
-            {/* UPDATED: Pass lightMode based on the dark appearance state */}
-            <Logo lightMode={!useDarkAppearance} size="text-2xl" />
-          </motion.div>
+        {/* Max width container with improved spacing */}
+        <div className="max-w-7xl mx-auto px-6 py-4">
+          {/* Flex container with even space distribution */}
+          <div className="flex items-center justify-between">
+            {/* Logo - Left aligned with consistent spacing */}
+            <motion.div
+              animate={{ scale: useDarkAppearance ? 1 : 1.1 }}
+              className="flex-shrink-0 w-1/4 md:w-auto"
+            >
+              <Logo lightMode={!useDarkAppearance} size="text-2xl" />
+            </motion.div>
 
-          {/* Desktop Navigation */}
-          {/* <nav className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -2 }}
-                whileTap={{ scale: 0.95 }}
-                // UPDATED: Text color logic uses useDarkAppearance
-                className={`font-medium transition-colors duration-200 ${
+            {/* Main Navigation - Centered with balanced spacing */}
+            <nav className="hidden lg:flex flex-1 justify-center mx-8">
+              <div className="flex items-center space-x-8">
+                {navLinks.map((link, index) => {
+                  const isActive =
+                    location.pathname === link.path ||
+                    (link.path !== "/" &&
+                      location.pathname.startsWith(link.path));
+
+                  return (
+                    <motion.div
+                      key={index}
+                      whileHover={{ y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="relative"
+                    >
+                      <Link
+                        to={link.path}
+                        className={`font-medium transition-colors duration-200 ${
+                          useDarkAppearance
+                            ? isActive
+                              ? "text-blue-400"
+                              : "text-slate-300 hover:text-blue-400"
+                            : isActive
+                            ? "text-blue-300"
+                            : "text-white hover:text-blue-300"
+                        }`}
+                      >
+                        {link.name}
+                      </Link>
+                      {isActive && (
+                        <motion.div
+                          className={`absolute -bottom-1 left-0 right-0 h-0.5 ${
+                            useDarkAppearance ? "bg-blue-400" : "bg-blue-300"
+                          }`}
+                          layoutId="activeNavUnderline"
+                        />
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </nav>
+
+            {/* CTA Buttons - Right aligned with consistent spacing */}
+            <div className="flex-shrink-0 w-1/4 md:w-auto flex justify-end items-center space-x-4">
+              <Link
+                to="/contact"
+                className={`hidden md:flex items-center px-4 py-2 rounded-lg font-medium transition-colors ${
                   useDarkAppearance
-                    ? "text-slate-300 hover:text-blue-400" // Dark state colors
-                    : "text-white hover:text-blue-300" // Top/Transparent state colors
+                    ? "text-blue-400 hover:text-blue-300"
+                    : "text-white/80 hover:text-white"
                 }`}
               >
-                <Link to={link.path}>{link.name}</Link>
-              </motion.div>
-            ))}
-          </nav> */}
-          <nav className="hidden lg:flex items-center space-x-8">
-            {navLinks.map((link, index) => {
-              const isActive =
-                location.pathname === link.path ||
-                (link.path !== "/" && location.pathname.startsWith(link.path));
+                <FiPhone className="mr-2 h-4 w-4" /> Contact
+              </Link>
 
-              return (
-                <motion.div
-                  key={index}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`font-medium transition-colors duration-200 ${
-                    useDarkAppearance
-                      ? isActive
-                        ? "text-blue-400" // Dark state active color
-                        : "text-slate-300 hover:text-blue-400" // Dark state colors
-                      : isActive
-                      ? "text-blue-300" // Light state active color
-                      : "text-white hover:text-blue-300" // Light state colors
-                  }`}
-                >
-                  <Link to={link.path}>{link.name}</Link>
-                </motion.div>
-              );
-            })}
-          </nav>
-          {/* Desktop CTA Buttons */}
-          <motion.div
-            // UPDATED: CTA animation uses useDarkAppearance
-            animate={{
-              scale: useDarkAppearance ? 1 : 0.95,
-              opacity: useDarkAppearance ? 1 : 0.9,
-              transition: { type: "tween", duration: 0.3 },
-            }}
-            className="lg:flex items-center gap-4 origin-right flex-shrink-0"
-          >
-            {/* Contact Link */}
-            <Link
-              to="/contact"
-              // UPDATED: Contact link text color uses useDarkAppearance
-              className={`flex items-center px-4 py-2 rounded-lg font-medium transition-colors duration-200 ${
-                useDarkAppearance
-                  ? "text-blue-400 hover:text-blue-300" // Dark state colors
-                  : "text-white/80 hover:text-white" // Top/Transparent state colors
-              }`}
-            >
-              <FiPhone className="mr-2 h-4 w-4" /> Contact
-            </Link>
+              <Link
+                to="/smb"
+                className={`hidden md:flex items-center px-5 py-3 rounded-lg font-medium transition-all ${
+                  useDarkAppearance
+                    ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:shadow-lg"
+                    : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm"
+                }`}
+              >
+                SMB Initiative <FiArrowRight className="ml-2 h-5 w-5" />
+              </Link>
 
-            {/* Demo Link */}
-            <Link
-              to="/smb"
-              className={`flex items-center px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
-                useDarkAppearance
-                  ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/30" // Dark state style
-                  : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" // Top/Transparent state style
-              }`}
-            >
-              SMB Initiative <FiArrowRight className="ml-2 h-5 w-5" />
-            </Link>
-          </motion.div>
-
-          {/* Mobile Menu Button */}
-          <button
-            // UPDATED: Mobile menu button icon color uses useDarkAppearance
-            className={`lg:hidden p-2 transition-colors duration-200 ${
-              useDarkAppearance ? "text-slate-300" : "text-white"
-            }`}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label={
-              mobileMenuOpen ? "Close mobile menu" : "Open mobile menu"
-            }
-            aria-expanded={mobileMenuOpen}
-          >
-            {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
-          </button>
+              {/* Mobile Menu Button */}
+              <button
+                className={`lg:hidden p-2 ${
+                  useDarkAppearance ? "text-slate-300" : "text-white"
+                }`}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              >
+                {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
+              </button>
+            </div>
+          </div>
         </div>
       </motion.header>
 

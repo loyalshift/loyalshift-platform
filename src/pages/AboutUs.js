@@ -250,7 +250,7 @@ export default function AboutUs() {
 
   const teamMembers = [
     {
-      name: "David Solís",
+      name: "Gerardo Solís",
       title: "Co-Founder & AI Lead Engineer",
       imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=GS",
       linkedinUrl: "#",
@@ -557,7 +557,7 @@ export default function AboutUs() {
                 <span className="italic">
                   {t(
                     "aboutUs.veoDisclaimer",
-                    "Visual representing AgentHub & modernization. (Conceptual animation)."
+                    "Visual representing AgentHub & modernization. (Conceptual animation). Made using AI, it was fun."
                   )}
                 </span>
               </div>

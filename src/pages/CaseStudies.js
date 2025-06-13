@@ -251,7 +251,7 @@ export default function CaseStudiesPage() {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button
-              to="/contact-sales?subject=ProjectInquiry"
+              to="/contact?subject=ProjectInquiry"
               size="lg"
               icon={<FiMessageSquare />}
               // Applying styles from the loyalShiftV2Theme (dark theme) for PRIMARY button
