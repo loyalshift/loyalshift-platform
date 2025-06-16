@@ -1,7 +1,7 @@
 // src/components/LoyalShiftSMBHeader.js
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { Link, useLocation } from "react-router-dom"; // Import useLocation
+import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { FiArrowRight } from "react-icons/fi";
@@ -14,7 +14,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
   const { t, currentLang, setCurrentLang } = useLocalization();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation(); // Get current location
+  const location = useLocation();
   const isDark = forceDark;
 
   const navItems = [
@@ -48,16 +48,17 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const currentTheme = isDark ? theme.headerDark : theme.headerDark; // Consistently using headerDark as per original logic
+  // Corrected theme application
+  const currentTheme = isDark ? theme.headerDark : theme.headerLight;
   const headerShadow = isScrolled ? "shadow-lg" : "shadow-sm";
 
   // Function to determine Nav Link classes including active state
   const getNavLinkClasses = (itemPath) => {
     const isActive = location.pathname === itemPath;
-    return `px-4 py-2 rounded-lg font-medium transition-all ${
+    return `px-4 py-2 rounded-lg font-medium text-sm transition-all ${
       isActive
-        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm` // Active classes
-        : `${currentTheme.textMuted} hover:text-cyan-500 ${currentTheme.hoverBg}` // Inactive classes
+        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm`
+        : `${currentTheme.textMuted} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`
     }`;
   };
 
@@ -66,14 +67,14 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
     const isActive = location.pathname === itemPath;
     return `block px-4 py-3 rounded-lg font-medium ${
       isActive
-        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm` // Active classes
-        : `${currentTheme.textMuted} hover:text-cyan-500 ${currentTheme.hoverBg}` // Inactive classes
+        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm`
+        : `${currentTheme.textMuted} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`
     }`;
   };
 
   const langButtonBaseClasses =
     "w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2";
-  const langButtonContainerClasses = `bg-slate-100 dark:bg-slate-800 rounded-lg p-0.5`;
+  const langButtonContainerClasses = isDark ? "bg-slate-800" : "bg-slate-100";
   const langButtonActiveClasses = `bg-white dark:bg-slate-700 text-cyan-500 dark:text-cyan-400 font-semibold shadow-sm`;
   const langButtonInactiveClasses = `text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400`;
 
@@ -121,7 +122,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
               <Link
                 key={item.key}
                 to={item.path}
-                className={getNavLinkClasses(item.path)} // Use function to get classes
+                className={getNavLinkClasses(item.path)}
               >
                 {item.label}
               </Link>
@@ -130,66 +131,50 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
               to="/contact"
               className={`ml-4 px-5 py-2.5 rounded-lg font-medium bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:opacity-90 transition-opacity shadow-sm hover:shadow-md ${
                 location.pathname === "/contact"
-                  ? `ring-2 ring-offset-2 ${
-                      currentTheme.headerBg === "bg-slate-900"
-                        ? "ring-offset-slate-900"
-                        : "ring-offset-white"
-                    } ring-cyan-300 opacity-100`
-                  : "" // Special active style for gradient button
+                  ? `ring-2 ring-offset-2 ring-cyan-400 ring-offset-white dark:ring-offset-slate-900`
+                  : ""
               }`}
             >
               {t("navContact", "Contact")}
             </Link>
           </nav>
-          {/* Right Section (Language + User + Mobile Menu Button) */}
+          {/* Right Section */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Language Selector (Desktop) */}
-            <div
-              className={`hidden md:flex items-center space-x-0.5 ${langButtonContainerClasses} ${
-                currentTheme.headerBg === "bg-slate-900"
-                  ? "ring-offset-slate-900"
-                  : "ring-offset-white"
-              }`} // Added offset based on header background
-            >
-              <button
-                onClick={() => setCurrentLang("en")}
-                className={`${langButtonBaseClasses} ${
-                  currentLang === "en"
-                    ? langButtonActiveClasses
-                    : langButtonInactiveClasses
-                }`}
-                aria-pressed={currentLang === "en"}
-                aria-label={t("english", "English")}
+            {/* Desktop-only items are now grouped */}
+            <div className="hidden md:flex items-center space-x-4">
+              <div
+                className={`flex items-center space-x-0.5 rounded-lg p-0.5 ${langButtonContainerClasses}`}
               >
-                EN
-              </button>
-              <div className="h-3.5 w-px bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
-              <button
-                onClick={() => setCurrentLang("es")}
-                className={`${langButtonBaseClasses} ${
-                  currentLang === "es"
-                    ? langButtonActiveClasses
-                    : langButtonInactiveClasses
-                }`}
-                aria-pressed={currentLang === "es"}
-                aria-label={t("spanish", "Spanish")}
-              >
-                ES
-              </button>
-            </div>
+                <button
+                  onClick={() => setCurrentLang("en")}
+                  className={`${langButtonBaseClasses} ${
+                    currentLang === "en"
+                      ? langButtonActiveClasses
+                      : langButtonInactiveClasses
+                  }`}
+                  aria-pressed={currentLang === "en"}
+                  aria-label={t("english", "English")}
+                >
+                  EN
+                </button>
+                <div className="h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+                <button
+                  onClick={() => setCurrentLang("es")}
+                  className={`${langButtonBaseClasses} ${
+                    currentLang === "es"
+                      ? langButtonActiveClasses
+                      : langButtonInactiveClasses
+                  }`}
+                  aria-pressed={currentLang === "es"}
+                  aria-label={t("spanish", "Spanish")}
+                >
+                  ES
+                </button>
+              </div>
 
-            {/* User Profile (Desktop) */}
-            <div className="hidden md:flex items-center">
               <Link
                 to="/"
-                onClick={() => {
-                  setCurrentLang("en");
-                }}
-                className={`flex items-center px-5 py-3 rounded-lg font-medium transition-all duration-300 ${
-                  isDark
-                    ? "bg-gradient-to-r from-blue-600 to-cyan-500 text-white hover:shadow-lg hover:shadow-cyan-500/30" // Dark state style
-                    : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm" // Top/Transparent state style
-                }`}
+                className={`flex items-center px-4 py-2.5 rounded-lg font-medium transition-all duration-300 ${currentTheme.buttonSecondaryBg} ${currentTheme.buttonSecondaryText} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`}
               >
                 {t("smbHeaderAction", "Back to LoyalShift")}{" "}
                 <FiArrowRight className="ml-2 h-5 w-5" />
@@ -198,7 +183,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
 
             {/* Mobile Menu Button */}
             <button
-              className="md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500"
+              className={`md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 ${currentTheme.textPrimary}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={t("mobileMenu", "Mobile menu")}
               aria-expanded={isMenuOpen}
@@ -208,8 +193,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                 className="h-6 w-6"
                 fill="none"
                 viewBox="0 0 24 24"
-                // Stroke color should ideally come from theme textPrimary for consistency
-                stroke={currentTheme.textPrimary || "currentColor"}
+                stroke="currentColor"
               >
                 <path
                   strokeLinecap="round"
@@ -241,7 +225,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                   <Link
                     key={item.key}
                     to={item.path}
-                    className={getMobileNavLinkClasses(item.path)} // Use function to get classes
+                    className={getMobileNavLinkClasses(item.path)}
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {item.label}
@@ -251,16 +235,19 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                   to="/contact"
                   className={`block px-4 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-center ${
                     location.pathname === "/contact"
-                      ? `ring-2 ring-offset-2 ${
-                          currentTheme.headerBg === "bg-slate-900"
-                            ? "ring-offset-slate-900"
-                            : "ring-offset-white"
-                        } ring-cyan-300 opacity-100`
-                      : "" // Special active style for gradient button
+                      ? "ring-2 ring-offset-2 ring-cyan-400 ring-offset-white dark:ring-offset-slate-900"
+                      : ""
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {t("navContact", "Contact")}
+                </Link>
+                <Link
+                  to="/"
+                  className={`block px-4 py-3 mt-2 rounded-lg font-medium text-center ${currentTheme.hoverBg} ${currentTheme.textMuted} hover:${currentTheme.textPrimary}`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {t("smbHeaderAction", "Back to LoyalShift")}
                 </Link>
                 {/* Language Selector (Mobile) */}
                 <div
@@ -272,42 +259,34 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                     {t("languageSelectorLabel", "Language:")}
                   </div>
                   <div
-                    className={`flex items-center space-x-0.5 ${langButtonContainerClasses} ${
-                      currentTheme.headerBg === "bg-slate-900"
-                        ? "ring-offset-slate-900"
-                        : "ring-offset-white"
-                    }`} // Added offset based on header background
+                    className={`flex items-center space-x-0.5 rounded-lg p-0.5 ${langButtonContainerClasses}`}
                   >
                     <button
                       onClick={() => {
                         setCurrentLang("en");
-                        setIsMenuOpen(false);
                       }}
                       className={`${langButtonBaseClasses} ${
                         currentLang === "en"
                           ? langButtonActiveClasses
                           : langButtonInactiveClasses
                       }`}
-                      aria-pressed={currentLang === "en"}
-                      aria-label={t("english", "English")}
                     >
-                      EN
+                      {" "}
+                      EN{" "}
                     </button>
-                    <div className="h-3.5 w-px bg-slate-300 dark:bg-slate-600 mx-0.5"></div>
+                    <div className="h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
                     <button
                       onClick={() => {
                         setCurrentLang("es");
-                        setIsMenuOpen(false);
                       }}
                       className={`${langButtonBaseClasses} ${
                         currentLang === "es"
                           ? langButtonActiveClasses
                           : langButtonInactiveClasses
                       }`}
-                      aria-pressed={currentLang === "es"}
-                      aria-label={t("spanish", "Spanish")}
                     >
-                      ES
+                      {" "}
+                      ES{" "}
                     </button>
                   </div>
                 </div>
@@ -322,4 +301,8 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
 
 LoyalShiftSMBHeader.propTypes = {
   forceDark: PropTypes.bool,
+};
+
+LoyalShiftSMBHeader.defaultProps = {
+  forceDark: false, // Default to light theme if not specified
 };

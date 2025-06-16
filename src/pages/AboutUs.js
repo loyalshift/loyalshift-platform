@@ -280,12 +280,12 @@ export default function AboutUs() {
       imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=MC",
       linkedinUrl: "#",
     },
-    {
-      name: "Miguel Mesén",
-      title: "Head of Legacy Development",
-      imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=MM",
-      linkedinUrl: "#",
-    },
+    // {
+    //   name: "Miguel Imbach",
+    //   title: "Head of Legacy Development",
+    //   imageUrl: "https://placehold.co/150x150/e0f2fe/1e293b?text=MI",
+    //   linkedinUrl: "#",
+    // },
   ];
 
   const coreValues = [

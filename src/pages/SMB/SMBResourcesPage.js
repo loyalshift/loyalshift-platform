@@ -160,16 +160,16 @@ export default function SMBResourcesPage() {
 
   // Data for resources, keeping keys consistent
   const guides = [
-    {
-      icon: FiHardDrive, // Icon for the new guide
-      titleKey: "smbResources.guideDeployContaboTitle", // New translation key
-      descriptionKey: "smbResources.guideDeployContaboDesc", // New translation key
-      link: "/smb/resources/guide/deploy-contabo", // Route to your Contabo guide page
-      ctaKey: "smbResources.viewResourceButton",
-      defaultTitle: "Deploying Your App on Contabo",
-      defaultDescription:
-        "A practical guide to uploading your website files to a Contabo VPS using FTP, SFTP, or Remote Desktop.",
-    },
+    // {
+    //   icon: FiHardDrive, // Icon for the new guide
+    //   titleKey: "smbResources.guideDeployContaboTitle", // New translation key
+    //   descriptionKey: "smbResources.guideDeployContaboDesc", // New translation key
+    //   link: "/smb/resources/guide/deploy-contabo", // Route to your Contabo guide page
+    //   ctaKey: "smbResources.viewResourceButton",
+    //   defaultTitle: "Deploying Your App on Contabo",
+    //   defaultDescription:
+    //     "A practical guide to uploading your website files to a Contabo VPS using FTP, SFTP, or Remote Desktop.",
+    // },
     {
       icon: FiUploadCloud,
       titleKey: "smbResources.guideDeployTitle",

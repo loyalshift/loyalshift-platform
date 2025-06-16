@@ -89,7 +89,7 @@ export default function ProposalConsentGate() {
   const handleProceed = () => {
     console.log("Consent confirmed, proceeding to proposal details (Spanish).");
     // Navigate to the details page (ensure this route exists in App.js)
-    navigate("/demo/financial/details");
+    navigate("/demo/anaco/details");
   };
 
   return (

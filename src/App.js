@@ -51,7 +51,31 @@ import SMBBIMDashboard from "./pages/SMB/SMBBIMDashboard";
 import SMBBIMObjectLibraryPage from "./pages/SMB/SMBBIMObjectLibraryPage";
 import BIMLayout from "./components/SMB/BIM/BIMLayout";
 import SMBDeployGuidePage from "./pages/SMB/SMBDeployGuide";
-import SMBDeployGuideContaboPage from "./pages/SMB/SMBDeployGuideContaboPage";
+// import SMBDeployGuideContaboPage from "./pages/SMB/SMBDeployGuideContaboPage";
+
+// FINANCIAL
+import LayoutFinancial from "./components/Financial/Layout";
+import DemoPage from "./pages/Financial/DemoPage";
+import RequestPreApprovalPage from "./pages/Financial/RequestPreApproval";
+import ProposalConsentGate from "./components/HeroConsentGate";
+import ProposalFinancialDetailsPage from "./pages/Financial/ProposalFinancialDetailsPage";
+import FinancialLandingPage from "./pages/Financial/LandingPage";
+import FinancialCtaPage from "./pages/Financial/CtaPage";
+import PrivacyPolicyPage from "./pages/Financial/Privacy";
+import AboutUsPage from "./pages/Financial/AboutUs";
+import FinancialContactPage from "./pages/Financial/Contact";
+import FinancialCalculatorPage from "./pages/Financial/Calculator";
+import FinancialNotFound from "./pages/Financial/NotFound";
+import RegisterPage from "./pages/Financial/Register";
+import LoginPage from "./pages/Financial/Login";
+// import AgentDashboard from "./pages/Financial/AgentDashboard";
+import Marketplace from "./pages/Financial/Marketplace";
+import PreApprovalProcessPage from "./pages/Financial/PreApprovalProcess";
+import TerraPlanPage from "./pages/Financial/TerraPlan";
+import PropertyDetailPage from "./pages/Financial/PropertyDetailPage";
+import AdvancedToolsIntegration from "./pages/Financial/AdvancedToolsIntegrations";
+import MortgageServicesPage from "./pages/Financial/Services/MortgageServices";
+// import DashBoardLayout from "./components/Financial/Dashboard/DashboardLayout";
 
 function App() {
   return (
@@ -73,6 +97,17 @@ function App() {
             <Route path="faq" element={<FAQPage />} />
 
             <Route path="overseas-partner" element={<OverseasPartnersPage />} />
+
+            <Route path="demo/anaco" element={<DemoPage />} />
+            <Route path="demo/anaco/cta" element={<FinancialCtaPage />} />
+            <Route
+              path="demo/anaco/consent"
+              element={<ProposalConsentGate />}
+            />
+            <Route
+              path="demo/anaco/details"
+              element={<ProposalFinancialDetailsPage />}
+            />
 
             <Route path="request-demo" element={<RequestDemoPage />} />
             <Route path="case-studies" element={<CaseStudiesPage />} />
@@ -129,6 +164,39 @@ function App() {
             />
           </Route>
 
+          <Route path="anaco" element={<LayoutFinancial />}>
+            <Route index element={<FinancialLandingPage />} />
+            <Route path="privacy" element={<PrivacyPolicyPage />} />
+            <Route
+              path="request-pre-approval"
+              element={<RequestPreApprovalPage />}
+            />
+            <Route path="about-us" element={<AboutUsPage />} />
+            <Route path="contact" element={<FinancialContactPage />} />
+            <Route path="register" element={<RegisterPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="calculator" element={<FinancialCalculatorPage />} />
+            <Route path="terraplan" element={<TerraPlanPage />} />
+            <Route path="marketplace" element={<Marketplace />} />
+            <Route
+              path="property/:propertyId"
+              element={<PropertyDetailPage />}
+            />
+            <Route
+              path="services/mortgage"
+              element={<MortgageServicesPage />}
+            />
+            <Route
+              path="pre-approval-process"
+              element={<PreApprovalProcessPage />}
+            />
+            <Route
+              path="advanced-tools-integration"
+              element={<AdvancedToolsIntegration />}
+            />
+            <Route path="*" element={<FinancialNotFound />} />
+          </Route>
+
           <Route path="smb" element={<SMBLayout />}>
             <Route index element={<SMBLandingPage />} />
             <Route
@@ -155,10 +223,10 @@ function App() {
               path="resources/guide/deploy-ui"
               element={<SMBDeployGuidePage />}
             />
-            <Route
+            {/* <Route
               path="resources/guide/deploy-contabo"
               element={<SMBDeployGuideContaboPage />}
-            />
+            /> */}
             <Route path="solutions" element={<SMBSolutionsPage />} />
             <Route path="features" element={<SMBFeaturesPage />} />
             <Route path="resources" element={<SMBResourcesPage />} />
