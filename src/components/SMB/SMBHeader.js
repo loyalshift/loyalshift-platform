@@ -175,6 +175,9 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
               <Link
                 to="/"
                 className={`flex items-center px-4 py-2.5 rounded-lg font-medium transition-all duration-300 ${currentTheme.buttonSecondaryBg} ${currentTheme.buttonSecondaryText} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`}
+                onClick={() => {
+                  setCurrentLang("en");
+                }}
               >
                 {t("smbHeaderAction", "Back to LoyalShift")}{" "}
                 <FiArrowRight className="ml-2 h-5 w-5" />
@@ -245,7 +248,10 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                 <Link
                   to="/"
                   className={`block px-4 py-3 mt-2 rounded-lg font-medium text-center ${currentTheme.hoverBg} ${currentTheme.textMuted} hover:${currentTheme.textPrimary}`}
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    setCurrentLang("en");
+                  }}
                 >
                   {t("smbHeaderAction", "Back to LoyalShift")}
                 </Link>
