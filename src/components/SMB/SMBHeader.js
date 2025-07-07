@@ -1,12 +1,12 @@
-// src/components/LoyalShiftSMBHeader.js
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-
 import { FiArrowRight } from "react-icons/fi";
 import { useLocalization } from "../LocalizationContext";
 import loyalShiftV2Theme from "../../themes/loyalshift-v2.theme";
+import { LoyalShiftLogo } from "../LoyalShiftLogo";
+import Logo from "../Logo";
 
 const theme = loyalShiftV2Theme;
 
@@ -16,6 +16,10 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const isDark = forceDark;
+
+  // Get the appropriate theme variant
+  const currentTheme = isDark ? theme.headerDark : theme.headerLight;
+  const headerShadow = isScrolled ? theme.cardHoverShadow : theme.cardShadow;
 
   const navItems = [
     {
@@ -48,35 +52,36 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Corrected theme application
-  const currentTheme = isDark ? theme.headerDark : theme.headerLight;
-  const headerShadow = isScrolled ? "shadow-lg" : "shadow-sm";
-
-  // Function to determine Nav Link classes including active state
+  // Navigation link classes using theme
   const getNavLinkClasses = (itemPath) => {
     const isActive = location.pathname === itemPath;
     return `px-4 py-2 rounded-lg font-medium text-sm transition-all ${
       isActive
-        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm`
+        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} ${theme.cardShadow}`
         : `${currentTheme.textMuted} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`
     }`;
   };
 
-  // Function to determine Mobile Nav Link classes including active state
+  // Mobile navigation link classes using theme
   const getMobileNavLinkClasses = (itemPath) => {
     const isActive = location.pathname === itemPath;
     return `block px-4 py-3 rounded-lg font-medium ${
       isActive
-        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} shadow-sm`
+        ? `${currentTheme.activeButtonBg} ${currentTheme.activeButtonText} ${theme.cardShadow}`
         : `${currentTheme.textMuted} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`
     }`;
   };
 
-  const langButtonBaseClasses =
-    "w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-400/50 focus:ring-offset-2";
-  const langButtonContainerClasses = isDark ? "bg-slate-800" : "bg-slate-100";
-  const langButtonActiveClasses = `bg-white dark:bg-slate-700 text-cyan-500 dark:text-cyan-400 font-semibold shadow-sm`;
-  const langButtonInactiveClasses = `text-slate-600 dark:text-slate-300 hover:text-cyan-500 dark:hover:text-cyan-400`;
+  // Language selector classes using theme
+  const langButtonContainerClasses = isDark
+    ? theme.surface
+    : theme.surfaceMuted;
+  const langButtonActiveClasses = isDark
+    ? `${theme.surfaceCard} ${theme.textHighlight} font-semibold ${theme.cardShadow}`
+    : `${theme.surface} ${theme.accentCyan} font-semibold ${theme.cardShadow}`;
+  const langButtonInactiveClasses = isDark
+    ? `${theme.textMuted} hover:${theme.textHighlight}`
+    : `${theme.textSecondary} hover:${theme.accentCyan}`;
 
   return (
     <header
@@ -88,34 +93,26 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
           <div className="flex items-center">
             <Link to="/smb" className="flex items-center group">
               <div className="flex items-center">
-                <div className="bg-gradient-to-r from-cyan-500 to-teal-400 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center mr-2 sm:mr-3 transition-all duration-300 ease-out group-hover:rotate-[12deg] group-hover:scale-110">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 sm:h-5 sm:w-5 text-white"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
-                    <path d="M12 8v8M8 12h8" />
-                  </svg>
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center mr-2 sm:mr-3 transition-all duration-300 ease-out group-hover:rotate-[12deg] group-hover:scale-110">
+                  <LoyalShiftLogo type="icon" />
                 </div>
                 <div className="flex flex-col">
+                  <Logo className={currentTheme.textPrimary} />
                   <span
-                    className={`text-lg sm:text-xl font-bold ${currentTheme.textPrimary} group-hover:${currentTheme.textAccent} transition-colors`}
+                    className={`text-xs font-medium bg-gradient-to-r ${
+                      theme.accentCyanBg
+                    } to-${theme.accentCyanBgHover.replace(
+                      "hover:",
+                      ""
+                    )} bg-clip-text text-transparent`}
                   >
-                    LoyalShift
-                  </span>
-                  <span className="text-xs font-medium bg-gradient-to-r from-cyan-500 to-teal-400 bg-clip-text text-transparent">
                     SMB Solutions
                   </span>
                 </div>
               </div>
             </Link>
           </div>
+
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-1">
             {navItems.map((item) => (
@@ -129,25 +126,34 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
             ))}
             <Link
               to="/contact"
-              className={`ml-4 px-5 py-2.5 rounded-lg font-medium bg-gradient-to-r from-cyan-500 to-teal-500 text-white hover:opacity-90 transition-opacity shadow-sm hover:shadow-md ${
+              className={`ml-4 px-5 py-2.5 rounded-lg font-medium ${
+                theme.buttonPrimaryBg
+              } ${theme.buttonPrimaryText} hover:${
+                theme.buttonPrimaryHoverBg
+              } transition-opacity ${theme.cardShadow} hover:${
+                theme.cardHoverShadow
+              } ${
                 location.pathname === "/contact"
-                  ? `ring-2 ring-offset-2 ring-cyan-400 ring-offset-white dark:ring-offset-slate-900`
+                  ? `${theme.focusRingDefault} ring-offset-white dark:ring-offset-slate-900`
                   : ""
               }`}
             >
               {t("navContact", "Contact")}
             </Link>
           </nav>
+
           {/* Right Section */}
           <div className="flex items-center space-x-3 sm:space-x-4">
-            {/* Desktop-only items are now grouped */}
+            {/* Desktop-only items */}
             <div className="hidden md:flex items-center space-x-4">
               <div
                 className={`flex items-center space-x-0.5 rounded-lg p-0.5 ${langButtonContainerClasses}`}
               >
                 <button
                   onClick={() => setCurrentLang("en")}
-                  className={`${langButtonBaseClasses} ${
+                  className={`w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors ${
+                    theme.focusRingDefault
+                  } ${
                     currentLang === "en"
                       ? langButtonActiveClasses
                       : langButtonInactiveClasses
@@ -157,10 +163,16 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                 >
                   EN
                 </button>
-                <div className="h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+                <div
+                  className={`h-4 w-px ${
+                    isDark ? theme.border : theme.borderLight
+                  }`}
+                ></div>
                 <button
                   onClick={() => setCurrentLang("es")}
-                  className={`${langButtonBaseClasses} ${
+                  className={`w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors ${
+                    theme.focusRingDefault
+                  } ${
                     currentLang === "es"
                       ? langButtonActiveClasses
                       : langButtonInactiveClasses
@@ -174,19 +186,18 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
 
               <Link
                 to="/"
-                className={`flex items-center px-4 py-2.5 rounded-lg font-medium transition-all duration-300 ${currentTheme.buttonSecondaryBg} ${currentTheme.buttonSecondaryText} ${currentTheme.hoverBg} hover:${currentTheme.textPrimary}`}
-                onClick={() => {
-                  setCurrentLang("en");
-                }}
+                className={`flex items-center px-4 py-2.5 rounded-lg font-medium transition-all duration-300 ${theme.buttonSecondaryBg} ${theme.buttonSecondaryText} ${theme.buttonSecondaryHoverBg} hover:${theme.buttonTextLinkHover}`}
               >
                 {t("smbHeaderAction", "Back to LoyalShift")}{" "}
-                <FiArrowRight className="ml-2 h-5 w-5" />
+                <FiArrowRight
+                  className={`ml-2 h-5 w-5 ${theme.buttonSecondaryText}`}
+                />
               </Link>
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className={`md:hidden p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-cyan-500 ${currentTheme.textPrimary}`}
+              className={`md:hidden p-2 rounded-md ${theme.focusRingDefault} ${currentTheme.textPrimary}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={t("mobileMenu", "Mobile menu")}
               aria-expanded={isMenuOpen}
@@ -217,7 +228,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
-              className={`md:hidden absolute top-full left-0 right-0 ${currentTheme.headerBg} border-t ${currentTheme.border} shadow-lg pb-4`}
+              className={`md:hidden absolute top-full left-0 right-0 ${currentTheme.headerBg} border-t ${currentTheme.border} ${theme.cardHoverShadow} pb-4`}
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -236,9 +247,11 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                 ))}
                 <Link
                   to="/contact"
-                  className={`block px-4 py-3 rounded-lg font-medium bg-gradient-to-r from-cyan-500 to-teal-500 text-white text-center ${
+                  className={`block px-4 py-3 rounded-lg font-medium ${
+                    theme.buttonPrimaryBg
+                  } ${theme.buttonPrimaryText} text-center ${
                     location.pathname === "/contact"
-                      ? "ring-2 ring-offset-2 ring-cyan-400 ring-offset-white dark:ring-offset-slate-900"
+                      ? `${theme.focusRingDefault} ring-offset-white dark:ring-offset-slate-900`
                       : ""
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -248,10 +261,7 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                 <Link
                   to="/"
                   className={`block px-4 py-3 mt-2 rounded-lg font-medium text-center ${currentTheme.hoverBg} ${currentTheme.textMuted} hover:${currentTheme.textPrimary}`}
-                  onClick={() => {
-                    setIsMenuOpen(false);
-                    setCurrentLang("en");
-                  }}
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {t("smbHeaderAction", "Back to LoyalShift")}
                 </Link>
@@ -268,31 +278,33 @@ export default function LoyalShiftSMBHeader({ forceDark }) {
                     className={`flex items-center space-x-0.5 rounded-lg p-0.5 ${langButtonContainerClasses}`}
                   >
                     <button
-                      onClick={() => {
-                        setCurrentLang("en");
-                      }}
-                      className={`${langButtonBaseClasses} ${
+                      onClick={() => setCurrentLang("en")}
+                      className={`w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors ${
+                        theme.focusRingDefault
+                      } ${
                         currentLang === "en"
                           ? langButtonActiveClasses
                           : langButtonInactiveClasses
                       }`}
                     >
-                      {" "}
-                      EN{" "}
+                      EN
                     </button>
-                    <div className="h-4 w-px bg-slate-300 dark:bg-slate-600"></div>
+                    <div
+                      className={`h-4 w-px ${
+                        isDark ? theme.border : theme.borderLight
+                      }`}
+                    ></div>
                     <button
-                      onClick={() => {
-                        setCurrentLang("es");
-                      }}
-                      className={`${langButtonBaseClasses} ${
+                      onClick={() => setCurrentLang("es")}
+                      className={`w-9 h-9 rounded-md font-medium flex items-center justify-center text-sm transition-colors ${
+                        theme.focusRingDefault
+                      } ${
                         currentLang === "es"
                           ? langButtonActiveClasses
                           : langButtonInactiveClasses
                       }`}
                     >
-                      {" "}
-                      ES{" "}
+                      ES
                     </button>
                   </div>
                 </div>
@@ -310,5 +322,5 @@ LoyalShiftSMBHeader.propTypes = {
 };
 
 LoyalShiftSMBHeader.defaultProps = {
-  forceDark: false, // Default to light theme if not specified
+  forceDark: false,
 };

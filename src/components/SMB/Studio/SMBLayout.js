@@ -1,54 +1,39 @@
-// src/layouts/smb/SMBLayout.js
+// FILE: src/layouts/smb/studio/SMBStudioLayout.js
+// This is the main layout file for all /smb/studio/* routes.
+// It conditionally renders the desktop sidebar and the new mobile navigation.
 import React from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import SMBFooter from "../SMBFooter";
-import { useLocalization } from "../../LocalizationContext";
+import { Outlet } from "react-router-dom";
+import loyalShiftV2Theme from "../../../themes/loyalshift-v2.theme";
 import SMBStudioSideNavComponent from "./SMBStudioSideNavComponent";
+import MobileStudioNav from "./MobileStudioNav";
 
-export default function SMBStudioLayout({ hasSideNav = false }) {
-  const location = useLocation();
-  const { currentLang, setCurrentLang } = useLocalization();
+const theme = loyalShiftV2Theme;
 
-  const handleChangeLanguage = (lang) => {
-    setCurrentLang(lang);
-  };
-
-  // Existing dark theme logic
-  const exactPaths = [];
-  const dynamicPaths = [];
-
-  function matchesPathPattern(pathname, pattern) {
-    const patternSegments = pattern.split("/");
-    const regexString = patternSegments
-      .map((segment) => {
-        if (segment.startsWith(":")) {
-          return "([^/]+)";
-        }
-        return segment.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      })
-      .join("\\/");
-    const regex = new RegExp(`^${regexString}\\/?$`);
-    return regex.test(pathname);
-  }
-
-  const forceDarkTheme =
-    exactPaths.includes(location.pathname) ||
-    dynamicPaths.reduce(
-      (previousValue, currentValue) =>
-        previousValue || matchesPathPattern(location.pathname, currentValue),
-      false
-    );
+export default function SMBStudioLayout() {
+  // This layout component is designed to be rendered by the <Outlet /> inside your main site layout.
+  // It provides the specific structure for the "Studio" section of your application.
 
   return (
-    <div className="min-h-screen flex flex-col bg-neutral-light dark:bg-neutral-dark-mode text-neutral-dark dark:text-neutral-light-mode">
-      {/* Main content area with sidebar */}
-      <div className="flex flex-1">
-        {hasSideNav ? <SMBStudioSideNavComponent /> : ""}
-        <main className={`flex-1 ${hasSideNav ? "ml-64" : ""}`}>
-          <Outlet context={{ currentLang }} />
-          <SMBFooter forceDark={forceDarkTheme} currentLang={currentLang} />
-        </main>
-      </div>
+    // Wrap the entire studio section with the LocalizationProvider.
+    // Now, the sidebar and any page rendered in the <Outlet /> can use the useLocalization() hook.
+
+    <div className={`relative flex min-h-screen ${theme.background}`}>
+      {/* Desktop Sidebar: Visible on medium screens and up */}
+      <SMBStudioSideNavComponent />
+
+      {/* Main Content Area: 
+          Has a left margin ONLY on medium screens and up (md:ml-64) to make space for the desktop sidebar.
+          On mobile, it takes up the full width.
+        */}
+      <main className="flex-1 md:ml-64">
+        <Outlet />
+        {/* Child routes like SMBStudioDashboard, SMBStudioBlogPostEditorPage, etc.
+            will be rendered here via the Outlet. They will also have access to the localization context.
+          */}
+      </main>
+
+      {/* Mobile Floating Nav: Renders a floating button, visible ONLY on small screens */}
+      <MobileStudioNav />
     </div>
   );
 }

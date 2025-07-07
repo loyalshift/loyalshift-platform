@@ -1983,8 +1983,161 @@ export const translations = {
       copiedButton: "Copied!",
       copyCodeButton: "Copy Code",
     },
+    smbPublicEvent: {
+      pageTitle: "Event Details | LoyalShift SMB",
+      whatToExpectTitle: "What to Expect",
+      whatToExpectItem1: "A casual, fun, and friendly atmosphere.",
+      whatToExpectItem2:
+        "The exciting soccer match displayed on the big screen.",
+      whatToExpectItem3: "A build-your-own-burger bar with all the essentials.",
+      whatToExpectItem4: "Good company and great conversation.",
+      instructionsTitle: "Instructions for Attendees",
+      essentialsTitle: "Essential Shopping List",
+      optionalsTitle: "Optional Additions",
+      yieldTitle: "Burger Yield Estimates",
+      yieldBasedOn: "Based on 1.5 kg of ground beef.",
+      pattiesLabel: "Patties at",
+      pattiesUnit: "grams each",
+      totalPatties: "Total Patties",
+      startingPointTitle: "Starting Point",
+      perPersonTitle: "Per Person",
+      rsvpTitle: "Are You Coming?",
+      rsvpText:
+        "Let us know if you can make it! A quick message helps us get an accurate headcount for the food and drinks.",
+      rsvpButton: "RSVP via WhatsApp",
+      blogBuilderCtaTitle: "Like This Page? Build Your Own.",
+      blogBuilderCtaText:
+        "This entire event page was created using the intuitive Blog & Page Builder inside the LoyalShift SMB Studio. You can create equally professional pages for your own events, announcements, and articles—no technical skills required.",
+      blogBuilderCtaButton: "Discover the SMB Studio",
+      locationTitle: "Event Location",
+      mapWaze: "Waze",
+      mapGoogle: "Google Maps",
+      addressLine1: "C. 24, Alajuela",
+      addressLine2: "Alajuela Province, Costa Rica",
+      data: {
+        eventName: "Costa Rica vs USA Soccer Match Burger Night!",
+        eventDate: "Sunday, June 29, 2025",
+        eventTime: "Evening (match starts 7 PM ET / 5 PM CST in Costa Rica)",
+        eventNote:
+          "Get ready for some exciting football while enjoying delicious homemade burgers!",
+        instruction1:
+          "Please bring your own beverages (alcoholic or non-alcoholic, whatever you prefer!).",
+        instruction2:
+          "If you have any of the optional ingredients at home, feel free to bring them to add to our burger bar! It helps make everyone's burger unique and delicious.",
+        essentialItem1: "Yellow Onions",
+        essentialItem1Qty: "approx. 5 onions",
+        essentialItem2: "Heinz Sweet Relish",
+        essentialItem3: "Romana Lettuce",
+        essentialItem4: "Tomatoes",
+        essentialItem4Qty: "1.5 kg pack",
+        essentialItem5: "Brioche Ajonjoli",
+        essentialItem5Qty: "560 grams",
+        optionalItem1: "Tocineta Cinta Azul",
+        optionalItem1Qty: "300 grams",
+        optionalItem2: "Aguacate Hortifruti empacado",
+        optionalItem2Qty: "1.2 kg",
+        optionalItem3: "Cucumbers",
+        optionalItem3Qty: "4-5 cucumbers",
+        optionalItem4: "American Cheese (Kraft Singles)",
+        optionalItem4Qty: "12 slices - 226 g",
+        yieldNote:
+          "These estimates are based on 1.5 kg of ground beef. The actual number of burgers will depend on how many people attend. We can adjust the ground beef quantity based on the final headcount.",
+        yieldTier1Desc:
+          "A good starting point for a smaller gathering. Each person gets one hearty burger, leaving room for some seconds or for fewer people to have more.",
+        yieldTier2Desc:
+          "Maximizing the 1.5 kg of ground beef for more burgers (up to 16 patties). Good for a larger group where each person might have one burger, or for a smaller group with plenty of seconds.",
+        yieldTierXDesc:
+          "The number of burgers can be adjusted based on the actual number of friends (N) attending. For a generous estimate, assume 1 to 1.5 burgers per person.",
+      },
+    },
+    smbPageBuilderComponents: {
+      heroTitle: "Unlock Your Potential",
+      heroSubtitle:
+        "Discover our programs, workshops, and certifications designed to elevate your skills and career.",
+      heroCta: "Explore Programs",
+      explainedTitle: "A New Approach to Learning",
+      explainedTextP1:
+        "We believe in a holistic approach that combines foundational theory with practical, hands-on application.",
+      explainedTextP2:
+        "Our academy provides a supportive environment for growth, guided by industry-leading experts.",
+      programSuiteTitle: "Programs & Workshops",
+      programSuiteSubtitle:
+        "Find the perfect certification or workshop to match your skill level and career goals.",
+      filterAllTypes: "All Types",
+      filterCertifications: "Certifications",
+      filterWorkshops: "Workshops",
+      filterAllLevels: "All Levels",
+      filterFundamentals: "Fundamentals",
+      filterIntermediate: "Intermediate",
+      teamTitle: "Meet Our Expert Instructors",
+      teamSubtitle:
+        "Learn from the best in the industry. Our instructors are experienced professionals dedicated to your success.",
+      faqTitle: "Frequently Asked Questions",
+      finalCtaTitle: "Ready to Start Your Journey?",
+      finalCtaSubtitle:
+        "Take the next step in your professional development. Enroll in a program or workshop today.",
+      finalCtaButton: "View All Programs",
+    },
+    expoPymePage: {
+      greeting: "Welcome to LoyalShift!",
+      headline: "The Digital Kickstart for Your Business",
+      subheading:
+        "Thank you for visiting us at Expo Pyme 2025. We are dedicated to empowering Costa Rican SMBs with powerful, simple, and affordable digital tools to help you thrive online.",
+      offerTitle: "Exclusive Expo Offer:",
+      offerText:
+        "Scan the QR code or click the button below to schedule a free, no-obligation discovery call and claim a special discount on our Digital Kickstart package.",
+      ctaButton: "Claim Your Expo Offer",
+      footerText: "We look forward to helping your business grow.",
+      locationTitle: "Event Location",
+      locationAddress: "Antigua Aduana, San José, Costa Rica",
+      calendarTitle: "Add to Your Calendar",
+      calendarButton: "Add to Google Calendar",
+    },
   },
   es: {
+    expoPymePage: {
+      greeting: "¡Bienvenidos a LoyalShift!",
+      headline: "El Impulso Digital para su Negocio",
+      subheading:
+        "Gracias por visitarnos en la Expo Pyme 2025. Nos dedicamos a empoderar a las PYMES de Costa Rica con herramientas digitales potentes, sencillas y asequibles para ayudarle a prosperar en línea.",
+      offerTitle: "Oferta Exclusiva de la Expo:",
+      offerText:
+        "Escanee el código QR o haga clic en el botón de abajo para agendar una llamada de descubrimiento gratuita y sin compromiso, y para reclamar un descuento especial en nuestro paquete de Impulso Digital.",
+      ctaButton: "Reclamar Oferta de la Expo",
+      footerText: "Esperamos poder ayudar a su negocio a crecer.",
+      locationTitle: "Ubicación del Evento",
+      locationAddress: "Antigua Aduana, San José, Costa Rica",
+      calendarTitle: "Agrégalo a tu Calendario",
+      calendarButton: "Añadir a Google Calendar",
+    },
+    smbPageBuilderComponents: {
+      heroTitle: "Desbloquea tu Potencial",
+      heroSubtitle:
+        "Descubre nuestros programas, talleres y certificaciones diseñados para elevar tus habilidades y tu carrera.",
+      heroCta: "Explorar Programas",
+      explainedTitle: "Un Nuevo Enfoque de Aprendizaje",
+      explainedTextP1:
+        "Creemos en un enfoque holístico que combina la teoría fundamental con la aplicación práctica y directa.",
+      explainedTextP2:
+        "Nuestra academia proporciona un entorno de apoyo para el crecimiento, guiado por expertos líderes en la industria.",
+      programSuiteTitle: "Programas y Talleres",
+      programSuiteSubtitle:
+        "Encuentra la certificación o el taller perfecto que se ajuste a tu nivel de habilidad y tus metas profesionales.",
+      filterAllTypes: "Todos los Tipos",
+      filterCertifications: "Certificaciones",
+      filterWorkshops: "Talleres",
+      filterAllLevels: "Todos los Niveles",
+      filterFundamentals: "Fundamentos",
+      filterIntermediate: "Intermedio",
+      teamTitle: "Conoce a Nuestros Instructores Expertos",
+      teamSubtitle:
+        "Aprende de los mejores en la industria. Nuestros instructores son profesionales experimentados dedicados a tu éxito.",
+      faqTitle: "Preguntas Frecuentes",
+      finalCtaTitle: "¿Listo para Empezar tu Viaje?",
+      finalCtaSubtitle:
+        "Da el siguiente paso en tu desarrollo profesional. Inscríbete hoy en un programa o taller.",
+      finalCtaButton: "Ver Todos los Programas",
+    },
     // SMBHeader
     navSolutions: "Soluciones",
     navFeatures: "Funcionalidades",
@@ -4135,6 +4288,75 @@ export const translations = {
       contactButton: "Contactar al Equipo de Soporte",
 
       loading: "Cargando...",
+    },
+    smbPublicEvent: {
+      pageTitle: "Detalles del Evento | LoyalShift PYMES",
+      whatToExpectTitle: "Qué Puedes Esperar",
+      whatToExpectItem1: "Un ambiente casual, divertido y amigable.",
+      whatToExpectItem2:
+        "El emocionante partido de fútbol en la pantalla grande.",
+      whatToExpectItem3:
+        "Una barra para armar tu propia hamburguesa con todos los esenciales.",
+      whatToExpectItem4: "Buena compañía y excelente conversación.",
+      instructionsTitle: "Instrucciones para los Asistentes",
+      essentialsTitle: "Lista de Compras Esencial",
+      optionalsTitle: "Adiciones Opcionales",
+      yieldTitle: "Estimaciones de Rendimiento de Hamburguesas",
+      yieldBasedOn: "Basado en 1.5 kg de carne molida.",
+      pattiesLabel: "Tortas de",
+      pattiesUnit: "gramos cada una",
+      totalPatties: "Total de Tortas",
+      startingPointTitle: "Punto de Partida",
+      perPersonTitle: "Por Persona",
+      rsvpTitle: "¿Vas a venir?",
+      rsvpText:
+        "¡Avísanos si puedes asistir! Un mensaje rápido nos ayuda a tener un conteo preciso para la comida y las bebidas.",
+      rsvpButton: "Confirmar Asistencia por WhatsApp",
+      blogBuilderCtaTitle: "¿Le Gusta Esta Página? Construya la Suya.",
+      blogBuilderCtaText:
+        "Toda esta página de evento fue creada usando el intuitivo Constructor de Blogs y Páginas dentro del SMB Studio de LoyalShift. Usted puede crear páginas igualmente profesionales para sus propios eventos, anuncios y artículos, sin necesidad de habilidades técnicas.",
+      blogBuilderCtaButton: "Descubra el SMB Studio",
+      locationTitle: "Ubicación del Evento",
+      mapWaze: "Waze",
+      mapGoogle: "Google Maps",
+      addressLine1: "C. 24, Alajuela",
+      addressLine2: "Provincia de Alajuela, Costa Rica",
+      data: {
+        eventName: "¡Noche de Hamburguesas para el Partido Costa Rica vs USA!",
+        eventDate: "Domingo, 29 de junio de 2025",
+        eventTime:
+          "En la noche (el partido empieza 7 PM ET / 5 PM CST en Costa Rica)",
+        eventNote:
+          "¡Prepárate para un fútbol emocionante mientras disfrutas de deliciosas hamburguesas caseras!",
+        instruction1:
+          "Por favor, trae tus propias bebidas (alcohólicas o no alcohólicas, ¡lo que prefieras!).",
+        instruction2:
+          "Si tienes alguno de los ingredientes opcionales en casa, ¡siéntete libre de traerlos para añadirlos a nuestra barra de hamburguesas! Ayuda a que la hamburguesa de cada uno sea única y deliciosa.",
+        essentialItem1: "Cebollas Amarillas",
+        essentialItem1Qty: "aprox. 5 cebollas",
+        essentialItem2: "Heinz Sweet Relish",
+        essentialItem3: "Lechuga Romana",
+        essentialItem4: "Tomates",
+        essentialItem4Qty: "paquete de 1.5 kg",
+        essentialItem5: "Brioche con Ajonjolí",
+        essentialItem5Qty: "560 gramos",
+        optionalItem1: "Tocineta Cinta Azul",
+        optionalItem1Qty: "300 gramos",
+        optionalItem2: "Aguacate Hortifruti empacado",
+        optionalItem2Qty: "1.2 kg",
+        optionalItem3: "Pepinos",
+        optionalItem3Qty: "4-5 pepinos",
+        optionalItem4: "Queso Americano (Kraft Singles)",
+        optionalItem4Qty: "12 rebanadas - 226 g",
+        yieldNote:
+          "Estas estimaciones se basan en 1.5 kg de carne molida. El número real de hamburguesas dependerá de cuántas personas asistan. Podemos ajustar la cantidad de carne molida según el recuento final.",
+        yieldTier1Desc:
+          "Un buen punto de partida para una reunión más pequeña. Cada persona recibe una hamburguesa sustanciosa, dejando espacio para repetir o para que menos personas coman más.",
+        yieldTier2Desc:
+          "Maximizando el 1.5 kg de carne molida para más hamburguesas (hasta 16 tortas). Ideal para un grupo más grande donde cada persona podría comer una hamburguesa, o para un grupo más pequeño con muchas para repetir.",
+        yieldTierXDesc:
+          "El número de hamburguesas se puede ajustar según el número real de amigos (N) que asistan. Para una estimación generosa, asuma de 1 a 1.5 hamburguesas por persona.",
+      },
     },
   },
 };

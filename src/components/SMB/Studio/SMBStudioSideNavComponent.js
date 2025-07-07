@@ -2,153 +2,34 @@
 import React, { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { useLocalization } from "../../LocalizationContext"; // Ensure this path is correct
+
+// --- Icons ---
+import {
+  FiUsers as IconCommunity,
+  FiSettings,
+  FiChevronDown,
+  FiFileText as IconBlog,
+  FiCalendar,
+  FiList,
+  FiPlus,
+} from "react-icons/fi";
 import loyalShiftV2Theme from "../../../themes/loyalshift-v2.theme";
+import { useLocalization } from "../../LocalizationContext";
 
 const theme = loyalShiftV2Theme;
 
-// --- Placeholder Icons (Heroicons or similar) ---
-const IconDashboard = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-    />
-  </svg>
-);
-const IconBlog = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M12 6.253v11.494m0 0a2.373 2.373 0 01-2.25-2.25H9.75A2.25 2.25 0 017.5 15.5V6.253m4.5 11.494a2.373 2.373 0 002.25-2.25h.003A2.25 2.25 0 0016.5 15.5V6.253m-4.5 11.494V6.253"
-    />
-  </svg>
-);
-const IconAssets = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-    />
-  </svg>
-);
-const IconAnalytics = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"
-    />
-  </svg>
-);
-const IconSettings = () => (
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-    />
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-    />
-  </svg>
-);
-const IconCalendar = () => (
-  // Added Calendar Icon
-  <svg
-    className="w-5 h-5"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-    />
-  </svg>
-);
-const IconChevronDown = () => (
-  <svg
-    className="w-4 h-4 transition-transform duration-200"
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      d="M19 9l-7 7-7-7"
-    />
-  </svg>
-);
-// --- END OF ICONS ---
-
-const NavItem = ({
-  to,
-  icon,
-  tKeyLabel,
-  defaultLabel,
-  exact = false,
-  onClick,
-}) => {
+// --- Reusable Navigation Components ---
+const NavItem = ({ to, icon, tKeyLabel, defaultLabel, exact = false }) => {
   const { t } = useLocalization();
-  const baseClasses = `flex items-center space-x-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors duration-150 ease-in-out w-full`;
-  const activeClasses = `${theme.accentCyanBg}/10 dark:${theme.accentCyanBg}/20 ${theme.accentCyan} dark:text-cyan-300 font-semibold`;
-  const inactiveClasses = `${theme.textSecondary} dark:text-slate-300 hover:${theme.surfaceMuted} dark:hover:bg-slate-700 hover:${theme.textPrimary} dark:hover:text-white`;
-
-  if (!to) {
-    return (
-      <button onClick={onClick} className={`${baseClasses} ${inactiveClasses}`}>
-        {icon}
-        <span>{t(tKeyLabel, defaultLabel)}</span>
-      </button>
-    );
-  }
+  // Using theme properties from headerLight for a consistent look
+  const baseClasses = `flex items-center space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ease-in-out w-full`;
+  const activeClasses = `${theme.headerLight.hoverBg} ${theme.headerLight.textAccent} font-semibold`;
+  const inactiveClasses = `${theme.headerLight.textMuted} hover:${theme.headerLight.hoverBg} hover:${theme.headerLight.textPrimary}`;
 
   return (
     <NavLink
       to={to}
       end={exact}
-      onClick={onClick}
       className={({ isActive }) =>
         `${baseClasses} ${isActive ? activeClasses : inactiveClasses}`
       }
@@ -159,32 +40,44 @@ const NavItem = ({
   );
 };
 
-const CollapsibleNavItem = ({ icon, tKeyLabel, defaultLabel, children }) => {
+const CollapsibleNavItem = ({
+  icon,
+  tKeyLabel,
+  defaultLabel,
+  children,
+  startOpen = false,
+}) => {
   const { t } = useLocalization();
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(startOpen);
+  const headerTheme = theme.headerLight;
 
   return (
     <div>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className={`flex items-center justify-between space-x-3 px-3 py-2.5 rounded-md text-sm font-medium transition-colors duration-150 ease-in-out w-full ${theme.textSecondary} dark:text-slate-300 hover:${theme.surfaceMuted} dark:hover:bg-slate-700 hover:${theme.textPrimary} dark:hover:text-white`}
+        className={`flex items-center justify-between space-x-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 ease-in-out w-full ${headerTheme.textMuted} hover:${headerTheme.hoverBg} hover:${headerTheme.textPrimary}`}
+        aria-expanded={isOpen}
       >
         <div className="flex items-center space-x-3">
           {icon}
           <span>{t(tKeyLabel, defaultLabel)}</span>
         </div>
         <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-          <IconChevronDown />
+          <FiChevronDown className="w-4 h-4" />
         </motion.div>
       </button>
-      <AnimatePresence>
+      <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
+            initial="collapsed"
+            animate="open"
+            exit="collapsed"
+            variants={{
+              open: { opacity: 1, height: "auto" },
+              collapsed: { opacity: 0, height: 0 },
+            }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="pl-6 mt-1 space-y-1 overflow-hidden" // overflow-hidden is good here for the animation
+            className="pl-6 mt-1 space-y-1 overflow-hidden"
           >
             {children}
           </motion.div>
@@ -195,82 +88,48 @@ const CollapsibleNavItem = ({ icon, tKeyLabel, defaultLabel, children }) => {
 };
 
 export default function SMBStudioSideNavComponent() {
-  const { t } = useLocalization(); // Assuming t might be used elsewhere or for consistency
-  // Main navigation structure
+  const { t, currentLang, setCurrentLang } = useLocalization();
+  const headerTheme = theme.headerLight;
+
   const mainNavLinks = [
-    // {
-    //   to: "/smb/studio",
-    //   icon: <IconDashboard />,
-    //   tKeyLabel: "smbStudioNav.dashboard",
-    //   defaultLabel: "Dashboard",
-    //   exact: true,
-    // },
     {
-      to: "/smb/studio/community",
-      icon: <IconDashboard />,
-      tKeyLabel: "smbStudioNav.community",
-      defaultLabel: "Community Hub",
-      exact: true,
+      isCollapsible: true,
+      icon: <FiCalendar className="w-5 h-5" />,
+      tKeyLabel: "smbStudioNav.events",
+      defaultLabel: "Pages",
+      subItems: [
+        {
+          to: "/smb/studio/builder",
+          icon: <FiPlus className="w-5 h-5" />,
+          tKeyLabel: "smbStudioNav.addNewEvent",
+          defaultLabel: "Add New Page",
+        },
+      ],
     },
-    // {
-    //   // Added Content Calendar Nav Item
-    //   to: "/smb/studio/content-calendar",
-    //   icon: <IconCalendar />,
-    //   tKeyLabel: "smbStudioNav.contentCalendar",
-    //   defaultLabel: "Content Calendar",
-    // },
-    // {
-    //   isCollapsible: true,
-    //   icon: <IconBlog />,
-    //   tKeyLabel: "smbStudioNav.blog",
-    //   defaultLabel: "Blog",
-    //   subItems: [
-    //     {
-    //       to: "/smb/studio/blog",
-    //       icon: <span className="w-5 h-5 text-center">-</span>,
-    //       tKeyLabel: "smbStudioNav.allPosts",
-    //       defaultLabel: "Blog Management",
-    //       exact: true,
-    //     },
-    //     {
-    //       to: "/smb/studio/blog/new",
-    //       icon: <span className="w-5 h-5 text-center">-</span>,
-    //       tKeyLabel: "smbStudioNav.addNewPost",
-    //       defaultLabel: "Add New",
-    //     },
-    //   ],
-    // },
-    // {
-    //   to: "/smb/studio/assets",
-    //   icon: <IconAssets />,
-    //   tKeyLabel: "smbStudioNav.assetLibrary",
-    //   defaultLabel: "Asset Library",
-    // },
-    // {
-    //   to: "/smb/studio/analytics",
-    //   icon: <IconAnalytics />,
-    //   tKeyLabel: "smbStudioNav.analytics",
-    //   defaultLabel: "Analytics",
-    // },
   ];
 
   const bottomNavLinks = [
     {
       to: "/smb/studio/settings",
-      icon: <IconSettings />,
+      icon: <FiSettings className="w-5 h-5" />,
       tKeyLabel: "smbStudioNav.settings",
       defaultLabel: "Settings",
     },
   ];
 
+  const langButtonBase = `px-2.5 py-1 text-xs font-bold rounded-md transition-colors duration-150 focus:outline-none ${theme.focusRingDefault}`;
+  const langButtonActive = `${theme.buttonPrimaryBg} ${theme.buttonPrimaryText}`;
+  const langButtonInactive = `${theme.surface} hover:${theme.surfaceMuted} ${theme.textSecondary}`;
+
   return (
+    // --- KEY CHANGE: Added responsive classes `hidden md:flex` and `fixed` positioning ---
     <aside
-      className={`fixed left-0 top-0 w-64 h-screen ${theme.surface} dark:bg-slate-800 border-r ${theme.borderLight} dark:border-slate-700 flex flex-col p-4 space-y-2`}
-      style={{
-        zIndex: 40, // Ensure it stays above other content
-      }}
+      className={`hidden md:flex fixed left-0 top-0 w-64 h-screen ${headerTheme.headerBg} border-r ${headerTheme.border} flex-col p-4`}
+      style={{ zIndex: 40 }}
     >
-      <div className="flex items-center">
+      <div className="flex items-center mb-6 h-16 sm:h-20">
+        {" "}
+        {/* Match header height for alignment */}
         <Link to="/smb" className="flex items-center group">
           <div className="flex items-center">
             <div className="bg-gradient-to-r from-cyan-500 to-teal-400 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center mr-2 sm:mr-3 transition-all duration-300 ease-out group-hover:rotate-[12deg] group-hover:scale-110">
@@ -290,7 +149,7 @@ export default function SMBStudioSideNavComponent() {
             </div>
             <div className="flex flex-col">
               <span
-                className={`text-lg sm:text-xl font-bold ${theme.headerDark.textPrimary} group-hover:${theme.headerDark.textAccent} transition-colors`}
+                className={`text-lg sm:text-xl font-bold ${headerTheme.textPrimary} group-hover:${headerTheme.textAccent} transition-colors`}
               >
                 LoyalShift
               </span>
@@ -301,15 +160,10 @@ export default function SMBStudioSideNavComponent() {
           </div>
         </Link>
       </div>
-      <nav className="flex-grow space-y-1 overflow-y-auto">
+      <nav className="flex-grow space-y-1 overflow-y-auto pr-2">
         {mainNavLinks.map((item, index) =>
           item.isCollapsible ? (
-            <CollapsibleNavItem
-              key={index}
-              icon={item.icon}
-              tKeyLabel={item.tKeyLabel}
-              defaultLabel={item.defaultLabel}
-            >
+            <CollapsibleNavItem key={index} {...item}>
               {item.subItems.map((subItem) => (
                 <NavItem key={subItem.tKeyLabel} {...subItem} />
               ))}
@@ -319,10 +173,37 @@ export default function SMBStudioSideNavComponent() {
           )
         )}
       </nav>
-      <div className="mt-auto pt-2 border-t border-[#d4d2cb]/20 dark:border-slate-700/50 space-y-1">
+      <div className="mt-auto pt-4 border-t ${theme.borderLight}/50 space-y-3">
         {bottomNavLinks.map((item, index) => (
           <NavItem key={index} {...item} />
         ))}
+        <div className="px-3 pt-2">
+          <label
+            className={`block text-xs font-semibold ${theme.textMuted} mb-2`}
+          >
+            {t("smbStudioNav.language", "Language")}
+          </label>
+          <div
+            className={`flex items-center p-1 rounded-lg ${theme.surfaceMuted}`}
+          >
+            <button
+              onClick={() => setCurrentLang("en")}
+              className={`w-1/2 ${langButtonBase} ${
+                currentLang === "en" ? langButtonActive : langButtonInactive
+              }`}
+            >
+              EN
+            </button>
+            <button
+              onClick={() => setCurrentLang("es")}
+              className={`w-1/2 ${langButtonBase} ${
+                currentLang === "es" ? langButtonActive : langButtonInactive
+              }`}
+            >
+              ES
+            </button>
+          </div>
+        </div>
       </div>
     </aside>
   );

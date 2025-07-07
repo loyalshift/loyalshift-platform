@@ -11,9 +11,9 @@ import {
   FiCpu,
 } from "react-icons/fi";
 import { useLocalization } from "../LocalizationContext";
+import { LoyalShiftLogo } from "../LoyalShiftLogo";
 
 // LoyalShift Logo
-const loyalShiftLogoPath = process.env.PUBLIC_URL + "/images/logo.svg";
 
 // Sub-components
 const FooterLink = ({ to, children, tKey, isDark }) => {
@@ -161,11 +161,7 @@ const LoyalShiftSMBFooter = ({ forceDark }) => {
           {/* Column 1: Logo and Intro */}
           <div className="md:col-span-2 lg:col-span-2">
             <Link to="/smb" className="inline-block mb-4">
-              <img
-                src={loyalShiftLogoPath}
-                alt={t("loyalShiftSMBFooter.logoAlt", "LoyalShift Logo")}
-                className="h-8 w-auto"
-              />
+              <LoyalShiftLogo type="icon" />
             </Link>
             <p
               className={`text-sm ${secondaryTextClass} leading-relaxed max-w-xs`}
