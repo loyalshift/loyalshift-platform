@@ -105,7 +105,6 @@ export default function ProposalConsentGate() {
         transition={{ duration: 1.2 }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900/95 to-blue-900/90"></div>
-        <div className="absolute inset-0 opacity-10 bg-[url('/public/images/financial-texture.png')] bg-cover"></div>
         <motion.div
           className="absolute inset-0 opacity-[3%]"
           initial={{ scale: 1.1 }}

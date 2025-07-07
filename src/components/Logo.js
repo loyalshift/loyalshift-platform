@@ -30,7 +30,7 @@ const defaultColors = {
  */
 const Logo = ({
   className = "", // Classes applied to the Link wrapper
-  width = "120",
+  width = "100",
   height = "30",
   loyalColor = defaultColors.loyal,
   shiftColor = defaultColors.shift,
@@ -40,7 +40,7 @@ const Logo = ({
   letterSpacing = "-0.5",
 }) => {
   // Fixed viewBox (same as before)
-  const viewBoxWidth = 150;
+  const viewBoxWidth = 130;
   const viewBoxHeight = 30;
 
   return (

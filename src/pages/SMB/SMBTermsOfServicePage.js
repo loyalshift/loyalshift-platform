@@ -120,7 +120,7 @@ export default function SMBTermsOfServicePage() {
             <p>
               {t(
                 "smbTerms.feesAndPayment.p1",
-                "Certain SMB Services, such as the 'SMB Initiative' setup ($600 one-time) or the 'SMB Plan' ($59/month), require payment of fees. You agree to pay all applicable fees as described on our pricing page or in your service agreement. All fees are non-refundable except as expressly stated otherwise or required by law."
+                "Certain SMB Services, such as the 'SMB Initiative' setup ($599 one-time) or the 'SMB Plan' ($59/month), require payment of fees. You agree to pay all applicable fees as described on our pricing page or in your service agreement. All fees are non-refundable except as expressly stated otherwise or required by law."
               )}
             </p>
             <p>
