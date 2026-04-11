@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: loyalshift-platform-container
-          image: ghcr.io/loyalshift/loyalshift-platform:ec478d1
+          image: ghcr.io/loyalshift/loyalshift-platform:5829c2e
           ports:
             - containerPort: 3000
