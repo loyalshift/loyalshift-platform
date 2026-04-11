@@ -11,7 +11,7 @@ const es = {
     title: "Desarrollo Especializado para la",
     titleHighlight: "Revoluci\u00f3n Industrial",
     subtitle: "Creamos soluciones de alto rendimiento:",
-    subtitleBold: "Optimizaci\u00f3n de Procesos, Apps Web, Landing Pages y E-Commerce",
+    subtitleBold: "Optimizaci\u00f3n de Procesos, Apps Web y E-Commerce",
     subtitleEnd: "que impulsan el crecimiento y transforman tus operaciones.",
     subtitleMobile: "Ayudamos a empresas a optimizar procesos y construir soluciones web de alto rendimiento.",
     items: [
@@ -40,7 +40,7 @@ const es = {
       cards: [
         { title: "An\u00e1lisis y Optimizaci\u00f3n de Procesos", description: "Analizamos tus flujos de trabajo, identificamos cuellos de botella y estandarizamos procedimientos para maximizar la eficiencia." },
         { title: "Desarrollo Web y Paneles a Medida", description: "Aplicaciones web y paneles administrativos intuitivos, dise\u00f1ados espec\u00edficamente para tus procesos de negocio." },
-        { title: "Infraestructura Segura y Escalable", description: "Construido sobre tecnolog\u00edas modernas y robustas tus soluciones son seguras, confiables y listas para crecer." },
+        { title: "Infraestructura Segura y Escalable", description: "Construido sobre tecnolog\u00edas modernas y robustas. Nuestras soluciones son seguras, confiables y listas para crecer." },
         { title: "Resultados Medibles", description: "Cada proyecto est\u00e1 enfocado en entregar mejoras cuantificables a tus operaciones y generar rentabilidad." },
       ],
     },

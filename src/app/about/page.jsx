@@ -54,8 +54,7 @@ export default function AboutPage() {
                   {member.name.split(' ').map(n => n[0]).join('')}
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-1">{member.name}</h3>
-                <p className="text-blue-400 text-sm font-medium mb-1">{member.role}</p>
-                {member.dept && <p className="text-cyan-400/70 text-xs font-medium mb-3">{member.dept}</p>}
+                <p className="text-blue-400 text-sm font-medium mb-3">{member.role}</p>
                 <p className="text-slate-400 text-sm leading-relaxed mb-4">{member.description}</p>
                 <a href="#" className="text-slate-500 hover:text-blue-400 transition-colors inline-flex items-center gap-1 text-sm">
                   <FiLinkedin className="w-4 h-4" /> LinkedIn

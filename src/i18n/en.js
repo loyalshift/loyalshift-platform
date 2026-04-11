@@ -11,7 +11,7 @@ const en = {
     title: "Specialized Development for the",
     titleHighlight: "Modern Web",
     subtitle: "We build high-performance",
-    subtitleBold: "Process Optimization, Web Apps, Landing Pages, and E-Commerce",
+    subtitleBold: "Process Optimization, Web Apps and E-Commerce",
     subtitleEnd: "solutions that drive growth and transform your operations.",
     subtitleMobile: "We help businesses optimize processes and build high-performance web solutions.",
     items: [
