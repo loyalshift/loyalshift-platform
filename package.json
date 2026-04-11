@@ -1,52 +1,30 @@
 {
   "name": "loyalshift-platform",
-  "version": "1.10.0",
+  "version": "2.0.0",
   "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
   "dependencies": {
-    "@testing-library/dom": "^10.4.0",
-    "@testing-library/jest-dom": "^6.6.3",
-    "@testing-library/react": "^16.3.0",
-    "@testing-library/user-event": "^13.5.0",
     "framer-motion": "^12.6.3",
+    "next": "^15.3.1",
     "prop-types": "15.8.1",
-    "react": "18.3.1",
-    "react-compare-slider": "^2.2.0",
-    "react-dom": "18.3.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-hot-toast": "2.5.2",
     "react-icons": "4.12.0",
-    "react-router-dom": "6.30.0",
-    "react-scripts": "5.0.1",
-    "recharts": "2.15.2",
-    "tailwindcss": "3.4.17",
-    "web-vitals": "^2.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "recharts": "2.15.2"
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3.3.5",
     "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4",
     "@tailwindcss/typography": "^0.5.16",
-    "tailwindcss-filters": "^3.0.0"
+    "eslint": "^9",
+    "eslint-config-next": "^15.3.1",
+    "tailwindcss": "^4"
   }
 }

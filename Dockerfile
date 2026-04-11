@@ -1,34 +1,29 @@
-# Stage 1: Build the React application
-FROM node:18 as build
+# Stage 1: Build the Next.js application
+FROM node:20-alpine AS build
 
-# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock)
 COPY package*.json ./
+RUN npm ci
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application source code
 COPY . .
-
-# Build the application for production
 RUN npm run build
 
-# Stage 2: Serve the application with Nginx
-FROM nginx:stable-alpine
+# Stage 2: Production runner
+FROM node:20-alpine AS runner
 
-# Copy the build artifacts from the previous stage to the default Nginx folder
-COPY --from=build /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# (Optional but recommended for SPAs like React)
-# Copy a custom Nginx configuration to handle client-side routing.
-# Create a file named 'nginx.conf' (see below) and copy it.
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+ENV NODE_ENV=production
 
-# Expose port 80 (Nginx default port)
-EXPOSE 80
+# Copy necessary files from build
+COPY --from=build /app/public ./public
+COPY --from=build /app/.next/standalone ./
+COPY --from=build /app/.next/static ./.next/static
 
-# Command to start Nginx when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+EXPOSE 3000
+
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "server.js"]
