@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: loyalshift-platform-container
-          image: ghcr.io/loyalshift/girya:cada99ae05380247667ed443724cff824a7e82e1
+          image: ghcr.io/loyalshift/loyalshift-platform:100f927
           ports:
             - containerPort: 3000
           env:
