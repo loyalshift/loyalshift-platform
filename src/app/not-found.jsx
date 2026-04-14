@@ -4,10 +4,13 @@ import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FiHome } from "react-icons/fi";
-import { useTranslation } from "../i18n/useTranslation";
+import { useContext } from "react";
+import { LanguageContext } from "../i18n/LanguageContext";
+import { getDict, defaultLocale } from "../i18n/index";
 
 export default function NotFound() {
-  const { t } = useTranslation();
+  const context = useContext(LanguageContext);
+  const t = context ? context.t : getDict(defaultLocale);
 
   return (
     <div className="bg-slate-900 min-h-screen flex items-center justify-center">

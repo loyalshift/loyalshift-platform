@@ -1,47 +1,38 @@
-# loyalshift-ingress.yaml (Updated for HTTPS via cert-manager)
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: loyalshift-ingress
-  namespace: default # Namespace where your service lives
+  namespace: default
   annotations:
-    # Tell cert-manager to use the ClusterIssuer you created
-    cert-manager.io/cluster-issuer: letsencrypt-prod 
-    # Optional, but Recommended: Automatically redirect HTTP traffic to HTTPS
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true" 
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    # Redirect www to non-www
+    nginx.ingress.kubernetes.io/from-to-www-redirect: "true"
 spec:
-  ingressClassName: nginx 
-  # == TLS Configuration Section ==
-  # This section tells cert-manager which domains to secure and where to store the cert
-  tls: 
+  ingressClassName: nginx
+  tls:
   - hosts:
-    # List all domains you want the certificate to cover
-    - loyalshift.com       
-    - www.loyalshift.com   
-    # cert-manager will automatically create/update this secret with the TLS cert
-    secretName: loyalshift-tls 
-  # == Rules Section ==
-  # You need rules for all hosts listed in the TLS section
+    - loyalshift.com
+    - www.loyalshift.com
+    secretName: loyalshift-tls
   rules:
-  # Rule for the root domain (loyalshift.com)
-  - host: loyalshift.com 
+  - host: loyalshift.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: loyalshift-platform-service # Your backend service
+            name: loyalshift-platform-service
             port:
-              number: 80 # Your service port
-  # Rule for the www subdomain (www.loyalshift.com)
-  - host: www.loyalshift.com 
+              number: 80
+  - host: www.loyalshift.com
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: loyalshift-platform-service # Your backend service
+            name: loyalshift-platform-service
             port:
-              number: 80 # Your service port
+              number: 80
